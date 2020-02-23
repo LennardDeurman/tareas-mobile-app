@@ -1,0 +1,9 @@
+{
+  "appName": "Tareas",
+  "signIn": "Inloggen",
+  "username": "Gebruikersnaam",
+  "password": "Wachtwoord",
+  "loginPageSubText": "Lorem ipsum dolor sit atem, consectectur adipscing elit.",
+  "passwordTooShort": "Het opgegeven wachtwoord is te kort.",
+  "usernameTooShort": "De opgegeven gebruikersnaam is te kort."
+}

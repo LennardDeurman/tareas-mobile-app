@@ -22,6 +22,7 @@ dependencies:
   font_awesome_flutter: ^8.4.0
   cupertino_icons: ^0.1.2
   flutter_custom_clippers: ^1.1.0
+  flutter_i18n: ^0.8.3
 
 dev_dependencies:
   flutter_test:
@@ -41,6 +42,7 @@ flutter:
   assets:
     - assets/images/icon_background_mobile.png
     - assets/images/logo_login_tareas.png
+    - assets/i18n/
   fonts:
     - family: OpenSans
       fonts:

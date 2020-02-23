@@ -1,18 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:tareas/extensions/asset_paths.dart';
 import 'package:tareas/extensions/brand_colors.dart';
 import 'package:tareas/extensions/custom_fonts.dart';
-import 'package:tareas/widgets/textfield.dart';
+import 'package:tareas/extensions/translation_keys.dart';
+import 'package:tareas/extensions/validators.dart';
+import 'package:tareas/widgets/login_textfield.dart';
 
-class LoginForm extends StatelessWidget {
+class LoginForm extends StatefulWidget {
 
-  Widget _buildCaption() {
+  @override
+  State<StatefulWidget> createState() {
+    return LoginFormState();
+  }
+
+}
+
+class LoginFormState extends State<LoginForm> {
+
+
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  Widget _buildSubText(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
-        vertical: 15
+          vertical: 15
       ),
       child: Text(
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi feugiat, massa eu ultrices viverra, lorem sem faucibus est, ut ullamcorper est nisl at turpis. ",
+        FlutterI18n.translate(context, TranslationKeys.loginPageSubText),
         style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.normal,
@@ -22,13 +37,13 @@ class LoginForm extends StatelessWidget {
     );
   }
 
-  Widget _buildTitle() {
+  Widget _buildTitle(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
-        vertical: 10
+          vertical: 10
       ),
       child: Text(
-        "tareas",
+        FlutterI18n.translate(context, TranslationKeys.appName),
         style: TextStyle(
             color: BrandColors.secondaryColor,
             fontSize: 28,
@@ -39,7 +54,7 @@ class LoginForm extends StatelessWidget {
     );
   }
 
-  Widget _buildConfirmButton() {
+  Widget _buildSignInButton(BuildContext context) {
     return SizedBox(
         width: double.infinity,
         child: FlatButton(
@@ -52,16 +67,14 @@ class LoginForm extends StatelessWidget {
               borderRadius: BorderRadius.circular(10)
           ),
           child: Text(
-              "Inloggen",
+              FlutterI18n.translate(context, TranslationKeys.signIn),
               style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.normal,
                   fontFamily: CustomFonts.openSans
               )
           ),
-          onPressed: () {
-
-          },
+          onPressed: _signInPressed,
         )
     );
   }
@@ -77,16 +90,24 @@ class LoginForm extends StatelessWidget {
   }
 
 
-  Widget _buildTextField({ String label, bool obscureText = false}) {
+  Widget _buildTextField({ String label, Function validator, bool obscureText = false}) {
     return Container(
       padding: EdgeInsets.symmetric(
           vertical: 5
       ),
-      child: DefaultTextField(
+      child: LoginTextField(
         hint: label,
+        validator: validator,
         obscureText: obscureText,
       ),
     );
+  }
+
+
+  void _signInPressed() {
+    if (this.formKey.currentState.validate()) {
+      this.formKey.currentState.save();
+    }
   }
 
 
@@ -103,7 +124,7 @@ class LoginForm extends StatelessWidget {
           height: 20,
         ),
         Container(
-            decoration: BoxDecoration(
+          decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: Colors.white,
               boxShadow: [
@@ -112,35 +133,40 @@ class LoginForm extends StatelessWidget {
                   blurRadius: 20.0,
                 )
               ]
-            ),
-            child: Center(
-              child: Container(
+          ),
+          child: Center(
+            child: Form(child: Container(
                 padding: EdgeInsets.all(14),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    _buildTitle(),
-                    _buildCaption(),
+                    _buildTitle(context),
+                    _buildSubText(context),
                     _buildTextField(
-                      label: "Gebruikersnaam",
+                        label: FlutterI18n.translate(context, TranslationKeys.username),
+                        validator: (String value) {
+                          return Validators.usernameValidator(value, context);
+                        }
                     ),
                     _buildTextField(
-                      label: "Wachtwoord",
-                      obscureText: true
+                        label: FlutterI18n.translate(context, TranslationKeys.password),
+                        obscureText: true,
+                        validator: (String value) {
+                          return Validators.passwordValidator(value, context);
+                        }
                     ),
                     SizedBox(
                       height: 30,
                     ),
-                    _buildConfirmButton()
-
+                    _buildSignInButton(context)
                   ],
                 )
-              ),
-            ),
-            constraints: BoxConstraints(
-                maxWidth: 350
-            ),
+            ), key: formKey),
+          ),
+          constraints: BoxConstraints(
+              maxWidth: 350
+          ),
         )
       ],
     );
