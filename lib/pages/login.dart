@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:tareas/extensions/asset_paths.dart';
 import 'package:tareas/extensions/brand_colors.dart';
+import 'package:tareas/extensions/top_border_clipper.dart';
 import 'package:tareas/widgets/login_form.dart';
 
 class LoginPage extends StatefulWidget {
@@ -55,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
                 Expanded(
                   flex: 5,
                   child: ClipPath(
-                    clipper: OvalTopBorderClipper(),
+                    clipper: TopBorderClipper(borderHeight: 30),
                     child: Container(
                       color: BrandColors.primaryColor
                     ),

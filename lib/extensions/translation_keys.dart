@@ -7,5 +7,11 @@ class TranslationKeys {
   static const String loginPageSubText = "loginPageSubText";
   static const String passwordTooShort = "passwordTooShort";
   static const String usernameTooShort = "usernameTooShort";
-
+  static const String openTasks = "openTasks";
+  static const String subscribed = "subscribed";
+  static const String profile = "profile";
+  static const String dateOfBirth = "dateOfBirth";
+  static const String name = "name";
+  static const String availableAtPark = "availableAtPark";
+  static const String socialPoint = "socialPoint";
 }

@@ -5,5 +5,12 @@
   "password": "Wachtwoord",
   "loginPageSubText": "Lorem ipsum dolor sit atem, consectectur adipscing elit.",
   "passwordTooShort": "Het opgegeven wachtwoord is te kort.",
-  "usernameTooShort": "De opgegeven gebruikersnaam is te kort."
+  "usernameTooShort": "De opgegeven gebruikersnaam is te kort.",
+  "openTasks": "Openstaand",
+  "subscribed": "Ingeschreven",
+  "profile": "Profiel",
+  "name": "Naam",
+  "dateOfBirth": "Geboortedatum",
+  "availableAtPark": "Aanwezig op sportpark",
+  "socialPoint": "Social point"
 }

@@ -3,6 +3,7 @@ import 'package:flutter_i18n/flutter_i18n_delegate.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tareas/extensions/asset_paths.dart';
 import 'package:tareas/extensions/custom_fonts.dart';
+import 'package:tareas/pages/home.dart';
 import 'package:tareas/pages/login.dart';
 
 Future main() async {
@@ -30,7 +31,7 @@ class MainApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: CustomFonts.openSans
       ),
-      home: LoginPage(),
+      home: HomePage(),
       localizationsDelegates: [
         flutterI18nDelegate,
         GlobalMaterialLocalizations.delegate,
