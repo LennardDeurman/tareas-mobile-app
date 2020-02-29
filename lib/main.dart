@@ -4,7 +4,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tareas/extensions/asset_paths.dart';
 import 'package:tareas/extensions/custom_fonts.dart';
 import 'package:tareas/pages/home.dart';
-import 'package:tareas/pages/login.dart';
 
 Future main() async {
   final FlutterI18nDelegate flutterI18nDelegate = FlutterI18nDelegate(

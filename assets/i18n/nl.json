@@ -6,11 +6,13 @@
   "loginPageSubText": "Lorem ipsum dolor sit atem, consectectur adipscing elit.",
   "passwordTooShort": "Het opgegeven wachtwoord is te kort.",
   "usernameTooShort": "De opgegeven gebruikersnaam is te kort.",
-  "openTasks": "Openstaand",
+  "open": "Openstaand",
+  "openTasks": "Openstaande taken",
   "subscribed": "Ingeschreven",
   "profile": "Profiel",
   "name": "Naam",
   "dateOfBirth": "Geboortedatum",
   "availableAtPark": "Aanwezig op sportpark",
-  "socialPoint": "Social point"
+  "socialPoint": "Social point",
+  "noSubscribedTasks": "U heeft nog geen taken geaccepteerd. Bekijk de lijst met openstaande taken en kies een taak die u wilt uitvoeren. Alvast bedankt!"
 }

@@ -5,6 +5,7 @@ import 'package:tareas/extensions/brand_colors.dart';
 import 'package:tareas/extensions/top_border_clipper.dart';
 import 'package:tareas/extensions/translation_keys.dart';
 import 'package:tareas/pages/profile.dart';
+import 'package:tareas/pages/subscribed_tasks.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -25,6 +26,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: DefaultTabController(
         child: Column(
           children: <Widget>[
@@ -37,9 +39,7 @@ class _HomePageState extends State<HomePage> {
                     Container(
                       child: Text("page1"),
                     ),
-                    Container(
-                      child: Text("page2"),
-                    ),
+                    SubscribedTasksPage(),
                     ProfilePage()
                   ],
                 ),
@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
                       tabs: <Widget>[
                         Tab(
                           icon: FaIcon(FontAwesomeIcons.thLarge),
-                          text: FlutterI18n.translate(context, TranslationKeys.openTasks),
+                          text: FlutterI18n.translate(context, TranslationKeys.open),
                         ),
                         Container(
                           child: Tab(
