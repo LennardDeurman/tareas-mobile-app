@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tareas/extensions/asset_paths.dart';
 import 'package:tareas/extensions/brand_colors.dart';
 import 'package:tareas/extensions/top_border_clipper.dart';
@@ -16,6 +17,15 @@ class LoginPage extends StatefulWidget {
 
 
 class _LoginPageState extends State<LoginPage> {
+
+  @override
+  void initState() {
+    super.initState();
+
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp
+    ]);
+  }
 
   @override
   Widget build(BuildContext context) {

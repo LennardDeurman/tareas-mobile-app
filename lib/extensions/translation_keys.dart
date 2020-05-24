@@ -16,5 +16,9 @@ class TranslationKeys {
   static const String availableAtPark = "availableAtPark";
   static const String socialPoint = "socialPoint";
   static const String noSubscribedTasks = "noSubscribedTasks";
-
+  static const String calendar = "calendar";
+  static const String preferences = "preferences";
+  static const String categories = "categories";
+  static const String categoriesInfo = "categoriesInfo";
+  static const String save = "save";
 }

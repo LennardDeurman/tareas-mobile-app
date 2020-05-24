@@ -14,5 +14,10 @@
   "dateOfBirth": "Geboortedatum",
   "availableAtPark": "Aanwezig op sportpark",
   "socialPoint": "Social point",
-  "noSubscribedTasks": "U heeft nog geen taken geaccepteerd. Bekijk de lijst met openstaande taken en kies een taak die u wilt uitvoeren. Alvast bedankt!"
+  "noSubscribedTasks": "U heeft nog geen taken geaccepteerd. Bekijk de lijst met openstaande taken en kies een taak die u wilt uitvoeren. Alvast bedankt!",
+  "calendar": "Kalender",
+  "preferences": "Voorkeuren",
+  "categories": "Categorieeën",
+  "categoriesInfo": "Selecteer hier de categorieën waarvan u taken wilt zien.",
+  "save": "Opslaan"
 }

@@ -5,6 +5,7 @@ import 'package:tareas/extensions/brand_colors.dart';
 import 'package:tareas/extensions/custom_fonts.dart';
 import 'package:tareas/extensions/translation_keys.dart';
 import 'package:tareas/extensions/validators.dart';
+import 'package:tareas/pages/home.dart';
 import 'package:tareas/widgets/login_textfield.dart';
 
 class LoginForm extends StatefulWidget {
@@ -108,6 +109,12 @@ class LoginFormState extends State<LoginForm> {
     if (this.formKey.currentState.validate()) {
       this.formKey.currentState.save();
     }
+
+    Navigator.push(context, MaterialPageRoute(
+      builder: (BuildContext context) {
+        return HomePage();
+      }
+    ));
   }
 
 

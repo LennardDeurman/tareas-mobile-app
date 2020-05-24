@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:tareas/extensions/translation_keys.dart';
 import 'package:tareas/widgets/backgrounds/no_subscribed_tasks.dart';
-import 'package:tareas/widgets/page_heading_box.dart';
+import 'package:tareas/widgets/headings/page_heading_box.dart';
 
 class SubscribedTasksPage extends StatefulWidget {
 

@@ -4,8 +4,9 @@ class PageHeadingBox extends StatelessWidget {
   final String title;
 
   PageHeadingBox ({
-    @required this.title
-  });
+    @required this.title,
+    GlobalKey key
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class PageHeadingBox extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
-        children: buildAppBarChildren(),
+        children: buildAppBarChildren(context),
       ),
     );
   }
@@ -38,7 +39,7 @@ class PageHeadingBox extends StatelessWidget {
     );
   }
 
-  List<Widget> buildAppBarChildren() {
+  List<Widget> buildAppBarChildren(BuildContext context) {
     return [
       buildTitle()
     ];

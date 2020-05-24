@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n_delegate.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tareas/extensions/asset_paths.dart';
+import 'package:tareas/extensions/brand_colors.dart';
 import 'package:tareas/extensions/custom_fonts.dart';
 import 'package:tareas/pages/home.dart';
+import 'package:tareas/pages/login.dart';
 
 Future main() async {
   final FlutterI18nDelegate flutterI18nDelegate = FlutterI18nDelegate(
@@ -27,10 +29,9 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       title: "Tareas", //We can't use the translation here already
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        fontFamily: CustomFonts.openSans
+        fontFamily: CustomFonts.openSans,
       ),
-      home: HomePage(),
+      home: LoginPage(),
       localizationsDelegates: [
         flutterI18nDelegate,
         GlobalMaterialLocalizations.delegate,
@@ -38,5 +39,7 @@ class MainApp extends StatelessWidget {
       ]
     );
   }
+
+
 }
 
