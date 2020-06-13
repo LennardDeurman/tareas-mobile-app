@@ -15,6 +15,18 @@ Future main() async {
   runApp(MainApp(flutterI18nDelegate));
 }
 
+class HomePage extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+    );
+  }
+
+}
+
+
 class MainApp extends StatelessWidget {
 
   final FlutterI18nDelegate flutterI18nDelegate;
@@ -29,7 +41,7 @@ class MainApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: CustomFonts.openSans
       ),
-      home: LoginPage(),
+      home: HomePage(),
       localizationsDelegates: [  
         flutterI18nDelegate,
         GlobalMaterialLocalizations.delegate,
