@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:tareas/managers/welcome.dart';
+import 'package:tareas/managers/startup.dart';
 import 'package:tareas/network/auth/service.dart';
 
-class WelcomePage extends StatefulWidget {
+class StartupPage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _WelcomePageState();
+    return _StartupPageState();
   }
 
 }
 
 
-class _WelcomePageState extends State<WelcomePage> {
+class _StartupPageState extends State<StartupPage> {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final WelcomeManager manager = WelcomeManager();
+  final StartupManager manager = StartupManager();
 
 
   @override

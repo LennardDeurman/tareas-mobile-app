@@ -3,7 +3,7 @@ import 'package:tareas/managers/extensions.dart';
 import 'package:tareas/network/auth/service.dart';
 
 
-class WelcomeManager extends Model {
+class StartupManager extends Model {
 
   final LoadingDelegate loadingDelegate = LoadingDelegate();
 

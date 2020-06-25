@@ -7,15 +7,14 @@ class AuthorizationError implements Exception {
   final String message;
 
   AuthorizationError (this.message);
+
 }
 
 class IdentityResult {
-  //{sub: auth0|5ee5641dc65c8700139d80ea, email: lennarddeurman@live.nl, email_verified: false}
 
   String sub;
   String email;
   bool emailVerified;
-
 
   IdentityResult (Map map) {
     sub = map["sub"];

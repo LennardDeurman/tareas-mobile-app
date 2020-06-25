@@ -5,7 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tareas/extensions/asset_paths.dart';
 import 'package:tareas/extensions/custom_fonts.dart';
 import 'package:tareas/network/auth/service.dart';
-import 'package:tareas/pages/welcome.dart';
+import 'package:tareas/pages/startup.dart';
 
 Future main() async {
   final FlutterI18nDelegate flutterI18nDelegate = FlutterI18nDelegate(
@@ -18,28 +18,11 @@ Future main() async {
   runApp(MainApp(flutterI18nDelegate));
 }
 
-class MainApp extends StatefulWidget {
+class MainApp extends StatelessWidget {
 
   final FlutterI18nDelegate flutterI18nDelegate;
 
   MainApp (this.flutterI18nDelegate);
-
-  @override
-  State<StatefulWidget> createState() {
-    return _MainAppState();
-  }
-
-
-}
-
-class _MainAppState extends State<MainApp> {
-
-  @override
-  void initState() {
-    super.initState();
-
-
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,9 +32,9 @@ class _MainAppState extends State<MainApp> {
             primarySwatch: Colors.blue,
             fontFamily: CustomFonts.openSans
         ),
-        home: WelcomePage(),
+        home: StartupPage(),
         localizationsDelegates: [
-          this.widget.flutterI18nDelegate,
+          this.flutterI18nDelegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate
         ]
@@ -59,6 +42,7 @@ class _MainAppState extends State<MainApp> {
   }
 
 }
+
 
 
 
