@@ -5,5 +5,19 @@
   "password": "Wachtwoord",
   "loginPageSubText": "Lorem ipsum dolor sit atem, consectectur adipscing elit.",
   "passwordTooShort": "Het opgegeven wachtwoord is te kort.",
-  "usernameTooShort": "De opgegeven gebruikersnaam is te kort."
+  "usernameTooShort": "De opgegeven gebruikersnaam is te kort.",
+  "open": "Openstaand",
+  "openTasks": "Openstaande taken",
+  "subscribed": "Ingeschreven",
+  "profile": "Profiel",
+  "name": "Naam",
+  "dateOfBirth": "Geboortedatum",
+  "availableAtPark": "Aanwezig op sportpark",
+  "socialPoint": "Social point",
+  "noSubscribedTasks": "U heeft nog geen taken geaccepteerd. Bekijk de lijst met openstaande taken en kies een taak die u wilt uitvoeren. Alvast bedankt!",
+  "calendar": "Kalender",
+  "preferences": "Voorkeuren",
+  "categories": "Categorieeën",
+  "categoriesInfo": "Selecteer hier de categorieën waarvan u taken wilt zien.",
+  "save": "Opslaan"
 }
