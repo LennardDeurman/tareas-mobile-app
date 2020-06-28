@@ -17,8 +17,9 @@ class RequestHelper<T> {
   Future<List<T>> getAll(String url) async {
     var response = await http.get(url);
     validate(response);
-    List<Map> items = json.decode(response.body);
-    return items.map((e) => toObject(e));
+    var items = json.decode(response.body);
+    print(items);
+    return [];
   }
 
   Future<T> getSingle(String url) async {
@@ -36,7 +37,7 @@ class RequestHelper<T> {
 
 abstract class Fetcher<T extends ParsableObject> {
 
-  static const String host = "https://localhost:44339/";
+  static const String host = "https://localhost:44339";
 
   RequestHelper<T> requestHelper;
 

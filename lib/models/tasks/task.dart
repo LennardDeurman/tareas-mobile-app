@@ -42,7 +42,7 @@ class Task extends BaseObject {
     taskRequirementSet = parseObject(json[TaskKeys.taskRequirementSet], toObject: (Map map) {
       return TaskRequirementSet(map);
     });
-    tags = parseList(json[TaskKeys.tags], toObject: (Map map) {
+    tags = parseList<Tag>(json[TaskKeys.tags], toObject: (Map map) {
       return Tag(map);
     });
   }
