@@ -5,21 +5,21 @@ import 'package:tareas/extensions/overlay_manager.dart';
 import 'package:tareas/extensions/translation_keys.dart';
 import 'package:tareas/widgets/cells/task.dart';
 import 'package:tareas/widgets/dialogs/preferences_dialog.dart';
-import 'package:tareas/widgets/headings/open_tasks_page_heading_box.dart';
+import 'package:tareas/widgets/headings/open_activities_page_heading_box.dart';
 import 'package:tareas/widgets/text_with_icon.dart';
 
 
-class OpenTasksPage extends StatefulWidget {
+class OpenActivitiesPage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _OpenTasksPageState();
+    return _OpenActivitiesPageState();
   }
 
 }
 
 
-class _OpenTasksPageState extends State<OpenTasksPage> {
+class _OpenActivitiesPageState extends State<OpenActivitiesPage> {
 
   GlobalKey _headingBoxKey = GlobalKey();
   GlobalKey _headingBoxContainerKey = GlobalKey();
@@ -35,7 +35,7 @@ class _OpenTasksPageState extends State<OpenTasksPage> {
 
   }
 
-  OpenTasksPageHeadingBox get headingBoxWidget {
+  OpenActivitiesPageHeadingBox get headingBoxWidget {
     return _headingBoxKey.currentWidget;
   }
 
@@ -73,7 +73,7 @@ class _OpenTasksPageState extends State<OpenTasksPage> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Container(child: OpenTasksPageHeadingBox(
+          Container(child: OpenActivitiesPageHeadingBox(
             key: _headingBoxKey,
             title: FlutterI18n.translate(context, TranslationKeys.openTasks),
             onCalendarPressed: _onCalendarPressed,

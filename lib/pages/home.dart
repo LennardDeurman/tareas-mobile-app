@@ -5,9 +5,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tareas/extensions/brand_colors.dart';
 import 'package:tareas/extensions/top_border_clipper.dart';
 import 'package:tareas/extensions/translation_keys.dart';
-import 'package:tareas/pages/open_tasks.dart';
+import 'package:tareas/pages/open_activities.dart';
 import 'package:tareas/pages/profile.dart';
-import 'package:tareas/pages/subscribed_tasks.dart';
+import 'package:tareas/pages/subscribed_activities.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -55,8 +55,8 @@ class _HomePageState extends State<HomePage> {
                           Expanded(
                             child: TabBarView(
                               children: <Widget>[
-                                OpenTasksPage(),
-                                SubscribedTasksPage(),
+                                OpenActivitiesPage(),
+                                SubscribedActivitiesPage(),
                                 ProfilePage()
                               ],
                             ),

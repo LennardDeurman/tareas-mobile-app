@@ -5,7 +5,7 @@ import 'package:tareas/widgets/headings/page_heading_box.dart';
 import 'package:tareas/extensions/translation_keys.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class OpenTasksPageHeadingBox extends PageHeadingBox {
+class OpenActivitiesPageHeadingBox extends PageHeadingBox {
 
   final Function onCalendarPressed;
   final Function onPreferencesPressed;
@@ -13,7 +13,7 @@ class OpenTasksPageHeadingBox extends PageHeadingBox {
   final GlobalKey<TextWithIconState> calendarActionKey = GlobalKey<TextWithIconState>();
   final GlobalKey<TextWithIconState> preferencesActionKey = GlobalKey<TextWithIconState>();
 
-  OpenTasksPageHeadingBox ({ @required String title, @required this.onCalendarPressed, @required this.onPreferencesPressed, GlobalKey key }) : super(title: title, key: key);
+  OpenActivitiesPageHeadingBox ({ @required String title, @required this.onCalendarPressed, @required this.onPreferencesPressed, GlobalKey key }) : super(title: title, key: key);
 
   @override
   List<Widget> buildAppBarChildren(BuildContext context) {
