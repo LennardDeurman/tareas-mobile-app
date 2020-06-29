@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n_delegate.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:tareas/extensions/asset_paths.dart';
-import 'package:tareas/extensions/custom_fonts.dart';
+import 'package:tareas/constants/asset_paths.dart';
+import 'package:tareas/constants/custom_fonts.dart';
 import 'package:tareas/network/auth/service.dart';
 import 'package:tareas/pages/startup.dart';
 

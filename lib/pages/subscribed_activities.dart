@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:tareas/extensions/translation_keys.dart';
-import 'package:tareas/widgets/headings/page_heading_box.dart';
+import 'package:tareas/constants/translation_keys.dart';
+import 'package:tareas/ui/extensions/headers.dart';
 
 class SubscribedActivitiesPage extends StatelessWidget {
 
@@ -14,7 +14,7 @@ class SubscribedActivitiesPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          PageHeadingBox(
+          PageHeader(
             title: FlutterI18n.translate(context, TranslationKeys.subscribed),
           ),
           Expanded(

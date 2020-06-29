@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/fa_icon.dart';
-import 'package:tareas/extensions/brand_colors.dart';
+import 'package:tareas/constants/brand_colors.dart';
 
 class TextWithIcon extends StatefulWidget {
 

@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:tareas/extensions/brand_colors.dart';
+import 'package:tareas/constants/brand_colors.dart';
 
 typedef OverlayBuilder = Widget Function(BuildContext context);
 
-class OverlayManager {
+class OverlayCreator {
 
 
   final GlobalKey headingBoxContainerKey;
 
   OverlayEntry _currentOverlayEntry;
 
+  int _currentOverlayCode;
+
   Function _onDismiss;
 
-  OverlayManager ({
+  OverlayCreator ({
     this.headingBoxContainerKey
   });
 
@@ -39,6 +41,10 @@ class OverlayManager {
     );
   }
 
+  bool isActiveOverlay(int code) {
+    return _currentOverlayCode == code;
+  }
+
   void dismissOverlay() {
     if (_currentOverlayEntry != null) {
       _currentOverlayEntry.remove();
@@ -50,11 +56,13 @@ class OverlayManager {
 
     _onDismiss = null;
     _currentOverlayEntry = null;
+    _currentOverlayCode = null;
   }
 
-  void presentOverlay(BuildContext context, { OverlayBuilder builder, Function onDismiss }) {
+  void presentOverlay(BuildContext context, { OverlayBuilder builder, int overlayCode, Function onDismiss }) {
     dismissOverlay();
     _onDismiss = onDismiss;
+    _currentOverlayCode = overlayCode;
     _currentOverlayEntry = _createOverlayEntry(
       builder: builder,
     );

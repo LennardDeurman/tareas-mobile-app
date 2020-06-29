@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tareas/extensions/brand_colors.dart';
-import 'package:tareas/widgets/text_with_icon.dart';
-class TaskCell extends StatelessWidget {
+import 'package:tareas/constants/brand_colors.dart';
+import 'package:tareas/models/activity.dart';
+import 'package:tareas/ui/extensions/labels.dart';
+
+class ActivityCell extends StatelessWidget {
+
+  final Activity activity;
+
+  ActivityCell (this.activity);
 
 
   @override

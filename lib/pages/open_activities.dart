@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:tareas/extensions/brand_colors.dart';
-import 'package:tareas/extensions/overlay_manager.dart';
-import 'package:tareas/extensions/translation_keys.dart';
-import 'package:tareas/widgets/cells/task.dart';
-import 'package:tareas/widgets/dialogs/preferences_dialog.dart';
-import 'package:tareas/widgets/headings/open_activities_page_heading_box.dart';
-import 'package:tareas/widgets/text_with_icon.dart';
+import 'package:tareas/constants/brand_colors.dart';
+import 'package:tareas/constants/translation_keys.dart';
+import 'package:tareas/ui/extensions/dialogs.dart';
+import 'package:tareas/ui/extensions/headers.dart';
+import 'package:tareas/ui/extensions/labels.dart';
+import 'package:tareas/ui/extensions/overlays.dart';
 
 
 class OpenActivitiesPage extends StatefulWidget {
@@ -18,50 +17,62 @@ class OpenActivitiesPage extends StatefulWidget {
 
 }
 
-
-class _OpenActivitiesPageState extends State<OpenActivitiesPage> {
+class _OpenActivitiesHeaderManager {
 
   GlobalKey _headingBoxKey = GlobalKey();
   GlobalKey _headingBoxContainerKey = GlobalKey();
 
-  OverlayManager _overlayManager;
+  OverlayCreator _overlayCreator;
 
-  @override
-  void initState() {
-    super.initState();
-    _overlayManager = OverlayManager(
-      headingBoxContainerKey: _headingBoxContainerKey
-    );
-
-  }
-
-  OpenActivitiesPageHeadingBox get headingBoxWidget {
+  OpenActivitiesHeader get headerWidget {
     return _headingBoxKey.currentWidget;
   }
 
-  void _showActionDialog({ GlobalKey<TextWithIconState> actionKey, OverlayBuilder builder }) {
+  void _toggleActionDialog({ GlobalKey<TextWithIconState> actionKey, BuildContext context, OverlayBuilder builder }) {
+
+    if (_overlayCreator.isActiveOverlay(actionKey.hashCode)) {
+      _overlayCreator.dismissOverlay();
+      return;
+    }
+
     actionKey.currentState.active = true;
-    _overlayManager.presentOverlay(context, builder: builder, onDismiss: () {
+    _overlayCreator.presentOverlay(context, overlayCode: actionKey.hashCode, builder: builder, onDismiss: () {
       actionKey.currentState.active = false;
     });
   }
 
-  void _onCalendarPressed() {
-    _showActionDialog(
-      actionKey: headingBoxWidget.calendarActionKey,
-      builder: (BuildContext context) {
-        return Container();
-      }
+  void _onCalendarPressed(BuildContext context) {
+    _toggleActionDialog(
+        actionKey: headerWidget.calendarButtonKey,
+        context: context,
+        builder: (BuildContext context) {
+          return Container();
+        }
     );
   }
 
-  void _onPreferencesPressed() {
-    _showActionDialog(
-        actionKey: headingBoxWidget.preferencesActionKey,
+  void _onPreferencesPressed(BuildContext context) {
+    _toggleActionDialog(
+        actionKey: headerWidget.preferencesButtonKey,
+        context: context,
         builder: (BuildContext context) {
           return PreferencesDialog();
         }
     );
+  }
+}
+
+class _OpenActivitiesPageState extends State<OpenActivitiesPage> with _OpenActivitiesHeaderManager {
+
+
+  @override
+  void initState() {
+    super.initState();
+
+    _overlayCreator = OverlayCreator(
+      headingBoxContainerKey: _headingBoxContainerKey
+    );
+
   }
 
   @override
@@ -73,7 +84,7 @@ class _OpenActivitiesPageState extends State<OpenActivitiesPage> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Container(child: OpenActivitiesPageHeadingBox(
+          Container(child: OpenActivitiesHeader(
             key: _headingBoxKey,
             title: FlutterI18n.translate(context, TranslationKeys.openTasks),
             onCalendarPressed: _onCalendarPressed,
@@ -89,18 +100,7 @@ class _OpenActivitiesPageState extends State<OpenActivitiesPage> {
             bottom: 10
           ), key: _headingBoxContainerKey),
           Expanded(
-            child: Stack(
-              children: <Widget>[
-                RefreshIndicator(
-                  onRefresh: () async {
-                    await Future.delayed(Duration(seconds: 1));
-                  },
-                  child: ListView.builder(itemBuilder: (BuildContext context, int position) {
-                    return TaskCell();
-                  }, itemCount: 5),
-                )
-              ],
-            )
+            child: OpenActivitiesList()
           )
         ],
       ),

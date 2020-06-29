@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:tareas/extensions/brand_colors.dart';
-import 'package:tareas/extensions/translation_keys.dart';
-import 'package:tareas/widgets/availability_box.dart';
-import 'package:tareas/widgets/headings/page_heading_box.dart';
-import 'package:tareas/widgets/social_point_box.dart';
+import 'package:tareas/constants/brand_colors.dart';
+import 'package:tareas/constants/translation_keys.dart';
+import 'package:tareas/ui/extensions/headers.dart';
 
 class ProfilePage extends StatefulWidget {
 
@@ -37,18 +35,12 @@ class _ProfilePageState extends State<ProfilePage> {
       body: Container(
         child: ListView(
           children: <Widget>[
-            PageHeadingBox(
+            PageHeader(
               title: FlutterI18n.translate(context, TranslationKeys.profile),
             ),
             _buildTextCell(label: FlutterI18n.translate(context, TranslationKeys.name), text: "Bert van der Meer"),
             _buildTextCell(label: FlutterI18n.translate(context, TranslationKeys.dateOfBirth), text: "23 maart 1979"),
-            _buildTextCell(label: "Arbitrage", text: "Scheidsrecht II en I veldvoetbal"),
-            _buildCell(label: FlutterI18n.translate(context, TranslationKeys.availableAtPark), child: _buildCustomCell(
-              child: AvailabilityBox()
-            )),
-            _buildCell(label: FlutterI18n.translate(context, TranslationKeys.socialPoint), child: _buildCustomCell(
-              child: SocialPointBox(points: 2144)
-            )),
+            _buildTextCell(label: "Arbitrage", text: "Scheidsrecht II en I veldvoetbal")
           ],
         ),
       )
