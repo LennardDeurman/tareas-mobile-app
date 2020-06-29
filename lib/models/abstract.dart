@@ -25,7 +25,7 @@ abstract class ParsableObject {
   List<T> parseList<T>(List list, { T Function(Map map) toObject }) {
     if (list == null)
       return null;
-    List<T> items = list.map((e) => toObject(e));
+    List<T> items = list.map((e) => toObject(e)).toList();
     return items;
   }
 

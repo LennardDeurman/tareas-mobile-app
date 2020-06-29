@@ -6,7 +6,7 @@ typedef OverlayBuilder = Widget Function(BuildContext context);
 class OverlayCreator {
 
 
-  final GlobalKey headingBoxContainerKey;
+  final GlobalKey headerContainerKey;
 
   OverlayEntry _currentOverlayEntry;
 
@@ -15,11 +15,11 @@ class OverlayCreator {
   Function _onDismiss;
 
   OverlayCreator ({
-    this.headingBoxContainerKey
+    this.headerContainerKey
   });
 
   double get offset {
-    RenderBox box = headingBoxContainerKey.currentContext.findRenderObject();
+    RenderBox box = headerContainerKey.currentContext.findRenderObject();
     final position = box.localToGlobal(Offset.zero);
     return box.size.height + position.dy;
   }

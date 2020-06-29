@@ -19,31 +19,31 @@ class OpenActivitiesPage extends StatefulWidget {
 
 class _OpenActivitiesHeaderManager {
 
-  GlobalKey _headingBoxKey = GlobalKey();
-  GlobalKey _headingBoxContainerKey = GlobalKey();
+  GlobalKey _headerKey = GlobalKey();
+  GlobalKey _headerContainerKey = GlobalKey();
 
   OverlayCreator _overlayCreator;
 
   OpenActivitiesHeader get headerWidget {
-    return _headingBoxKey.currentWidget;
+    return _headerKey.currentWidget;
   }
 
-  void _toggleActionDialog({ GlobalKey<TextWithIconState> actionKey, BuildContext context, OverlayBuilder builder }) {
+  void _toggleActionDialog({ GlobalKey<TextWithIconState> buttonKey, BuildContext context, OverlayBuilder builder }) {
 
-    if (_overlayCreator.isActiveOverlay(actionKey.hashCode)) {
+    if (_overlayCreator.isActiveOverlay(buttonKey.hashCode)) {
       _overlayCreator.dismissOverlay();
       return;
     }
 
-    actionKey.currentState.active = true;
-    _overlayCreator.presentOverlay(context, overlayCode: actionKey.hashCode, builder: builder, onDismiss: () {
-      actionKey.currentState.active = false;
+    buttonKey.currentState.active = true;
+    _overlayCreator.presentOverlay(context, overlayCode: buttonKey.hashCode, builder: builder, onDismiss: () {
+      buttonKey.currentState.active = false;
     });
   }
 
   void _onCalendarPressed(BuildContext context) {
     _toggleActionDialog(
-        actionKey: headerWidget.calendarButtonKey,
+        buttonKey: headerWidget.calendarButtonKey,
         context: context,
         builder: (BuildContext context) {
           return Container();
@@ -53,7 +53,7 @@ class _OpenActivitiesHeaderManager {
 
   void _onPreferencesPressed(BuildContext context) {
     _toggleActionDialog(
-        actionKey: headerWidget.preferencesButtonKey,
+        buttonKey: headerWidget.preferencesButtonKey,
         context: context,
         builder: (BuildContext context) {
           return PreferencesDialog();
@@ -70,7 +70,7 @@ class _OpenActivitiesPageState extends State<OpenActivitiesPage> with _OpenActiv
     super.initState();
 
     _overlayCreator = OverlayCreator(
-      headingBoxContainerKey: _headingBoxContainerKey
+      headerContainerKey: _headerContainerKey
     );
 
   }
@@ -85,7 +85,7 @@ class _OpenActivitiesPageState extends State<OpenActivitiesPage> with _OpenActiv
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(child: OpenActivitiesHeader(
-            key: _headingBoxKey,
+            key: _headerKey,
             title: FlutterI18n.translate(context, TranslationKeys.openTasks),
             onCalendarPressed: _onCalendarPressed,
             onPreferencesPressed: _onPreferencesPressed,
@@ -98,7 +98,7 @@ class _OpenActivitiesPageState extends State<OpenActivitiesPage> with _OpenActiv
             )
           ), padding: EdgeInsets.only(
             bottom: 10
-          ), key: _headingBoxContainerKey),
+          ), key: _headerContainerKey),
           Expanded(
             child: OpenActivitiesList()
           )

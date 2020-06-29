@@ -8,7 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auth0/flutter_auth0.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tareas/network/auth/identity.dart';
+import 'package:tareas/network/categories.dart';
 import 'package:tareas/pages/home.dart';
+
 
 class AuthResultKeys {
 
@@ -27,7 +29,7 @@ class AuthResult {
   String refreshToken;
   DateTime expiryDate;
 
-  static const String cachingKey = "cachingKey";
+  static const String cachingKey = "authResultCachingKey";
 
   AuthResult(Map map) {
     idToken = map[AuthResultKeys.idToken];
@@ -68,6 +70,7 @@ class AuthResult {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return await prefs.remove(AuthResult.cachingKey);
   }
+
 
   Map toMap() {
     return {
@@ -117,6 +120,7 @@ class AuthService {
   static const String baseUrl = "https://$domain";
 
   final Auth0 auth0 = Auth0(baseUrl: baseUrl, clientId: clientId);
+  final CategoriesProvider categoriesProvider = CategoriesProvider();
 
   IdentityResult identityResult;
 
@@ -231,8 +235,10 @@ class AuthService {
       authResult = await showUniversalLogin();
       authResult.save();
     } else {
-      performRefresh();
+      await performRefresh();
     }
+
+    await categoriesProvider.load();
 
     performIdentityFetch();
 
