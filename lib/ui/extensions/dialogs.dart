@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tareas/constants/brand_colors.dart';
 import 'package:tareas/constants/translation_keys.dart';
 import 'package:tareas/ui/extensions/buttons.dart';
+import 'package:tareas/ui/lists/categories.dart';
 
 class PreferencesDialog extends StatelessWidget {
 
