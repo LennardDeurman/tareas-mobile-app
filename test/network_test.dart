@@ -2,17 +2,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:tareas/models/category.dart';
 import 'package:tareas/network/activities.dart';
 import 'package:tareas/network/categories.dart';
+import 'package:tareas/network/override_client.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 
-class MyHttpOverrides extends HttpOverrides{
-  @override
-  HttpClient createHttpClient(SecurityContext context){
-    return super.createHttpClient(context)
-      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
-  }
-}
+
 
 void main() {
 
