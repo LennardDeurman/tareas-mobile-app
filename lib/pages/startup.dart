@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:scoped_model/scoped_model.dart';
+import 'package:tareas/managers/extensions.dart';
 import 'package:tareas/managers/startup.dart';
 import 'package:tareas/network/auth/service.dart';
 
@@ -59,9 +61,24 @@ class _StartupPageState extends State<StartupPage> {
       appBar: AppBar(),
       body: Container(
         child: Center(
-          child: RaisedButton(
-            child: Text("Doorgaan"),
-            onPressed: _onContinueClicked,
+          child: ScopedModel<LoadingDelegate>(
+            model: this.manager.loadingDelegate,
+            child: ScopedModelDescendant<LoadingDelegate>(
+              builder: (context, child, model) {
+                if (this.manager.loadingDelegate.isLoading) {
+                  return SizedBox(
+                    width: 50,
+                    height: 50,
+                    child: CircularProgressIndicator(),
+                  );
+                } else {
+                  return RaisedButton(
+                    child: Text("Doorgaan"),
+                    onPressed: _onContinueClicked,
+                  );
+                }
+              }
+            ),
           ),
         ),
       ),

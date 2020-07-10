@@ -19,5 +19,6 @@
   "preferences": "Voorkeuren",
   "categories": "Categorieeën",
   "categoriesInfo": "Selecteer hier de categorieën waarvan u taken wilt zien.",
-  "save": "Opslaan"
+  "save": "Opslaan",
+  "couldNotRefresh": "Kon de gegevens niet verversen"
 }

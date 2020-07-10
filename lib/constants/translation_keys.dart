@@ -21,4 +21,5 @@ class TranslationKeys {
   static const String categories = "categories";
   static const String categoriesInfo = "categoriesInfo";
   static const String save = "save";
+  static const String couldNotRefresh = "couldNotRefresh";
 }

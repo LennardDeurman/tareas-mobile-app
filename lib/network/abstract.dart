@@ -17,8 +17,14 @@ class RequestHelper<T> {
   Future<List<T>> getAll(String url) async {
     var response = await http.get(url);
     validate(response);
-    var items = json.decode(response.body);
-    print(items);
+    List items = json.decode(response.body);
+    List<T> objects = [];
+    if (items != null) {
+      for (var item in items) {
+        objects.add(toObject(item));
+      }
+      return objects;
+    }
     return [];
   }
 
@@ -37,7 +43,7 @@ class RequestHelper<T> {
 
 abstract class Fetcher<T extends ParsableObject> {
 
-  static const String host = "https://localhost:44339";
+  static const String host = "https://192.168.1.234:44339";
 
   RequestHelper<T> requestHelper;
 

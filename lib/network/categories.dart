@@ -11,6 +11,10 @@ class CategoriesProvider {
 
   List<Category> _categories;
 
+  List<Category> get categories {
+    return _categories;
+  }
+
   Future<List<Category>> _loadCachedCategories() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String jsonString = prefs.get(CategoriesProvider.cachingKey);
@@ -54,7 +58,7 @@ class CategoriesProvider {
     if (_categories != null && !ignoreMemory) //Check if memory has the values
       return _categories;
     Future<List<Category>> categoriesFuture = _performLoad(ignoreCache: ignoreCache); //Check if cached or network
-    _categories = await _performLoad();
+    _categories = await categoriesFuture;
     return categoriesFuture;
   }
 }

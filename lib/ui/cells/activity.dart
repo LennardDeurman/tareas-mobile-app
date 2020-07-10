@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:tareas/constants/brand_colors.dart';
 import 'package:tareas/models/activity.dart';
 import 'package:tareas/ui/extensions/labels.dart';
@@ -10,6 +11,10 @@ class ActivityCell extends StatelessWidget {
 
   ActivityCell (this.activity);
 
+
+  String timeString(DateTime dateTime) {
+    return DateFormat("d MMMM HH:mm").format(dateTime);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +35,7 @@ class ActivityCell extends StatelessWidget {
             children: <Widget>[
               Expanded(
                 child: Text(
-                  "Goals plaatsen",
+                  activity.task.name,
                   style: TextStyle(
                     fontSize: 21,
                     fontWeight: FontWeight.w600
@@ -39,25 +44,14 @@ class ActivityCell extends StatelessWidget {
               ),
               TextWithIcon(
                 iconData: FontAwesomeIcons.clock,
-                text: "Vandaag 12:25",
+                text: timeString(activity.time),
                 fontSize: 12,
                 iconMargin: EdgeInsets.symmetric(
                   horizontal: 5
                 ),
               )
             ],
-          ),
-          Container(
-            padding: EdgeInsets.only(
-              top: 10,
-            ),
-            child: Text(
-                "Het plaatsen van de goals op de velden:  A1, B3, G4.",
-              style: TextStyle(
-                fontSize: 16
-              ),
-            ),
-          ),
+          )
         ],
       ),
     ), onTap: () {
