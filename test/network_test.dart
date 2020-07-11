@@ -1,7 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tareas/models/category.dart';
 import 'package:tareas/network/activities.dart';
+import 'package:tareas/network/auth/identity.dart';
+import 'package:tareas/network/auth/service.dart';
 import 'package:tareas/network/categories.dart';
+import 'package:tareas/network/members.dart';
 import 'package:tareas/network/override_client.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,6 +39,13 @@ void main() {
     print(items.map((e) => e.toMap()));
   });
 
+  test("Get member by id", () async {
+    HttpOverrides.global = new MyHttpOverrides();
+    MembersFetcher fetcher = MembersFetcher();
+    var item = await fetcher.get("f1cd2c63-367e-4d0f-a778-e6378064f904");
+    print(item.toMap());
+  });
+
   test("Get single activity", () async {
     HttpOverrides.global = new MyHttpOverrides();
     ActivitiesFetcher fetcher = ActivitiesFetcher();
@@ -43,12 +53,21 @@ void main() {
     print(item.toMap());
   });
 
+  test("Get identity", () async {
+    HttpOverrides.global = new MyHttpOverrides();
+    IdentityRequest identityRequest = IdentityRequest(AuthResult({
+      AuthResultKeys.accessToken: 'FILL HERE'
+    }));
+    IdentityResult result = await identityRequest.fetch();
+    print(result.activeMember.toMap());
+    print(result.userInfo.sub);
+    print(result.userInfo.email);
+  });
 
   test("Test local server", () async {
     HttpOverrides.global = new MyHttpOverrides();
     var response = await http.get("https://localhost:44339/openActivities");
     print(response.body);
-
   });
 
 }

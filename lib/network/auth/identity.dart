@@ -1,6 +1,9 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:tareas/models/member.dart';
 import 'package:tareas/network/auth/service.dart';
+import 'package:tareas/network/members.dart';
 
 class AuthorizationError implements Exception {
 
@@ -10,17 +13,27 @@ class AuthorizationError implements Exception {
 
 }
 
-class IdentityResult {
+class UserInfo {
 
   String sub;
   String email;
   bool emailVerified;
 
-  IdentityResult (Map map) {
+  UserInfo (Map map) {
     sub = map["sub"];
     email = map["email"];
     emailVerified = map["email_verified"];
   }
+
+}
+
+
+class IdentityResult {
+
+  UserInfo userInfo;
+  Member activeMember;
+
+  IdentityResult ({ this.userInfo, this.activeMember });
 
 }
 
@@ -30,7 +43,7 @@ class IdentityRequest {
 
   IdentityRequest (this.authResult);
 
-  Future<IdentityResult> fetch() async {
+  Future<UserInfo> fetchUserInfo() async {
     var response = await http.get(
         "${AuthService.baseUrl}/userinfo",
         headers: {
@@ -44,7 +57,29 @@ class IdentityRequest {
       throw AuthorizationError("The account is not active");
     }
 
-    return IdentityResult(json.decode(response.body));
+    return UserInfo(json.decode(response.body));
+  }
+
+  Future<IdentityResult> fetch() {
+    MembersFetcher fetcher = MembersFetcher();
+    Completer<IdentityResult> completer = Completer();
+    Future.wait(
+      [
+        fetchUserInfo(),
+        fetcher.get(authResult.memberId)
+      ]
+    ).then((values) {
+      UserInfo userInfo = values[0];
+      Member member = values[1];
+      var result = IdentityResult(
+        activeMember: member,
+        userInfo: userInfo
+      );
+      completer.complete(result);
+    }).catchError((e) {
+      completer.completeError(e);
+    });
+    return completer.future;
   }
 
 }

@@ -35,6 +35,19 @@ class RequestHelper<T> {
     return toObject(map);
   }
 
+  Future<T> post(String url, { Map body }) async {
+    var response = await http.post(url, body: json.encode(body));
+    validate(response);
+    Map map = json.decode(response.body);
+    return toObject(map);
+  }
+
+  Future<T> put(String url, { Map body }) async {
+    var response = await http.put(url, body: json.encode(body));
+    validate(response);
+    Map map = json.decode(response.body);
+    return toObject(map);
+  }
 
 
 

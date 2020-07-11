@@ -19,6 +19,7 @@ class AuthResultKeys {
   static const String refreshToken = "refresh_token";
   static const String expiryDate = "expiry_date";
   static const String expiresIn = "expires_in";
+  static const String memberId = "member_id";
 
 }
 
@@ -27,6 +28,7 @@ class AuthResult {
   String idToken;
   String accessToken;
   String refreshToken;
+  String memberId;
   DateTime expiryDate;
 
   static const String cachingKey = "authResultCachingKey";
@@ -45,6 +47,8 @@ class AuthResult {
       );
     }
 
+    //TODO: Load the meta claim for the memberId, remove the following
+    memberId = "f1cd2c63-367e-4d0f-a778-e6378064f904";
   }
 
 
@@ -77,7 +81,8 @@ class AuthResult {
       AuthResultKeys.expiryDate: expiryDate.millisecondsSinceEpoch,
       AuthResultKeys.accessToken: accessToken,
       AuthResultKeys.refreshToken: refreshToken,
-      AuthResultKeys.idToken: idToken
+      AuthResultKeys.idToken: idToken,
+      AuthResultKeys.memberId: memberId
     };
   }
 

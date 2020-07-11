@@ -36,11 +36,15 @@ abstract class ParsableObject {
   }
 
   DateTime dateFromJson(value) {
-    return DateFormat("yyyy-MM-dd'T'hh:mm").parse(value);
+    if (value != null)
+      return DateFormat("yyyy-MM-dd'T'hh:mm").parse(value);
+    return null;
   }
 
   jsonValueOfDate(DateTime dateTime) {
-    return DateFormat("yyyy-MM-dd'T'hh:mm").format(dateTime);
+    if (dateTime != null)
+      return DateFormat("yyyy-MM-dd'T'hh:mm").format(dateTime);
+    return null;
   }
 
 

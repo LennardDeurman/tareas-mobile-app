@@ -42,7 +42,7 @@ class MemberKeys {
   static const String firstName = "firstName";
   static const String lastName = "lastName";
   static const String age = "age";
-  static const String birthDay = "birthDay";
+  static const String birthDay = "birthday";
   static const String addresses = "addresses";
   static const String contactInfo = "contactInfo";
   static const String certifications = "certifications";
