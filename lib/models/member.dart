@@ -54,6 +54,7 @@ class Member extends BaseObject {
   String lastName;
   DateTime birthDay;
   int age;
+  int socialPoint = 2341; //TODO: Parse the real social point
   List<Address> addresses;
   ContactInfo contactInfo;
   List<CertificationHolder> certifications;

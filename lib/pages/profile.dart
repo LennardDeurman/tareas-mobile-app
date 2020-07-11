@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:scoped_model/scoped_model.dart';
 import 'package:tareas/constants/brand_colors.dart';
 import 'package:tareas/constants/translation_keys.dart';
+import 'package:tareas/managers/extensions.dart';
 import 'package:tareas/network/auth/service.dart';
+import 'package:tareas/pages/startup.dart';
+import 'package:tareas/ui/extensions/buttons.dart';
 import 'package:tareas/ui/extensions/headers.dart';
 import 'package:tareas/ui/extensions/dates.dart';
+import 'package:tareas/ui/social_point.dart';
 
 class ProfilePage extends StatefulWidget {
 
@@ -18,14 +24,6 @@ class ProfilePage extends StatefulWidget {
 
 class ProfilePageUI {
 
-  Widget customCell({Widget child}) {
-    return Container(
-        margin: EdgeInsets.symmetric(
-            vertical: 12
-        ),
-        child: child
-    );
-  }
 
 
   Widget textCell({@required String label, @required String text}) {
@@ -75,12 +73,17 @@ class _ProfilePageState extends State<ProfilePage> with ProfilePageUI {
   //TODO: Sign out button
   //TODO:
 
+  LoadingDelegate _loadingDelegate = LoadingDelegate();
+
   void _signOut() {
-
-  }
-
-  void _deleteAccount() {
-
+    Future future = AuthService().logout().then((value) {
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+          builder: (BuildContext context) {
+            return StartupPage();
+          }
+      ), (route) => false);
+    });
+    _loadingDelegate.attachFuture(future);
   }
 
 
@@ -140,6 +143,43 @@ class _ProfilePageState extends State<ProfilePage> with ProfilePageUI {
                   text: activeMember.contactInfo.emailAddresses.map((e) => e.address).join(", ")
               );
               widgets.add(emailAddressesCell);
+
+              var socialPointCell = cell(
+                label: FlutterI18n.translate(context, TranslationKeys.socialPoint),
+                child: Container(
+                  child: SocialPoint(
+                    points: activeMember.socialPoint,
+                  ),
+                  margin: EdgeInsets.symmetric(
+                    vertical: 15
+                  ),
+                )
+              );
+
+              widgets.add(socialPointCell);
+
+              widgets.add(Container(
+                margin: EdgeInsets.only(
+                  left: 20,
+                  right: 20,
+                  top: 0,
+                  bottom: 40
+                ),
+                child: ScopedModel(
+                  model: this._loadingDelegate,
+                  child: ScopedModelDescendant<LoadingDelegate>(
+                    builder: (BuildContext context, Widget widget, LoadingDelegate manager) {
+
+                      return PrimaryButton(
+                        iconData: FontAwesomeIcons.signOutAlt,
+                        text: FlutterI18n.translate(context, TranslationKeys.signOut),
+                        color: Colors.red,
+                        onPressed: _signOut,
+                      );
+                    }
+                  ),
+                ),
+              ));
 
               return widgets;
 

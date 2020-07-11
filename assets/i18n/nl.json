@@ -24,5 +24,6 @@
   "certificates": "Certificaten",
   "address": "Adres",
   "phoneNumber": "Telefoonnummer",
-  "emailAddress": "Emailadres"
+  "emailAddress": "Emailadres",
+  "signOut": "Uitloggen"
 }
