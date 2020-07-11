@@ -51,7 +51,7 @@ class IdentityRequest {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ${authResult.accessToken}'
         }
-    );
+    ).timeout(Duration(seconds: 5));
     bool unAuthorized = response.statusCode == 401;
     if (unAuthorized) {
       throw AuthorizationError("The account is not active");

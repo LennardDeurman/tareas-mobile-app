@@ -8,6 +8,8 @@ class RequestHelper<T> {
 
   RequestHelper ({ this.toObject });
 
+  static const Duration requestTimeout = Duration(seconds: 5);
+
   void validate(http.Response response) {
     if (response.statusCode != 200) {
       throw Exception("Returned invalid status code with response body: " + response.body);
@@ -15,7 +17,7 @@ class RequestHelper<T> {
   }
 
   Future<List<T>> getAll(String url) async {
-    var response = await http.get(url);
+    var response = await http.get(url).timeout(requestTimeout);
     validate(response);
     List items = json.decode(response.body);
     List<T> objects = [];
@@ -29,21 +31,21 @@ class RequestHelper<T> {
   }
 
   Future<T> getSingle(String url) async {
-    var response = await http.get(url);
+    var response = await http.get(url).timeout(requestTimeout);
     validate(response);
     Map map = json.decode(response.body);
     return toObject(map);
   }
 
   Future<T> post(String url, { Map body }) async {
-    var response = await http.post(url, body: json.encode(body));
+    var response = await http.post(url, body: json.encode(body)).timeout(requestTimeout);
     validate(response);
     Map map = json.decode(response.body);
     return toObject(map);
   }
 
   Future<T> put(String url, { Map body }) async {
-    var response = await http.put(url, body: json.encode(body));
+    var response = await http.put(url, body: json.encode(body)).timeout(requestTimeout);
     validate(response);
     Map map = json.decode(response.body);
     return toObject(map);

@@ -13,6 +13,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   flutter_i18n: ^0.8.3
   flutter_auth0: ^0.5.0
+  flutter_webview_plugin: ^0.3.11
   shared_preferences: any
   scoped_model: ^1.0.1
   intl: ^0.16.1

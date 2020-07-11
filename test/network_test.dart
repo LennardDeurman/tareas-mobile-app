@@ -66,7 +66,11 @@ void main() {
 
   test("Test local server", () async {
     HttpOverrides.global = new MyHttpOverrides();
-    var response = await http.get("https://localhost:44339/openActivities");
+    var response = await http.get("https://192.168.1.234:44339/openActivities").timeout(Duration(
+      seconds: 1
+    )).catchError((e){
+      print("FAILED!");
+    });
     print(response.body);
   });
 

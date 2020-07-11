@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth0/flutter_auth0.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tareas/network/auth/identity.dart';
 import 'package:tareas/network/categories.dart';
@@ -180,6 +181,7 @@ class AuthService {
 
   Future logout() async {
     authResult = null;
+    await FlutterWebviewPlugin().cleanCookies();
     AuthResult.clearExisting();
   }
 
