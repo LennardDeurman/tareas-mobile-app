@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:tareas/constants/brand_colors.dart';
+import 'package:tareas/constants/icons.dart';
 import 'package:tareas/managers/extensions.dart';
 import 'package:tareas/models/category.dart';
 import 'package:tareas/network/auth/service.dart';
@@ -26,7 +27,7 @@ class CategoriesList extends StatelessWidget {
               return AuthService().categoriesProvider.categories.map((e) {
                 return PrimaryButton(
                   color: selectionDelegate.isSelected(e) ? BrandColors.selectedColor : BrandColors.notSelectedColor,
-                  iconData: FontAwesomeIcons.clock,
+                  iconData: TareasIcons.categoryIcons[e.name],
                   text: e.name,
                   onPressed: () {
                     selectionDelegate.toggle(e);
