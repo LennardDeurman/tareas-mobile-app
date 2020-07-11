@@ -22,4 +22,8 @@ class TranslationKeys {
   static const String categoriesInfo = "categoriesInfo";
   static const String save = "save";
   static const String couldNotRefresh = "couldNotRefresh";
+  static const String certificates = "certificates";
+  static const String address = "address";
+  static const String phoneNumber = "phoneNumber";
+  static const String emailAddress = "emailAddress";
 }

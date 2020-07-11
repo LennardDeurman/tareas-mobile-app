@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:tareas/constants/brand_colors.dart';
 import 'package:tareas/models/activity.dart';
 import 'package:tareas/ui/extensions/labels.dart';
+import 'package:tareas/ui/extensions/dates.dart';
 
 class ActivityCell extends StatelessWidget {
 
@@ -11,10 +12,6 @@ class ActivityCell extends StatelessWidget {
 
   ActivityCell (this.activity);
 
-
-  String timeString(DateTime dateTime) {
-    return DateFormat("d MMMM HH:mm").format(dateTime);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +41,7 @@ class ActivityCell extends StatelessWidget {
               ),
               TextWithIcon(
                 iconData: FontAwesomeIcons.clock,
-                text: timeString(activity.time),
+                text: TimeString(activity.time).value,
                 fontSize: 12,
                 iconMargin: EdgeInsets.symmetric(
                   horizontal: 5

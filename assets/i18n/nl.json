@@ -20,5 +20,9 @@
   "categories": "Categorieeën",
   "categoriesInfo": "Selecteer hier de categorieën waarvan u taken wilt zien.",
   "save": "Opslaan",
-  "couldNotRefresh": "Kon de gegevens niet verversen"
+  "couldNotRefresh": "Kon de gegevens niet verversen",
+  "certificates": "Certificaten",
+  "address": "Adres",
+  "phoneNumber": "Telefoonnummer",
+  "emailAddress": "Emailadres"
 }

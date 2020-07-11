@@ -46,4 +46,9 @@ class Address extends BaseObject {
     };
   }
 
+  @override
+  String toString() {
+    return "$streetName $houseNumber$houseNumberAddition, $place";
+  }
+
 }

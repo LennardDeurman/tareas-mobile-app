@@ -79,6 +79,10 @@ class Member extends BaseObject {
     });
   }
 
+  String get fullName {
+    return firstName + " " + lastName;
+  }
+
   @override
   Map toMap() {
     return {
