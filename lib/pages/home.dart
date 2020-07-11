@@ -22,8 +22,10 @@ class HomePage extends StatefulWidget {
 
 
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
 
+
+  TabController _controller;
 
   @override
   void initState() {
@@ -34,6 +36,8 @@ class _HomePageState extends State<HomePage> {
     ]);
 
     AuthService().registerStateListener(_authStateListener);
+
+    _controller = TabController(length: 3, vsync: this);
   }
 
   void _authStateListener() {
@@ -67,6 +71,7 @@ class _HomePageState extends State<HomePage> {
                         children: <Widget>[
                           Expanded(
                             child: TabBarView(
+                              controller: _controller,
                               children: <Widget>[
                                 OpenActivitiesPage(),
                                 SubscribedActivitiesPage(),
@@ -92,6 +97,7 @@ class _HomePageState extends State<HomePage> {
                                   child: TabBar(
                                     indicatorColor: Colors.transparent,
                                     labelColor: Colors.white,
+                                    controller: _controller,
                                     tabs: <Widget>[
                                       Tab(
                                         icon: FaIcon(FontAwesomeIcons.thLarge),

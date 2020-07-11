@@ -79,7 +79,7 @@ class _OpenActivitiesHeaderManager {
   }
 }
 
-class _OpenActivitiesPageState extends State<OpenActivitiesPage> with _OpenActivitiesHeaderManager {
+class _OpenActivitiesPageState extends State<OpenActivitiesPage> with _OpenActivitiesHeaderManager, AutomaticKeepAliveClientMixin {
 
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   ActivitiesFetcher _activitiesFetcher = ActivitiesFetcher();
@@ -165,5 +165,8 @@ class _OpenActivitiesPageState extends State<OpenActivitiesPage> with _OpenActiv
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 
 }

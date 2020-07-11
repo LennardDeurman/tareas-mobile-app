@@ -3,6 +3,8 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:tareas/constants/translation_keys.dart';
 import 'package:tareas/ui/extensions/headers.dart';
 
+//TODO: Make this class also automatickeepaliveclientmixin
+
 class SubscribedActivitiesPage extends StatelessWidget {
 
   @override

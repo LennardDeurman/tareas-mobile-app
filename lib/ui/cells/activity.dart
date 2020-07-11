@@ -12,7 +12,6 @@ class ActivityCell extends StatelessWidget {
 
   ActivityCell (this.activity);
 
-
   @override
   Widget build(BuildContext context) {
     return Material(child: InkWell(child: Container(
