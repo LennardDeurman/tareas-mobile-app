@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n_delegate.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tareas/constants/asset_paths.dart';
+import 'package:tareas/constants/brand_colors.dart';
 import 'package:tareas/constants/custom_fonts.dart';
 import 'package:tareas/network/override_client.dart';
 import 'package:tareas/pages/startup.dart';
@@ -31,7 +32,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
         title: "Tareas", //We can't use the translation here already
         theme: ThemeData(
-            primarySwatch: Colors.blue,
+            primarySwatch: BrandColors.primarySwatch,
             fontFamily: CustomFonts.openSans
         ),
         home: StartupPage(),

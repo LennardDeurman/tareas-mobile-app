@@ -76,13 +76,7 @@ class _ProfilePageState extends State<ProfilePage> with ProfilePageUI {
   LoadingDelegate _loadingDelegate = LoadingDelegate();
 
   void _signOut() {
-    Future future = AuthService().logout().then((value) {
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-          builder: (BuildContext context) {
-            return StartupPage();
-          }
-      ), (route) => false);
-    });
+    Future future = AuthService().logout();
     _loadingDelegate.attachFuture(future);
   }
 

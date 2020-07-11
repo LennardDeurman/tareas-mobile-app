@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tareas/constants/brand_colors.dart';
+import 'package:tareas/network/auth/service.dart';
+import 'package:tareas/pages/startup.dart';
 import 'package:tareas/ui/extensions/clippers.dart';
 import 'package:tareas/constants/translation_keys.dart';
 import 'package:tareas/pages/open_activities.dart';
@@ -30,8 +32,19 @@ class _HomePageState extends State<HomePage> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp
     ]);
+
+    AuthService().registerStateListener(_authStateListener);
   }
 
+  void _authStateListener() {
+    if (AuthService().authResult == null) {
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+        builder: (BuildContext context) {
+          return StartupPage();
+        }
+      ), (route) => false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +91,7 @@ class _HomePageState extends State<HomePage> {
                                   alignment: Alignment.bottomCenter,
                                   child: TabBar(
                                     indicatorColor: Colors.transparent,
+                                    labelColor: Colors.white,
                                     tabs: <Widget>[
                                       Tab(
                                         icon: FaIcon(FontAwesomeIcons.thLarge),

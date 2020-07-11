@@ -170,6 +170,15 @@ class AuthService {
     }
   }
 
+  void registerStateListener(Function function) {
+    _authResultNotifier.addListener(function);
+  }
+
+  void unregisterStateListener(Function function) {
+    _authResultNotifier.removeListener(function);
+  }
+
+
   void presentHome(BuildContext context) {
     MaterialPageRoute homeRoute = MaterialPageRoute(
       builder: (BuildContext context) {
@@ -180,9 +189,15 @@ class AuthService {
   }
 
   Future logout() async {
-    authResult = null;
-    await FlutterWebviewPlugin().cleanCookies();
-    AuthResult.clearExisting();
+    Future future = auth0.webAuth.clearSession();
+    future.then((value) {
+      AuthResult.clearExisting();
+      authResult = null;
+    }).catchError((e) {
+      AuthResult.clearExisting();
+      authResult = null;
+    });
+    return future;
   }
 
   Future<AuthResult> showUniversalLogin() async {
