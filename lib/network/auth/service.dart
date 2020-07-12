@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tareas/network/auth/identity.dart';
 import 'package:tareas/network/categories.dart';
 import 'package:tareas/pages/home.dart';
+import 'package:tareas/ui/extensions/presentation.dart';
 
 
 class AuthResultKeys {
@@ -96,7 +97,7 @@ class AuthResult {
 }
 
 
-class AuthService {
+class AuthService with AuthServicePresentation {
 
   /*
 
@@ -178,15 +179,6 @@ class AuthService {
     _authResultNotifier.removeListener(function);
   }
 
-
-  void presentHome(BuildContext context) {
-    MaterialPageRoute homeRoute = MaterialPageRoute(
-      builder: (BuildContext context) {
-        return HomePage();
-      }
-    );
-    Navigator.pushAndRemoveUntil(context, homeRoute, (route) => false);
-  }
 
   Future logout() async {
     Future future = auth0.webAuth.clearSession();

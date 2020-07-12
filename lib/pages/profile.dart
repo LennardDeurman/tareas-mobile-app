@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:intl/intl.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:tareas/constants/brand_colors.dart';
 import 'package:tareas/constants/translation_keys.dart';
 import 'package:tareas/managers/extensions.dart';
 import 'package:tareas/network/auth/service.dart';
-import 'package:tareas/pages/startup.dart';
 import 'package:tareas/ui/extensions/buttons.dart';
 import 'package:tareas/ui/extensions/headers.dart';
 import 'package:tareas/ui/extensions/dates.dart';
+import 'package:tareas/ui/extensions/presentation.dart';
 import 'package:tareas/ui/social_point.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -23,7 +22,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class ProfilePageUI {
-
 
 
   Widget textCell({@required String label, @required String text}) {
@@ -63,17 +61,23 @@ class ProfilePageUI {
 
   }
 
-
-
 }
 
-class _ProfilePageState extends State<ProfilePage> with ProfilePageUI {
-
-  //TODO: Delete button
-  //TODO: Sign out button
-  //TODO:
+class _ProfilePageState extends State<ProfilePage> with ProfilePageUI, AutomaticKeepAliveClientMixin {
 
   LoadingDelegate _loadingDelegate = LoadingDelegate();
+  LogoutPresenter _logoutPresenter;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _logoutPresenter = LogoutPresenter(
+      context
+    );
+    _logoutPresenter.register();
+
+  }
 
   void _signOut() {
     Future future = AuthService().logout();
@@ -184,6 +188,14 @@ class _ProfilePageState extends State<ProfilePage> with ProfilePageUI {
     );
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    _logoutPresenter.unregister();
+  }
+
+  @override
+  bool get wantKeepAlive => true;
 
 
 

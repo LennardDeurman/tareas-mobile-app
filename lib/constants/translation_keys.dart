@@ -27,4 +27,7 @@ class TranslationKeys {
   static const String address = "address";
   static const String phoneNumber = "phoneNumber";
   static const String emailAddress = "emailAddress";
+  static const String proceed = "proceed";
+  static const String loggedOut = "loggedOut";
+  static const String loggedOutMessage = "loggedOutMessage";
 }

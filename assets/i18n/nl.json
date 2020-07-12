@@ -25,5 +25,8 @@
   "address": "Adres",
   "phoneNumber": "Telefoonnummer",
   "emailAddress": "Emailadres",
-  "signOut": "Uitloggen"
+  "signOut": "Uitloggen",
+  "loggedOut": "Uitgelogd",
+  "loggedOutMessage": "U bent uitgelogd bij Tareas. Klik op doorgaan om terug te keren naar het beginscherm.",
+  "proceed": "Doorgaan"
 }

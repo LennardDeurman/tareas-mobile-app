@@ -7,6 +7,7 @@ import 'package:tareas/models/activity.dart';
 import 'package:tareas/models/category.dart';
 import 'package:tareas/network/activities.dart';
 import 'package:tareas/ui/cells/activity.dart';
+import 'package:tareas/ui/extensions/presentation.dart';
 import 'package:tareas/ui/lists/fetcher_list.dart';
 import 'package:tareas/ui/extensions/dialogs.dart';
 import 'package:tareas/ui/extensions/headers.dart';
@@ -83,6 +84,7 @@ class _OpenActivitiesPageState extends State<OpenActivitiesPage> with _OpenActiv
 
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   ActivitiesFetcher _activitiesFetcher = ActivitiesFetcher();
+  LogoutPresenter _logoutPresenter;
 
   @override
   void initState() {
@@ -92,6 +94,10 @@ class _OpenActivitiesPageState extends State<OpenActivitiesPage> with _OpenActiv
       headerContainerKey: _headerContainerKey
     );
 
+    _logoutPresenter = LogoutPresenter(
+        context
+    );
+    _logoutPresenter.register();
   }
 
   @override
@@ -168,5 +174,11 @@ class _OpenActivitiesPageState extends State<OpenActivitiesPage> with _OpenActiv
 
   @override
   bool get wantKeepAlive => true;
+
+  @override
+  void dispose() {
+    super.dispose();
+    _logoutPresenter.unregister();
+  }
 
 }

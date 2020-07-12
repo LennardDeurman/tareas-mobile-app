@@ -3,8 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tareas/constants/brand_colors.dart';
-import 'package:tareas/network/auth/service.dart';
-import 'package:tareas/pages/startup.dart';
 import 'package:tareas/ui/extensions/clippers.dart';
 import 'package:tareas/constants/translation_keys.dart';
 import 'package:tareas/pages/open_activities.dart';
@@ -20,8 +18,6 @@ class HomePage extends StatefulWidget {
 
 }
 
-
-
 class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
 
 
@@ -35,19 +31,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       DeviceOrientation.portraitUp
     ]);
 
-    AuthService().registerStateListener(_authStateListener);
-
     _controller = TabController(length: 3, vsync: this);
-  }
-
-  void _authStateListener() {
-    if (AuthService().authResult == null) {
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-        builder: (BuildContext context) {
-          return StartupPage();
-        }
-      ), (route) => false);
-    }
   }
 
   @override
