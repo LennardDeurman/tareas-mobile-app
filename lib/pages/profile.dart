@@ -109,21 +109,6 @@ class _ProfilePageState extends State<ProfilePage> with ProfilePageUI, Automatic
               );
               widgets.add(nameCell);
 
-              var dateOfBirthCell = textCell(
-                  label: FlutterI18n.translate(context, TranslationKeys.dateOfBirth),
-                  text: DateString(activeMember.birthDay).value
-              );
-              widgets.add(dateOfBirthCell);
-
-              String certificationsAsString = activeMember.certifications.map((e) => e.certificate.name).join(", ");
-              if (activeMember.certifications.length > 0) {
-                var certificatesCell = textCell(
-                    label: FlutterI18n.translate(context, TranslationKeys.certificates),
-                    text: certificationsAsString
-                );
-                widgets.add(certificatesCell);
-              }
-
               var addressCell = textCell(
                   label: FlutterI18n.translate(context, TranslationKeys.address),
                   text: activeMember.addresses.map((e) => e.toString()).join(", ")
@@ -141,6 +126,21 @@ class _ProfilePageState extends State<ProfilePage> with ProfilePageUI, Automatic
                   text: activeMember.contactInfo.emailAddresses.map((e) => e.address).join(", ")
               );
               widgets.add(emailAddressesCell);
+
+              var dateOfBirthCell = textCell(
+                  label: FlutterI18n.translate(context, TranslationKeys.dateOfBirth),
+                  text: DateString(activeMember.birthDay).value
+              );
+              widgets.add(dateOfBirthCell);
+
+              String certificationsAsString = activeMember.certifications.map((e) => e.certificate.name).join(", ");
+              if (activeMember.certifications.length > 0) {
+                var certificatesCell = textCell(
+                    label: FlutterI18n.translate(context, TranslationKeys.certificates),
+                    text: certificationsAsString
+                );
+                widgets.add(certificatesCell);
+              }
 
               var socialPointCell = cell(
                 label: FlutterI18n.translate(context, TranslationKeys.socialPoint),

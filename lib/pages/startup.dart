@@ -22,13 +22,15 @@ class _StartupPageState extends State<StartupPage> {
 
   @override
   void initState() {
-    super.initState();
+
     manager.tryAutoInitialize(
       onSuccess: _presentHome,
       onError: (e) {
         _showSnackbar("Er ging iets mis, probeer opnieuw in te loggen");
       }
     );
+
+    super.initState();
   }
 
   void _presentHome() {
