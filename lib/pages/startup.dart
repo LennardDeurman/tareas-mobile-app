@@ -3,12 +3,96 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:tareas/managers/extensions.dart';
 import 'package:tareas/managers/startup.dart';
 import 'package:tareas/network/auth/service.dart';
+import 'package:tareas/ui/extensions/clippers.dart';
+import 'package:tareas/constants/asset_paths.dart';
+import 'package:tareas/constants/brand_colors.dart';
 
 class StartupPage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
     return _StartupPageState();
+  }
+
+}
+
+
+class LoginPage extends StatefulWidget {
+
+  @override
+  State<StatefulWidget> createState() {
+    return _LoginPageState();
+  }
+
+}
+
+
+
+class _LoginPageState extends State<LoginPage> {
+
+  @override
+  void initState() {
+    super.initState();
+
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp
+    ]);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        child: Stack(
+          children: <Widget>[
+            Column(
+              children: <Widget>[
+                Expanded(
+                    flex: 6,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage(AssetPaths.loginBackground),
+                              fit: BoxFit.cover
+                          )
+                      ),
+                    )
+                ),
+                Expanded(
+                  flex: 4,
+                  child: Container(
+                    color: Colors.white,
+                  ),
+                )
+              ],
+            ),
+            Column(
+              children: <Widget>[
+                Expanded(
+                    flex: 5,
+                    child: Container(
+                      color: Colors.transparent,
+                    )
+                ),
+                Expanded(
+                    flex: 5,
+                    child: ClipPath(
+                      clipper: TopBorderClipper(borderHeight: 30),
+                      child: Container(
+                          color: BrandColors.primaryColor
+                      ),
+                    )
+                )
+              ],
+            ),
+            Align(
+              alignment: Alignment.center,
+              child: LoginForm(),
+            )
+          ],
+        ),
+      ),
+    );
   }
 
 }
