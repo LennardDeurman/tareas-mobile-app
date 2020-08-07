@@ -102,59 +102,49 @@ class _ProfilePageState extends State<ProfilePage> with ProfilePageUI, Automatic
               );
 
               widgets.add(pageHeader);
-              var activeMember = AuthService().identityResult.activeMember;
-              var nameCell = textCell(
-                  label: FlutterI18n.translate(context, TranslationKeys.name),
-                  text: activeMember.fullName
-              );
-              widgets.add(nameCell);
+              if (AuthService().identityResult != null) {
+                var activeMember = AuthService().identityResult.activeMember;
 
-              var addressCell = textCell(
-                  label: FlutterI18n.translate(context, TranslationKeys.address),
-                  text: activeMember.addresses.map((e) => e.toString()).join(", ")
-              );
-              widgets.add(addressCell);
-
-              var phoneNumberCell = textCell(
-                  label: FlutterI18n.translate(context, TranslationKeys.phoneNumber),
-                  text: activeMember.contactInfo.phoneNumbers.map((e) => e.number).join(", ")
-              );
-              widgets.add(phoneNumberCell);
-
-              var emailAddressesCell = textCell(
-                  label: FlutterI18n.translate(context, TranslationKeys.emailAddress),
-                  text: activeMember.contactInfo.emailAddresses.map((e) => e.address).join(", ")
-              );
-              widgets.add(emailAddressesCell);
-
-              var dateOfBirthCell = textCell(
-                  label: FlutterI18n.translate(context, TranslationKeys.dateOfBirth),
-                  text: DateString(activeMember.birthDay).value
-              );
-              widgets.add(dateOfBirthCell);
-
-              String certificationsAsString = activeMember.certifications.map((e) => e.certificate.name).join(", ");
-              if (activeMember.certifications.length > 0) {
-                var certificatesCell = textCell(
-                    label: FlutterI18n.translate(context, TranslationKeys.certificates),
-                    text: certificationsAsString
+                var nameCell = textCell(
+                    label: FlutterI18n.translate(context, TranslationKeys.name),
+                    text: activeMember.fullName
                 );
-                widgets.add(certificatesCell);
+                widgets.add(nameCell);
+
+                var addressCell = textCell(
+                    label: FlutterI18n.translate(context, TranslationKeys.address),
+                    text: activeMember.addresses.map((e) => e.toString()).join(", ")
+                );
+                widgets.add(addressCell);
+
+                var phoneNumberCell = textCell(
+                    label: FlutterI18n.translate(context, TranslationKeys.phoneNumber),
+                    text: activeMember.contactInfo.phoneNumbers.map((e) => e.number).join(", ")
+                );
+                widgets.add(phoneNumberCell);
+
+                var emailAddressesCell = textCell(
+                    label: FlutterI18n.translate(context, TranslationKeys.emailAddress),
+                    text: activeMember.contactInfo.emailAddresses.map((e) => e.address).join(", ")
+                );
+                widgets.add(emailAddressesCell);
+
+                var dateOfBirthCell = textCell(
+                    label: FlutterI18n.translate(context, TranslationKeys.dateOfBirth),
+                    text: DateString(activeMember.birthDay).value
+                );
+                widgets.add(dateOfBirthCell);
+
+                String certificationsAsString = activeMember.certifications.map((e) => e.certificate.name).join(", ");
+                if (activeMember.certifications.length > 0) {
+                  var certificatesCell = textCell(
+                      label: FlutterI18n.translate(context, TranslationKeys.certificates),
+                      text: certificationsAsString
+                  );
+                  widgets.add(certificatesCell);
+                }
               }
 
-              var socialPointCell = cell(
-                label: FlutterI18n.translate(context, TranslationKeys.socialPoint),
-                child: Container(
-                  child: SocialPoint(
-                    points: activeMember.socialPoint,
-                  ),
-                  margin: EdgeInsets.symmetric(
-                    vertical: 15
-                  ),
-                )
-              );
-
-              widgets.add(socialPointCell);
 
               widgets.add(Container(
                 margin: EdgeInsets.only(
