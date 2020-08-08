@@ -254,7 +254,11 @@ class AuthService with AuthServicePresentation {
 
     await categoriesProvider.load();
 
-    performIdentityFetch();
+    await performIdentityFetch();
+
+    if (identityResult == null) {
+      throw MissingIdentityError();
+    }
 
     Stream.periodic(Duration(minutes: 5)).listen((event) {
       if (authResult != null) {

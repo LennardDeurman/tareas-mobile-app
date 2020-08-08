@@ -3,7 +3,7 @@
   "signIn": "Inloggen",
   "username": "Gebruikersnaam",
   "password": "Wachtwoord",
-  "loginPageSubText": "Lorem ipsum dolor sit atem, consectectur adipscing elit.",
+  "loginPageSubText": "Om gebruik te maken van Tareas dient u in te loggen. Klik op de grote groene knop om de aanmeldprocedure te starten.",
   "passwordTooShort": "Het opgegeven wachtwoord is te kort.",
   "usernameTooShort": "De opgegeven gebruikersnaam is te kort.",
   "open": "Openstaand",
@@ -28,5 +28,10 @@
   "signOut": "Uitloggen",
   "loggedOut": "Uitgelogd",
   "loggedOutMessage": "U bent uitgelogd bij Tareas. Klik op doorgaan om terug te keren naar het beginscherm.",
-  "proceed": "Doorgaan"
+  "proceed": "Doorgaan",
+  "loginCaptionText": "De nieuwe manier om je club te ondersteunen",
+  "connectionError": "Verbindingsprobleem",
+  "connectionErrorMessage": "We konden je profielgegevens niet ophalen van de server, en daardoor niet inloggen. Check of je een actieve internetverbinding hebt en klik op de knop hieronder om het opnieuw te proberen.",
+  "reconnect": "Opnieuw verbinden",
+  "closeAndReconnect": "Sluiten & opnieuw inloggen"
 }

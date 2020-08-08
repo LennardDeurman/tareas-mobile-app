@@ -37,6 +37,7 @@ flutter:
     - assets/images/icon_background_mobile.png
     - assets/images/logo_login_tareas.png
     - assets/images/placeholder_no_tasks.png
+    - assets/images/loading.gif
     - assets/i18n/
   fonts:
     - family: OpenSans

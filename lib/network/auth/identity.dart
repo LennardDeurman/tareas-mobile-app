@@ -13,6 +13,10 @@ class AuthorizationError implements Exception {
 
 }
 
+class MissingIdentityError implements Exception {
+
+}
+
 class UserInfo {
 
   String sub;
@@ -34,6 +38,7 @@ class IdentityResult {
   Member activeMember;
 
   IdentityResult ({ this.userInfo, this.activeMember });
+
 
 }
 

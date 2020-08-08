@@ -30,4 +30,9 @@ class TranslationKeys {
   static const String proceed = "proceed";
   static const String loggedOut = "loggedOut";
   static const String loggedOutMessage = "loggedOutMessage";
+  static const String loginCaptionText = "loginCaptionText";
+  static const String reconnect = "reconnect";
+  static const String connectionError = "connectionError";
+  static const String connectionErrorMessage = "connectionErrorMessage";
+  static const String closeAndReconnect = "closeAndReconnect";
 }
