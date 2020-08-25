@@ -1,6 +1,8 @@
 import 'package:tareas/models/abstract.dart';
+import 'package:tareas/network/auth/header.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
 
 class RequestHelper<T> {
 
@@ -8,7 +10,7 @@ class RequestHelper<T> {
 
   RequestHelper ({ this.toObject });
 
-  static const Duration requestTimeout = Duration(seconds: 5);
+  static const Duration requestTimeout = Duration(seconds: 10);
 
   void validate(http.Response response) {
     if (response.statusCode != 200) {
@@ -17,7 +19,8 @@ class RequestHelper<T> {
   }
 
   Future<List<T>> getAll(String url) async {
-    var response = await http.get(url).timeout(requestTimeout);
+    var headers = AuthorizationHeader.map();
+    var response = await http.get(url, headers: headers).timeout(requestTimeout);
     validate(response);
     List items = json.decode(response.body);
     List<T> objects = [];
@@ -31,21 +34,21 @@ class RequestHelper<T> {
   }
 
   Future<T> getSingle(String url) async {
-    var response = await http.get(url).timeout(requestTimeout);
+    var response = await http.get(url, headers: AuthorizationHeader.map()).timeout(requestTimeout);
     validate(response);
     Map map = json.decode(response.body);
     return toObject(map);
   }
 
   Future<T> post(String url, { Map body }) async {
-    var response = await http.post(url, body: json.encode(body)).timeout(requestTimeout);
+    var response = await http.post(url, body: json.encode(body), headers: AuthorizationHeader.map()).timeout(requestTimeout);
     validate(response);
     Map map = json.decode(response.body);
     return toObject(map);
   }
 
   Future<T> put(String url, { Map body }) async {
-    var response = await http.put(url, body: json.encode(body)).timeout(requestTimeout);
+    var response = await http.put(url, body: json.encode(body), headers: AuthorizationHeader.map()).timeout(requestTimeout);
     validate(response);
     Map map = json.decode(response.body);
     return toObject(map);
@@ -58,7 +61,7 @@ class RequestHelper<T> {
 
 abstract class Fetcher<T extends ParsableObject> {
 
-  static const String host = "https://192.168.1.234:44339";
+  static const String host = "https://tareas-acc-api.azurewebsites.net";
 
   RequestHelper<T> requestHelper;
 

@@ -122,6 +122,7 @@ class AuthService with AuthServicePresentation {
 
    */
 
+
   static const String clientId = "Ntdv2VVHrHRGkNvPhGi4l6fd8rF7Eu40";
   static const String domain = "dev-vpji-vk5.eu.auth0.com";
   static const String baseUrl = "https://$domain";
@@ -193,13 +194,16 @@ class AuthService with AuthServicePresentation {
   }
 
   Future<AuthResult> showUniversalLogin() async {
+
     var obj = await
     auth0.
-    webAuth.
-    authorize({
-      'audience': '$baseUrl/userinfo',
-      'scope': 'openid email offline_access',
+    webAuth.authorize({
+      'audience': 'https://localhost:44339/',
+      'domain': domain,
+      'scope': 'openid email offline_access member'
     });
+
+
     return AuthResult(obj);
   }
 
@@ -252,7 +256,13 @@ class AuthService with AuthServicePresentation {
       await performRefresh();
     }
 
-    await categoriesProvider.load();
+    //await categoriesProvider.load();
+
+    var userInfo = await Auth0Auth(
+      clientId,
+      baseUrl,
+      bearer: authResult.accessToken
+    ).getUserInfo();
 
     await performIdentityFetch();
 

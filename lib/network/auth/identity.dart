@@ -49,13 +49,14 @@ class IdentityRequest {
   IdentityRequest (this.authResult);
 
   Future<UserInfo> fetchUserInfo() async {
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${authResult.accessToken}'
+    };
     var response = await http.get(
         "${AuthService.baseUrl}/userinfo",
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${authResult.accessToken}'
-        }
+        headers: headers
     ).timeout(Duration(seconds: 5));
     bool unAuthorized = response.statusCode == 401;
     if (unAuthorized) {
