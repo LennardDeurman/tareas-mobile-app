@@ -3,12 +3,9 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:tareas/constants/brand_colors.dart';
 import 'package:tareas/constants/translation_keys.dart';
 import 'package:tareas/managers/extensions.dart';
-import 'package:tareas/models/activity.dart';
 import 'package:tareas/models/category.dart';
-import 'package:tareas/network/activities.dart';
-import 'package:tareas/ui/cells/activity.dart';
+import 'package:tareas/ui/calendar.dart';
 import 'package:tareas/ui/extensions/presentation.dart';
-import 'package:tareas/ui/lists/fetcher_list.dart';
 import 'package:tareas/ui/extensions/dialogs.dart';
 import 'package:tareas/ui/extensions/headers.dart';
 import 'package:tareas/ui/extensions/labels.dart';
@@ -29,8 +26,6 @@ class _OpenActivitiesHeaderManager {
   GlobalKey _headerKey = GlobalKey();
   GlobalKey _headerContainerKey = GlobalKey();
 
-  SelectionDelegate<Category> _categoriesSelectionDelegate = SelectionDelegate<Category>();
-
   OverlayCreator _overlayCreator;
 
   OpenActivitiesHeader get headerWidget {
@@ -50,19 +45,57 @@ class _OpenActivitiesHeaderManager {
     });
   }
 
+}
+
+class _OpenActivitiesPageState extends State<OpenActivitiesPage> with _OpenActivitiesHeaderManager, AutomaticKeepAliveClientMixin {
+
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  final SelectionDelegate _categoriesSelectionDelegate = SelectionDelegate<Category>();
+  LogoutPresenter _logoutPresenter;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _overlayCreator = OverlayCreator(
+      headerContainerKey: _headerContainerKey
+    );
+
+    _logoutPresenter = LogoutPresenter(
+        context
+    );
+    _logoutPresenter.register();
+
+
+  }
+
+
   void _onCalendarPressed(BuildContext context) {
     _toggleActionDialog(
         buttonKey: headerWidget.calendarButtonKey,
         context: context,
         builder: (BuildContext context) {
-          return Container();
+          return Material(child: Stack(
+            children: <Widget>[
+              Align(
+                alignment: Alignment.topCenter,
+                child: Container(
+                  color: Colors.white,
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(vertical: 5),
+                  child: Calendar()
+                ),
+              )
+            ],
+
+          ), color: Colors.transparent);
         }
     );
   }
 
   void _onPreferencesPressed(BuildContext context) {
     SelectionDelegate<Category> localSelectionDelegate = SelectionDelegate<Category>(
-      selectedObjects: _categoriesSelectionDelegate.selectedObjects //Possible add objects from the manager class
+        selectedObjects: _categoriesSelectionDelegate.selectedObjects //Possible add objects from the manager class
     );
     _toggleActionDialog(
         buttonKey: headerWidget.preferencesButtonKey,
@@ -78,32 +111,12 @@ class _OpenActivitiesHeaderManager {
         }
     );
   }
-}
-
-class _OpenActivitiesPageState extends State<OpenActivitiesPage> with _OpenActivitiesHeaderManager, AutomaticKeepAliveClientMixin {
-
-  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  ActivitiesFetcher _activitiesFetcher = ActivitiesFetcher();
-  LogoutPresenter _logoutPresenter;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _overlayCreator = OverlayCreator(
-      headerContainerKey: _headerContainerKey
-    );
-
-    _logoutPresenter = LogoutPresenter(
-        context
-    );
-    _logoutPresenter.register();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      key: scaffoldKey,
       body: Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -129,43 +142,7 @@ class _OpenActivitiesPageState extends State<OpenActivitiesPage> with _OpenActiv
             bottom: 10
           ), key: _headerContainerKey),
           Expanded(
-            child: FetcherList<Activity>(
-              downloadFutureBuilder: () {
-                //_categoriesSelectionDelegate.selectedObjects;
-                return _activitiesFetcher.getOpenActivities();
-              },
-              scaffoldKey: _scaffoldKey,
-              noResultsBackgroundBuilder: (BuildContext context) {
-                return Container(
-                  child: Center(
-                    child: Text("No results!"),
-                  ),
-                );
-              },
-              errorBackgroundBuilder: (BuildContext context) {
-                return Container(
-                  child: Center(
-                    child: Text("Error!"),
-                  ),
-                );
-              },
-              loadingBackgroundBuilder: (BuildContext context) {
-                return Container(
-                  child: Center(
-                    child: SizedBox(
-                      width: 50,
-                      height: 50,
-                      child: CircularProgressIndicator(),
-                    )
-                  ),
-                );
-              },
-              itemBuilder: (context, activity) {
-                return ActivityCell(
-                  activity
-                );
-              }
-            )
+            child: Container()
           )
         ],
       ),

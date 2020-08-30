@@ -6,11 +6,9 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth0/flutter_auth0.dart';
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tareas/network/auth/identity.dart';
 import 'package:tareas/network/categories.dart';
-import 'package:tareas/pages/home.dart';
 import 'package:tareas/ui/extensions/presentation.dart';
 
 
@@ -30,7 +28,6 @@ class AuthResult {
   String idToken;
   String accessToken;
   String refreshToken;
-  String memberId;
   DateTime expiryDate;
 
   static const String cachingKey = "authResultCachingKey";
@@ -49,8 +46,6 @@ class AuthResult {
       );
     }
 
-    //TODO: Load the meta claim for the memberId, remove the following
-    memberId = "f1cd2c63-367e-4d0f-a778-e6378064f904";
   }
 
 
@@ -83,8 +78,7 @@ class AuthResult {
       AuthResultKeys.expiryDate: expiryDate.millisecondsSinceEpoch,
       AuthResultKeys.accessToken: accessToken,
       AuthResultKeys.refreshToken: refreshToken,
-      AuthResultKeys.idToken: idToken,
-      AuthResultKeys.memberId: memberId
+      AuthResultKeys.idToken: idToken
     };
   }
 
@@ -200,7 +194,7 @@ class AuthService with AuthServicePresentation {
     webAuth.authorize({
       'audience': 'https://localhost:44339/',
       'domain': domain,
-      'scope': 'openid email offline_access member'
+      'scope': 'openid email offline_access member app_metadata user_metadata'
     });
 
 
@@ -256,13 +250,7 @@ class AuthService with AuthServicePresentation {
       await performRefresh();
     }
 
-    //await categoriesProvider.load();
-
-    var userInfo = await Auth0Auth(
-      clientId,
-      baseUrl,
-      bearer: authResult.accessToken
-    ).getUserInfo();
+    await categoriesProvider.load();
 
     await performIdentityFetch();
 

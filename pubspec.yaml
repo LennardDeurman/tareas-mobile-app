@@ -17,6 +17,9 @@ dependencies:
   shared_preferences: any
   scoped_model: ^1.0.1
   intl: ^0.16.1
+  flutter_stetho: ^0.5.2
+  flutter_calendar_carousel: ^1.4.12
+  table_calendar: ^2.2.3
 
 dev_dependencies:
   flutter_test:
@@ -32,7 +35,7 @@ flutter:
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
-  uses-material-design: false
+  uses-material-design: true
   assets:
     - assets/images/icon_background_mobile.png
     - assets/images/logo_login_tareas.png

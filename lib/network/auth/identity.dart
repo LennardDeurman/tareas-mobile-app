@@ -21,12 +21,14 @@ class UserInfo {
 
   String sub;
   String email;
+  String memberId;
   bool emailVerified;
 
   UserInfo (Map map) {
     sub = map["sub"];
     email = map["email"];
     emailVerified = map["email_verified"];
+    memberId = map["https://tareas.nl/member_id"];
   }
 
 }
@@ -66,25 +68,23 @@ class IdentityRequest {
     return UserInfo(json.decode(response.body));
   }
 
-  Future<IdentityResult> fetch() {
+  Future<IdentityResult> fetch() async {
     MembersFetcher fetcher = MembersFetcher();
     Completer<IdentityResult> completer = Completer();
-    Future.wait(
-      [
-        fetchUserInfo(),
-        fetcher.get(authResult.memberId)
-      ]
-    ).then((values) {
-      UserInfo userInfo = values[0];
-      Member member = values[1];
+
+    try {
+      UserInfo userInfo = await fetchUserInfo();
+      Member member = await fetcher.get(userInfo.memberId);
       var result = IdentityResult(
-        activeMember: member,
-        userInfo: userInfo
+          activeMember: member,
+          userInfo: userInfo
       );
       completer.complete(result);
-    }).catchError((e) {
+    } catch (e) {
       completer.completeError(e);
-    });
+    }
+
+
     return completer.future;
   }
 

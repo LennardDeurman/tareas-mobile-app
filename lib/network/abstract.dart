@@ -20,7 +20,7 @@ class RequestHelper<T> {
 
   Future<List<T>> getAll(String url) async {
     var headers = AuthorizationHeader.map();
-    var response = await http.get(url, headers: headers).timeout(requestTimeout);
+    var response = await http.get(url, headers: headers);
     validate(response);
     List items = json.decode(response.body);
     List<T> objects = [];
@@ -34,21 +34,21 @@ class RequestHelper<T> {
   }
 
   Future<T> getSingle(String url) async {
-    var response = await http.get(url, headers: AuthorizationHeader.map()).timeout(requestTimeout);
+    var response = await http.get(url, headers: AuthorizationHeader.map());
     validate(response);
     Map map = json.decode(response.body);
     return toObject(map);
   }
 
   Future<T> post(String url, { Map body }) async {
-    var response = await http.post(url, body: json.encode(body), headers: AuthorizationHeader.map()).timeout(requestTimeout);
+    var response = await http.post(url, body: json.encode(body), headers: AuthorizationHeader.map());
     validate(response);
     Map map = json.decode(response.body);
     return toObject(map);
   }
 
   Future<T> put(String url, { Map body }) async {
-    var response = await http.put(url, body: json.encode(body), headers: AuthorizationHeader.map()).timeout(requestTimeout);
+    var response = await http.put(url, body: json.encode(body), headers: AuthorizationHeader.map());
     validate(response);
     Map map = json.decode(response.body);
     return toObject(map);
