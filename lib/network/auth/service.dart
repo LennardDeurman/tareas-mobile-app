@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth0/flutter_auth0.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tareas/managers/open_activities.dart';
 import 'package:tareas/network/auth/identity.dart';
 import 'package:tareas/network/categories.dart';
 import 'package:tareas/ui/extensions/presentation.dart';
@@ -123,6 +124,7 @@ class AuthService with AuthServicePresentation {
 
   final Auth0 auth0 = Auth0(baseUrl: baseUrl, clientId: clientId);
   final CategoriesProvider categoriesProvider = CategoriesProvider();
+  final OpenActivitiesProvider openActivitiesProvider = OpenActivitiesProvider();
 
   IdentityResult identityResult;
 

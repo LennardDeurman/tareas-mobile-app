@@ -3,6 +3,7 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:tareas/constants/brand_colors.dart';
 import 'package:tareas/constants/translation_keys.dart';
 import 'package:tareas/managers/extensions.dart';
+import 'package:tareas/managers/open_activities.dart';
 import 'package:tareas/models/category.dart';
 import 'package:tareas/ui/calendar.dart';
 import 'package:tareas/ui/extensions/presentation.dart';
@@ -50,7 +51,7 @@ class _OpenActivitiesHeaderManager {
 class _OpenActivitiesPageState extends State<OpenActivitiesPage> with _OpenActivitiesHeaderManager, AutomaticKeepAliveClientMixin {
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  final SelectionDelegate _categoriesSelectionDelegate = SelectionDelegate<Category>();
+  final OpenActivitiesManager manager = OpenActivitiesManager();
   LogoutPresenter _logoutPresenter;
 
   @override
@@ -95,7 +96,7 @@ class _OpenActivitiesPageState extends State<OpenActivitiesPage> with _OpenActiv
 
   void _onPreferencesPressed(BuildContext context) {
     SelectionDelegate<Category> localSelectionDelegate = SelectionDelegate<Category>(
-        selectedObjects: _categoriesSelectionDelegate.selectedObjects //Possible add objects from the manager class
+        selectedObjects: manager.categoriesSelectionDelegate.selectedObjects //Possible add objects from the manager class
     );
     _toggleActionDialog(
         buttonKey: headerWidget.preferencesButtonKey,
@@ -104,7 +105,7 @@ class _OpenActivitiesPageState extends State<OpenActivitiesPage> with _OpenActiv
           return PreferencesDialog(
             selectionDelegate: localSelectionDelegate,
             onSave: () {
-              _categoriesSelectionDelegate.selectedObjects = localSelectionDelegate.selectedObjects;
+              manager.categoriesSelectionDelegate.selectedObjects = localSelectionDelegate.selectedObjects;
               _overlayCreator.dismissOverlay();
             },
           );
