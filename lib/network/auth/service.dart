@@ -9,7 +9,6 @@ import 'package:flutter_auth0/flutter_auth0.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tareas/network/auth/identity.dart';
 import 'package:tareas/network/categories.dart';
-import 'package:tareas/network/operations/open_activities.dart';
 import 'package:tareas/ui/extensions/presentation.dart';
 
 
@@ -252,8 +251,6 @@ class AuthService with AuthServicePresentation {
     }
 
     await performIdentityFetch();
-
-    OpenActivitiesOperation().execute(); //Initial loading of the data in the openActivities
 
     await categoriesProvider.load();
 

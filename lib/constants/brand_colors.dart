@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class BrandColors {
 
   static const Color primaryColor = Color.fromRGBO(0, 199, 143, 1);
+  static const Color lightCalendarEventColor = Color.fromRGBO(9, 185, 151, 0.33);
   static const Color secondaryColor = Color.fromRGBO(235, 41, 108, 1);
   static const Color inputColor = Colors.black12;
   static const Color errorColor = Colors.red;

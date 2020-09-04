@@ -35,6 +35,12 @@ class SelectionDelegate<T> extends Model {
     }
   }
 
+  T get selectedObject {
+    if (selectedObjects.length < 1)
+      return null;
+    return selectedObjects.first;
+  }
+
   bool isSelected(T object) {
     return selectedObjects.contains(object);
   }
@@ -47,5 +53,6 @@ class SelectionDelegate<T> extends Model {
     }
     notifyListeners();
   }
+
 
 }

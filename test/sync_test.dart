@@ -1,23 +1,15 @@
 import 'dart:async';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:tareas/network/activities.dart';
-import 'package:tareas/network/auth/service.dart';
+import 'package:tareas/network/operations/abstract.dart';
 import 'package:tareas/network/params.dart';
-
-
-
-
-
-
-
 
 
 class TestOperation extends Operation {
 
   @override
-  Completer executeOperation() {
-    Completer completer = Completer();
+  OperationCompleter executeOperation() {
+    OperationCompleter completer = OperationCompleter();
     Future.delayed(Duration(seconds: 2), () {
       print("This action happened on: " + DateTime.now().toString());
       completer.complete();

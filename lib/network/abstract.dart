@@ -82,7 +82,7 @@ abstract class Fetcher<T extends ParsableObject> {
   }
 
   //Returns the current url
-  String url (String path, { Map queryParams }) {
+  String url (String path, { Map<String, String>  queryParams }) {
     String url = "$host/$path";
     if (queryParams != null) {
       url = urlWithQueryParams(url, queryParams);

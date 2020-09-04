@@ -18,7 +18,6 @@ Future main() async {
       path: AssetPaths.localization,
       forcedLocale: new Locale('nl'));
   WidgetsFlutterBinding.ensureInitialized();
-  initializeDateFormatting("nl");
   HttpOverrides.global = new MyHttpOverrides(); //For testing cases
   await flutterI18nDelegate.load(null);
   Stetho.initialize();

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:scoped_model/scoped_model.dart';
 import 'package:tareas/constants/brand_colors.dart';
 import 'package:tareas/constants/translation_keys.dart';
 import 'package:tareas/managers/extensions.dart';
@@ -58,6 +59,8 @@ class _OpenActivitiesPageState extends State<OpenActivitiesPage> with _OpenActiv
   void initState() {
     super.initState();
 
+    manager.initialize();
+
     _overlayCreator = OverlayCreator(
       headerContainerKey: _headerContainerKey
     );
@@ -66,7 +69,6 @@ class _OpenActivitiesPageState extends State<OpenActivitiesPage> with _OpenActiv
         context
     );
     _logoutPresenter.register();
-
 
   }
 
@@ -84,7 +86,9 @@ class _OpenActivitiesPageState extends State<OpenActivitiesPage> with _OpenActiv
                   color: Colors.white,
                   width: double.infinity,
                   padding: EdgeInsets.symmetric(vertical: 5),
-                  child: Calendar()
+                  child: Calendar(
+                    source: manager.calendarOverviewDataSource
+                  )
                 ),
               )
             ],
@@ -105,7 +109,7 @@ class _OpenActivitiesPageState extends State<OpenActivitiesPage> with _OpenActiv
           return PreferencesDialog(
             selectionDelegate: localSelectionDelegate,
             onSave: () {
-              manager.categoriesSelectionDelegate.selectedObjects = localSelectionDelegate.selectedObjects;
+              manager.updateCategories(localSelectionDelegate.selectedObjects);
               _overlayCreator.dismissOverlay();
             },
           );
