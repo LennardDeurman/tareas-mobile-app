@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:tareas/constants/brand_colors.dart';
 import 'package:tareas/constants/icons.dart';
-import 'package:tareas/managers/extensions.dart';
+import 'package:tareas/logic/delegates/selection.dart';
 import 'package:tareas/models/category.dart';
 import 'package:tareas/network/auth/service.dart';
 import 'package:tareas/ui/extensions/buttons.dart';

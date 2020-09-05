@@ -30,7 +30,7 @@ abstract class Operation<T> {
     } catch (e) {
       _innerCompleter.completeError(e);
     }
-
+    return _innerCompleter.future;
   }
 
   Future<T> perform();

@@ -56,7 +56,7 @@ class OpenActivitiesManager extends Model {
 
   Future initialize() async {
     await calendarOverviewProvider.load();
-    await openActivitiesDownloader.load();
+    //await openActivitiesDownloader.load();
   }
 
   Future lookUpByDate(DateTime dateTime) async {

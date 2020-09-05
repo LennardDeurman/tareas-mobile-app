@@ -142,7 +142,7 @@ class OpenActivitiesProvider {
 
     List<CompletionResult> completionResults = _operations.map((operation) {
       return operation.workCompleter.completionResult;
-    });
+    }).toList();
 
     return OpenActivitiesResult(
         completionResults

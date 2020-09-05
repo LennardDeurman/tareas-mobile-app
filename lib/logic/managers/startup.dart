@@ -21,10 +21,15 @@ class StartupManager extends Model {
   void tryAutoInitialize({ Function onSuccess, Function onError }) {
     AuthService().loadCachedAuthResult().then((value) {
       if (value != null) {
-        initializeAuth(
-          onSuccess: onSuccess,
-          onError: onError
-        );
+        loadingDelegate.isLoading = true;
+        AuthService().initialize().then((_) {
+          if (onSuccess != null)
+            onSuccess();
+        }).catchError((e) {
+          if (onError != null)
+            onError(e);
+          loadingDelegate.isLoading = false;
+        });
       }
     });
   }
