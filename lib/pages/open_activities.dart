@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:scoped_model/scoped_model.dart';
 import 'package:tareas/constants/brand_colors.dart';
 import 'package:tareas/constants/translation_keys.dart';
-import 'package:tareas/managers/extensions.dart';
-import 'package:tareas/managers/open_activities.dart';
+import 'package:tareas/logic/delegates/selection.dart';
+import 'package:tareas/logic/managers/open_activities.dart';
 import 'package:tareas/models/category.dart';
 import 'package:tareas/ui/calendar.dart';
 import 'package:tareas/ui/extensions/presentation.dart';
@@ -87,7 +86,7 @@ class _OpenActivitiesPageState extends State<OpenActivitiesPage> with _OpenActiv
                   width: double.infinity,
                   padding: EdgeInsets.symmetric(vertical: 5),
                   child: Calendar(
-                    source: manager.calendarOverviewDataSource
+                    provider: manager.calendarOverviewProvider
                   )
                 ),
               )

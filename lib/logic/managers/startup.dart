@@ -1,5 +1,5 @@
 import 'package:scoped_model/scoped_model.dart';
-import 'package:tareas/managers/extensions.dart';
+import 'package:tareas/logic/delegates/loading.dart';
 import 'package:tareas/network/auth/service.dart';
 
 

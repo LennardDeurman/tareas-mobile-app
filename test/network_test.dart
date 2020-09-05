@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tareas/models/category.dart';
+import 'package:tareas/logic/providers/categories.dart';
 import 'package:tareas/network/activities.dart';
 import 'package:tareas/network/auth/identity.dart';
 import 'package:tareas/network/auth/service.dart';

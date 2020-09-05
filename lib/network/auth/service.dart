@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auth0/flutter_auth0.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tareas/network/auth/identity.dart';
-import 'package:tareas/network/categories.dart';
+import 'package:tareas/logic/providers/categories.dart';
 import 'package:tareas/ui/extensions/presentation.dart';
 
 

@@ -1,18 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:tareas/constants/brand_colors.dart';
 import 'package:tareas/constants/custom_fonts.dart';
-import 'package:tareas/managers/open_activities.dart';
+import 'package:tareas/logic/providers/calendar.dart';
 import 'package:tareas/models/calendar.dart';
 
 class Calendar extends StatefulWidget {
 
-  final CalendarOverviewDataSource source;
+  final CalendarOverviewProvider provider;
 
-  Calendar ({ @required this.source });
+  Calendar ({ @required this.provider });
 
   @override
   State<StatefulWidget> createState() {
@@ -72,7 +71,7 @@ class CalendarState extends State<Calendar> {
   Widget build(BuildContext context) {
 
     return ValueListenableBuilder(
-      valueListenable: widget.source.notifier,
+      valueListenable: widget.provider.notifier,
       builder: (BuildContext context, CalendarOverviewResult result, Widget widget) {
         return TableCalendar(
           calendarController: controller,
@@ -107,7 +106,7 @@ class CalendarState extends State<Calendar> {
                         color: Colors.white
                     )
                 );
-              } else if (this.widget.source.hasEvent(dateTime)) {
+              } else if (this.widget.provider.hasEvent(dateTime)) {
                 return dayCell(
                     dateTime,
                     decoration: BoxDecoration(shape: BoxShape.circle, color: BrandColors.lightCalendarEventColor.withOpacity(0.5)),
