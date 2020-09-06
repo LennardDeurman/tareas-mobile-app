@@ -11,6 +11,7 @@ import 'package:tareas/ui/extensions/dialogs.dart';
 import 'package:tareas/ui/extensions/headers.dart';
 import 'package:tareas/ui/extensions/labels.dart';
 import 'package:tareas/ui/extensions/overlays.dart';
+import 'package:tareas/ui/lists/open_activities.dart';
 
 
 class OpenActivitiesPage extends StatefulWidget {
@@ -56,9 +57,9 @@ class _OpenActivitiesPageState extends State<OpenActivitiesPage> with _OpenActiv
 
   @override
   void initState() {
-    super.initState();
 
-    manager.initialize();
+    manager.refreshOpenActivities();
+    manager.refreshCalendar();
 
     _overlayCreator = OverlayCreator(
       headerContainerKey: _headerContainerKey
@@ -69,6 +70,8 @@ class _OpenActivitiesPageState extends State<OpenActivitiesPage> with _OpenActiv
     );
     _logoutPresenter.register();
 
+
+    super.initState();
   }
 
 
@@ -86,7 +89,15 @@ class _OpenActivitiesPageState extends State<OpenActivitiesPage> with _OpenActiv
                   width: double.infinity,
                   padding: EdgeInsets.symmetric(vertical: 5),
                   child: Calendar(
-                    provider: manager.calendarOverviewProvider
+                    provider: manager.calendarOverviewProvider,
+                    initialSelectedDay: manager.calendarSelectionDelegate.selectedObject,
+                    onDateSelected: (DateTime date) {
+                      manager.calendarSelectionDelegate.selectedObject = date;
+                      manager.lookUpBySelectedDate();
+                      Future.delayed(Duration(milliseconds: 500), () {
+                        _overlayCreator.dismissOverlay();
+                      });
+                    }
                   )
                 ),
               )
@@ -146,7 +157,9 @@ class _OpenActivitiesPageState extends State<OpenActivitiesPage> with _OpenActiv
             bottom: 10
           ), key: _headerContainerKey),
           Expanded(
-            child: Container()
+            child: OpenActivitiesList(
+              manager
+            )
           )
         ],
       ),

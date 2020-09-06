@@ -10,8 +10,10 @@ import 'package:tareas/models/calendar.dart';
 class Calendar extends StatefulWidget {
 
   final CalendarOverviewProvider provider;
+  final Function(DateTime) onDateSelected;
+  final DateTime initialSelectedDay;
 
-  Calendar ({ @required this.provider });
+  Calendar ({ @required this.provider, this.onDateSelected, this.initialSelectedDay });
 
   @override
   State<StatefulWidget> createState() {
@@ -86,7 +88,12 @@ class CalendarState extends State<Calendar> {
               }
           ),
           rowHeight: 42,
+          initialSelectedDay: this.widget.initialSelectedDay,
           enabledDayPredicate: isEnabled,
+          onDaySelected: (DateTime dateTime, events) {
+            if (this.widget.onDateSelected != null)
+              this.widget.onDateSelected(dateTime);
+          },
           builders: CalendarBuilders(
             dayBuilder: (BuildContext context, DateTime dateTime, events) {
 

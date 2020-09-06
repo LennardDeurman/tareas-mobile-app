@@ -96,7 +96,7 @@ class OpenActivitiesProvider {
     if (runningOperations.length > 0) { //Wait for when all the runningOperations complete
       List<Future> workingFutures = runningOperations.map((operation) {
         return operation.workCompleter.future;
-      });
+      }).toList();
 
       return Future.wait(workingFutures).catchError((e) { //If one of the blocks throws an error, the whole future fails => correct, and all the operations will be removed
         runningOperations.forEach((operation) => this._operations.remove(operation));

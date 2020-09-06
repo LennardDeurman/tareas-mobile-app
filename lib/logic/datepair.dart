@@ -6,7 +6,7 @@ class DatePair {
 
   DatePair (this.startDate, { Duration duration }) {
     if (duration == null) {
-      duration = Duration(days: 30);
+      duration = Duration(days: 90);
     }
     this.endDate = this.startDate.add(duration);
   }

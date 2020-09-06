@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart' hide Category;
 import 'package:scoped_model/scoped_model.dart';
+import 'package:tareas/logic/datepair.dart';
 import 'package:tareas/logic/operations/open_activities.dart';
 import 'package:tareas/logic/delegates/selection.dart';
 import 'package:tareas/logic/delegates/loading.dart';
@@ -27,6 +28,10 @@ class OpenActivitiesDownloader {
     if (_openActivitiesGlobalSyncOperation != null) {
       _openActivitiesGlobalSyncOperation.cancel();
     }
+
+    if (dateTime == null)
+      dateTime = DatePair(DateTime.now()).endDate;
+
     _openActivitiesGlobalSyncOperation = OpenActivitiesGlobalSyncOperation(dateTime, openActivitiesProvider, categories);
     _openActivitiesGlobalSyncOperation.onCancel = () {
       loadingDelegate.isLoading = false;
@@ -34,7 +39,8 @@ class OpenActivitiesDownloader {
 
     loadingDelegate.isLoading = true;
     return await _openActivitiesGlobalSyncOperation.execute().then((_) {
-      notifier.value = this.openActivitiesProvider.getResult();
+      var value = this.openActivitiesProvider.getResult();
+      notifier.value = value;
     }).whenComplete(() {
       loadingDelegate.isLoading = false;
     });
@@ -43,7 +49,8 @@ class OpenActivitiesDownloader {
   void unloadExisting() {
     notifier.value = null;
     openActivitiesProvider.unloadAll();
-    _openActivitiesGlobalSyncOperation.cancel();
+    if (_openActivitiesGlobalSyncOperation != null)
+        _openActivitiesGlobalSyncOperation.cancel();
   }
 
 }
@@ -51,16 +58,22 @@ class OpenActivitiesDownloader {
 class OpenActivitiesManager extends Model {
 
   final SelectionDelegate<Category> categoriesSelectionDelegate = SelectionDelegate<Category>();
+  final SingleSelectionDelegate<DateTime> calendarSelectionDelegate = SingleSelectionDelegate<DateTime>(DateTime.now());
   final CalendarOverviewProvider  calendarOverviewProvider = CalendarOverviewProvider();
   final OpenActivitiesDownloader openActivitiesDownloader = OpenActivitiesDownloader();
 
-  Future initialize() async {
-    await calendarOverviewProvider.load();
-    //await openActivitiesDownloader.load();
+  Future lookUpBySelectedDate() async {
+    await openActivitiesDownloader.load(dateTime: calendarSelectionDelegate.selectedObject);
   }
 
-  Future lookUpByDate(DateTime dateTime) async {
-    await openActivitiesDownloader.load(dateTime: dateTime);
+  Future refreshOpenActivities() async {
+    openActivitiesDownloader.unloadExisting();
+    await openActivitiesDownloader.load(dateTime: DatePair(calendarSelectionDelegate.selectedObject).endDate);
+  }
+
+  Future refreshCalendar() async {
+    calendarOverviewProvider.unloadExisting();
+    await calendarOverviewProvider.load();
   }
 
   Future updateCategories(List<Category> categories) async {
@@ -68,10 +81,7 @@ class OpenActivitiesManager extends Model {
     calendarOverviewProvider.categories = categories;
     openActivitiesDownloader.categories = categories;
 
-    calendarOverviewProvider.unloadExisting();
-    await calendarOverviewProvider.load();
-
-    openActivitiesDownloader.unloadExisting();
-    await openActivitiesDownloader.load();
+    await refreshCalendar();
+    await refreshOpenActivities();
   }
 }

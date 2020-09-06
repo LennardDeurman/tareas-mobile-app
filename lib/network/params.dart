@@ -11,8 +11,10 @@ class NetworkParams {
   static const String page = "page";
 
   static String dateString(DateTime dateTime) {
-    if (dateTime != null)
-      return DateFormat.yMd("nl").format(dateTime); //NOTE: There is a bug on the server side with this
+    if (dateTime != null) {
+      DateFormat dateFormat = DateFormat("MM-dd-yyyy");
+      return dateFormat.format(dateTime);
+    }
     return null;
   }
 

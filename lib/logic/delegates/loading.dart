@@ -3,7 +3,7 @@ import 'package:scoped_model/scoped_model.dart';
 
 class LoadingDelegate extends Model {
 
-  final ValueNotifier valueNotifier = ValueNotifier(false);
+  final ValueNotifier<bool> valueNotifier = ValueNotifier(false);
 
   LoadingDelegate () {
     valueNotifier.addListener(() {

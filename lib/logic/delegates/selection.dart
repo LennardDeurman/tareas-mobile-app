@@ -1,4 +1,23 @@
+import 'package:flutter/foundation.dart';
 import 'package:scoped_model/scoped_model.dart';
+
+class SingleSelectionDelegate<T> {
+
+  ValueNotifier<T> notifier;
+
+  SingleSelectionDelegate ([T initialValue]) {
+    notifier = ValueNotifier<T>(initialValue);
+  }
+
+  set selectedObject(T object) {
+    notifier.value = object;
+  }
+
+  T get selectedObject {
+    return notifier.value;
+  }
+
+}
 
 class SelectionDelegate<T> extends Model {
 
