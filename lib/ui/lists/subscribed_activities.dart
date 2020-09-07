@@ -68,7 +68,7 @@ class SubscribedActivitiesList extends StatelessWidget {
           );
         },
         child: ValueListenableBuilder<bool>(
-            valueListenable: manager.loadingDelegate.valueNotifier,
+            valueListenable: manager.loadingDelegate.notifier,
             builder: (BuildContext context, value, Widget widget) {
               return ValueListenableBuilder<SubscribedActivitiesResult>(
                   valueListenable: manager.notifier,

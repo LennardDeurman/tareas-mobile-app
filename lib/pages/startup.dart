@@ -79,26 +79,24 @@ class _StartupPageState extends State<StartupPage> {
                           bottom: 35
                       )
                   ),
-                  ScopedModel<LoadingDelegate>(
-                    model: this.manager.loadingDelegate,
-                    child: ScopedModelDescendant<LoadingDelegate>(
-                      builder: (context, child, model) {
-                        return PrimaryButton(
-                          text: FlutterI18n.translate(context, TranslationKeys.reconnect),
-                          color: BrandColors.primaryColor,
-                          isLoading: this.manager.loadingDelegate.isLoading,
-                          iconData: FontAwesomeIcons.connectdevelop,
-                          onPressed: () {
-                            this.manager.tryAutoInitialize(
+                  ValueListenableBuilder(
+                    valueListenable: this.manager.loadingDelegate.notifier,
+                    builder: (BuildContext context, bool isLoading, Widget widget) {
+                      return PrimaryButton(
+                        text: FlutterI18n.translate(context, TranslationKeys.reconnect),
+                        color: BrandColors.primaryColor,
+                        isLoading: this.manager.loadingDelegate.isLoading,
+                        iconData: FontAwesomeIcons.connectdevelop,
+                        onPressed: () {
+                          this.manager.tryAutoInitialize(
                               onSuccess: () {
                                 Navigator.pop(context);
                                 _presentHome();
                               }
-                            );
-                          },
-                        );
-                      }
-                    ),
+                          );
+                        },
+                      );
+                    },
                   ),
                   SizedBox(
                     height: 10,
@@ -149,77 +147,75 @@ class _StartupPageState extends State<StartupPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModel<LoadingDelegate>(
-      model: this.manager.loadingDelegate,
-      child: Scaffold(
-        key: _scaffoldKey,
-        body: ScopedModelDescendant<LoadingDelegate>(
-            builder: (context, child, model) {
-              if (this.manager.loadingDelegate.isLoading) {
-                return Container(
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage(AssetPaths.loading),
-                          fit: BoxFit.cover
-                      )
-                  ),
-                );
-              } else {
-                return Container(
-                  child: Stack(
+    return Scaffold(
+      key: _scaffoldKey,
+      body: ValueListenableBuilder(
+        valueListenable: this.manager.loadingDelegate.notifier,
+        builder: (BuildContext context, bool isLoading, Widget widget) {
+          if (this.manager.loadingDelegate.isLoading) {
+            return Container(
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage(AssetPaths.loading),
+                      fit: BoxFit.cover
+                  )
+              ),
+            );
+          } else {
+            return Container(
+              child: Stack(
+                children: <Widget>[
+                  Column(
                     children: <Widget>[
-                      Column(
-                        children: <Widget>[
-                          Expanded(
-                              flex: 6,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: AssetImage(AssetPaths.loginBackground),
-                                        fit: BoxFit.cover
-                                    )
-                                ),
-                              )
-                          ),
-                          Expanded(
-                            flex: 4,
-                            child: Container(
-                              color: Colors.white,
+                      Expanded(
+                          flex: 6,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: AssetImage(AssetPaths.loginBackground),
+                                    fit: BoxFit.cover
+                                )
                             ),
                           )
-                        ],
                       ),
-                      Column(
-                        children: <Widget>[
-                          Expanded(
-                              flex: 5,
-                              child: Container(
-                                color: Colors.transparent,
-                              )
-                          ),
-                          Expanded(
-                              flex: 5,
-                              child: ClipPath(
-                                clipper: TopBorderClipper(borderHeight: 30),
-                                child: Container(
-                                    color: BrandColors.primaryColor
-                                ),
-                              )
-                          )
-                        ],
-                      ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: LoginForm(onSignInPressed: (BuildContext context) {
-                          _onContinueClicked();
-                        }),
+                      Expanded(
+                        flex: 4,
+                        child: Container(
+                          color: Colors.white,
+                        ),
                       )
                     ],
                   ),
-                );
-              }
-            }
-        ),
+                  Column(
+                    children: <Widget>[
+                      Expanded(
+                          flex: 5,
+                          child: Container(
+                            color: Colors.transparent,
+                          )
+                      ),
+                      Expanded(
+                          flex: 5,
+                          child: ClipPath(
+                            clipper: TopBorderClipper(borderHeight: 30),
+                            child: Container(
+                                color: BrandColors.primaryColor
+                            ),
+                          )
+                      )
+                    ],
+                  ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: LoginForm(onSignInPressed: (BuildContext context) {
+                      _onContinueClicked();
+                    }),
+                  )
+                ],
+              ),
+            );
+          }
+        },
       ),
     );
   }

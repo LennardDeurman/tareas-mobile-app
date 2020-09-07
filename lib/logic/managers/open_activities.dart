@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart' hide Category;
-import 'package:scoped_model/scoped_model.dart';
 import 'package:tareas/logic/datepair.dart';
 import 'package:tareas/logic/operations/open_activities.dart';
 import 'package:tareas/logic/delegates/selection.dart';
@@ -55,7 +54,7 @@ class OpenActivitiesDownloader {
 
 }
 
-class OpenActivitiesManager extends Model {
+class OpenActivitiesManager {
 
   final SelectionDelegate<Category> categoriesSelectionDelegate = SelectionDelegate<Category>();
   final SingleSelectionDelegate<DateTime> calendarSelectionDelegate = SingleSelectionDelegate<DateTime>(DateTime.now());

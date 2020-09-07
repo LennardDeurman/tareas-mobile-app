@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
-import 'package:scoped_model/scoped_model.dart';
 import 'package:tareas/logic/completer.dart';
 import 'package:tareas/logic/delegates/loading.dart';
 import 'package:tareas/logic/operations/subscribed_activities.dart';
@@ -72,7 +71,7 @@ class SubscribedActivitiesResult {
 }
 
 
-class SubscribedActivitiesManager extends Model {
+class SubscribedActivitiesManager {
 
   SubscribedActivitiesOperation _currentOperation;
 

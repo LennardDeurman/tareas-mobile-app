@@ -1,9 +1,8 @@
-import 'package:scoped_model/scoped_model.dart';
 import 'package:tareas/logic/delegates/loading.dart';
 import 'package:tareas/network/auth/service.dart';
 
 
-class StartupManager extends Model {
+class StartupManager {
 
   final LoadingDelegate loadingDelegate = LoadingDelegate();
 

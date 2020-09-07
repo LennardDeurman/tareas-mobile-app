@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:scoped_model/scoped_model.dart';
 import 'package:tareas/constants/brand_colors.dart';
 import 'package:tareas/constants/translation_keys.dart';
 import 'package:tareas/logic/delegates/loading.dart';
@@ -152,20 +151,17 @@ class _ProfilePageState extends State<ProfilePage> with ProfilePageUI, Automatic
                   top: 0,
                   bottom: 40
                 ),
-                child: ScopedModel(
-                  model: this._loadingDelegate,
-                  child: ScopedModelDescendant<LoadingDelegate>(
-                    builder: (BuildContext context, Widget widget, LoadingDelegate manager) {
-
-                      return PrimaryButton(
-                        iconData: FontAwesomeIcons.signOutAlt,
-                        text: FlutterI18n.translate(context, TranslationKeys.signOut),
-                        color: Colors.red,
-                        onPressed: _signOut,
-                      );
-                    }
-                  ),
-                ),
+                child: ValueListenableBuilder(
+                  valueListenable: _loadingDelegate.notifier,
+                  builder: (BuildContext context, bool value, Widget widget) {
+                    return PrimaryButton(
+                      iconData: FontAwesomeIcons.signOutAlt,
+                      text: FlutterI18n.translate(context, TranslationKeys.signOut),
+                      color: Colors.red,
+                      onPressed: _signOut,
+                    );
+                  },
+                )
               ));
 
               return widgets;

@@ -59,7 +59,7 @@ class OpenActivitiesList extends StatelessWidget {
         return await manager.refreshOpenActivities(); //But wait for the new results to complete
       },
       child: ValueListenableBuilder<bool>(
-        valueListenable: manager.openActivitiesDownloader.loadingDelegate.valueNotifier,
+        valueListenable: manager.openActivitiesDownloader.loadingDelegate.notifier,
         builder: (BuildContext context, value, Widget widget) {
           return ValueListenableBuilder<OpenActivitiesResult>(
             valueListenable: manager.openActivitiesDownloader.notifier,

@@ -1,26 +1,22 @@
 import 'package:flutter/foundation.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class LoadingDelegate extends Model {
+class LoadingDelegate  {
 
-  final ValueNotifier<bool> valueNotifier = ValueNotifier(false);
-
-  LoadingDelegate () {
-    valueNotifier.addListener(() {
-      notifyListeners();
-    });
-  }
+  final ValueNotifier<bool> notifier = ValueNotifier(false);
 
   set isLoading (bool value) {
-    valueNotifier.value = value;
+    notifier.value = value;
   }
 
   bool get isLoading {
-    return valueNotifier.value;
+    return notifier.value;
   }
 
   void attachFuture(Future future) {
     isLoading = true;
     future.whenComplete(() => isLoading = false);
   }
+
+
 }
