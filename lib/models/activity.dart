@@ -5,6 +5,8 @@ class ActivityKeys with BaseObjectKeys {
 
   static const String id = "id";
   static const String time = "time";
+  static const String description = "description";
+  static const String shortDescription = "shortDescription";
   static const String isAssigned = "isAssigned";
   static const String isCompleted = "isCompleted";
   static const String isCancelled = "isCancelled";
@@ -20,7 +22,28 @@ class Activity extends BaseObject {
   bool isCancelled;
   Task task;
 
+  String _description;
+  String _shortDescription;
+
   Activity (Map json) : super(json);
+
+  String get name {
+    return task.name;
+  }
+
+  String get shortDescription {
+    if (_shortDescription != null) {
+      return _shortDescription;
+    }
+    return task.shortDescription;
+  }
+
+  String get description {
+    if (_description != null) {
+      return _description;
+    }
+    return task.description;
+  }
 
   @override
   void parse(Map json) {
@@ -30,6 +53,10 @@ class Activity extends BaseObject {
     isAssigned = json[ActivityKeys.isAssigned];
     isCompleted = json[ActivityKeys.isCompleted];
     isCancelled = json[ActivityKeys.isCancelled];
+
+    _description = json[ActivityKeys.description];
+    _shortDescription = json[ActivityKeys.shortDescription];
+
     task = parseObject(json[ActivityKeys.task], toObject: (Map map) {
       return Task(map);
     });
@@ -44,7 +71,9 @@ class Activity extends BaseObject {
       ActivityKeys.time: jsonValueOfDate(time),
       ActivityKeys.isAssigned: isAssigned,
       ActivityKeys.isCompleted: isCompleted,
-      ActivityKeys.isCancelled: isCancelled
+      ActivityKeys.isCancelled: isCancelled,
+      ActivityKeys.shortDescription: shortDescription,
+      ActivityKeys.description: description
     };
   }
 }

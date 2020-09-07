@@ -9,6 +9,8 @@ class TaskKeys {
   static const String id = "id";
   static const String name = "name";
   static const String defaultTaskValue = "defaultTaskValue";
+  static const String shortDescription = "shortDescription";
+  static const String description = "description";
   static const String taskState = "taskState";
   static const String category = "category";
   static const String tags = "tags";
@@ -20,6 +22,8 @@ class TaskKeys {
 class Task extends BaseObject {
 
   String name;
+  String description;
+  String shortDescription;
   int defaultTaskValue;
   TaskState taskState;
   Category category;
@@ -33,6 +37,8 @@ class Task extends BaseObject {
     super.parse(json);
     name = json[TaskKeys.name];
     defaultTaskValue = json[TaskKeys.defaultTaskValue];
+    shortDescription = json[TaskKeys.shortDescription];
+    description = json[TaskKeys.description];
     taskState = parseObject(json[TaskKeys.taskState], toObject: (Map map) {
       return TaskState(map);
     });
@@ -52,6 +58,8 @@ class Task extends BaseObject {
     return {
       TaskKeys.id: id,
       TaskKeys.name: name,
+      TaskKeys.description: description,
+      TaskKeys.shortDescription: shortDescription,
       TaskKeys.defaultTaskValue: defaultTaskValue,
       TaskKeys.taskState: objectMap(taskState),
       TaskKeys.category: objectMap(category),
