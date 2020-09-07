@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tareas/constants/brand_colors.dart';
 import 'package:tareas/constants/icons.dart';
 import 'package:tareas/models/activity.dart';
+import 'package:tareas/pages/activity_detail.dart';
 import 'package:tareas/ui/extensions/dates.dart';
 import 'package:tareas/ui/extensions/labels.dart';
 
@@ -27,7 +28,13 @@ class ActivityCell extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: () {
-
+            Navigator.push(context, MaterialPageRoute(
+              builder: (BuildContext context) {
+                return ActivityDetailPage(
+                  activity
+                );
+              }
+            ));
           },
           child: Container(
             padding: EdgeInsets.symmetric(
