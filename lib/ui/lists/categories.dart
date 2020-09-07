@@ -16,28 +16,26 @@ class CategoriesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModel<SelectionDelegate>(
-      model: selectionDelegate,
-      child: ScopedModelDescendant<SelectionDelegate>(
-        builder: (context, widget, manager) {
-          return Wrap(
-            runSpacing: 12,
-            spacing: 8,
-            children: () {
-              return AuthService().categoriesProvider.categories.map((e) {
-                return PrimaryButton(
-                  color: selectionDelegate.isSelected(e) ? BrandColors.selectedColor : BrandColors.notSelectedColor,
-                  iconData: TareasIcons.categoryIcons[e.name],
-                  text: e.name,
-                  onPressed: () {
-                    selectionDelegate.toggle(e);
-                  },
-                );
-              }).toList();
-            }(),
-          );
-        },
-      ),
+    return ValueListenableBuilder(
+      valueListenable: selectionDelegate.notifier,
+      builder: (BuildContext context, List<Category> results, Widget widget){
+        return Wrap(
+          runSpacing: 12,
+          spacing: 8,
+          children: () {
+            return AuthService().categoriesProvider.categories.map((e) {
+              return PrimaryButton(
+                color: selectionDelegate.isSelected(e) ? BrandColors.selectedColor : BrandColors.notSelectedColor,
+                iconData: TareasIcons.categoryIcons[e.name],
+                text: e.name,
+                onPressed: () {
+                  selectionDelegate.toggle(e);
+                },
+              );
+            }).toList();
+          }(),
+        );
+      },
     );
   }
 

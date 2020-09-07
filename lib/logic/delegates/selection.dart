@@ -19,14 +19,23 @@ class SingleSelectionDelegate<T> {
 
 }
 
-class SelectionDelegate<T> extends Model {
+class SelectionDelegate<T>  {
 
-  List<T> selectedObjects = [];
+
+  ValueNotifier<List<T>> notifier;
+
+  List<T> get selectedObjects {
+    return notifier.value;
+  }
+
+  set selectedObjects (List<T> values) {
+    this.notifier.value = values;
+  }
 
   SelectionDelegate({ List<T> selectedObjects }) {
-    if (selectedObjects != null) {
-      this.selectedObjects = selectedObjects;
-    }
+    notifier = ValueNotifier<List<T>>(
+      selectedObjects ?? []
+    );
   }
 
   bool isSelected(T object) {
@@ -39,7 +48,8 @@ class SelectionDelegate<T> extends Model {
     } else {
       selectedObjects.add(object);
     }
-    notifyListeners();
+
+    notifier.value = List.from(notifier.value);
   }
 
 }
