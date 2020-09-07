@@ -14,6 +14,10 @@ abstract class Operation<T> {
 
   Completer _innerCompleter;
 
+  Future get future {
+    return _innerCompleter.future;
+  }
+
   Function onCancel;
 
   WorkCompleter workCompleter = WorkCompleter(); //Used outside the operation for the total work, including then action

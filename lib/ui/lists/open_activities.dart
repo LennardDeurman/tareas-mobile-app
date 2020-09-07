@@ -2,52 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:tareas/logic/managers/open_activities.dart';
 import 'package:tareas/logic/providers/open_activities.dart';
 import 'package:tareas/ui/cells/activity.dart';
+import 'package:tareas/ui/extensions/backgrounds.dart';
 class OpenActivitiesList extends StatelessWidget {
 
   final OpenActivitiesManager manager;
 
+  final BackgroundsBuilder backgroundsBuilder = BackgroundsBuilder();
+
   OpenActivitiesList (this.manager);
-
-  Widget loadingBackground() {
-    return Container(
-      child: Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
-  }
-
-  Widget noResultsBackground() {
-    return Container(
-      child: Center(
-        child: Text("No result"),
-      ),
-    );
-  }
-
-  Widget errorBackground() {
-    return Container(
-      child: Center(
-        child: Text("Error occured"),
-      ),
-    );
-  }
 
   Widget buildBackground() {
     OpenActivitiesResult openActivitiesResult = manager.openActivitiesDownloader.notifier.value;
     bool isLoading = manager.openActivitiesDownloader.loadingDelegate.isLoading;
     if (openActivitiesResult != null) {
       if (openActivitiesResult.items.length == 0) {
-        if (openActivitiesResult.allSuccess) {
-          return noResultsBackground();
+        if (isLoading) {
+          return backgroundsBuilder.loadingBackground();
+        } else if (openActivitiesResult.allSuccess) {
+          return backgroundsBuilder.noResultsBackground();
         } else if (openActivitiesResult.allFailed) {
-          return errorBackground();
+          return backgroundsBuilder.errorBackground();
         }
       }
     } else {
       if (isLoading) {
-        return loadingBackground();
+        return backgroundsBuilder.loadingBackground();
       } else {
-        return noResultsBackground();
+        return backgroundsBuilder.noResultsBackground();
       }
     }
     return Container();

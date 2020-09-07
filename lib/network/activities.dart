@@ -1,6 +1,7 @@
 import 'package:tareas/models/activity.dart';
 import 'package:tareas/models/category.dart';
 import 'package:tareas/network/abstract.dart';
+import 'package:tareas/network/auth/service.dart';
 import 'package:tareas/network/params.dart';
 
 class ActivitiesFetcher extends RestFetcher<Activity> {
@@ -48,7 +49,8 @@ class ActivitiesFetcher extends RestFetcher<Activity> {
   }
 
   Future<List<Activity>> getSubscribedActivities() async {
-    return await this.requestHelper.getAll(url("subscribedActivities"));
+    String memberId = AuthService().identityResult.userInfo.memberId;
+    return await this.requestHelper.getAll(url("subscribedActivities/$memberId"));
   }
 
 

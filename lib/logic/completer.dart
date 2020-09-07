@@ -13,17 +13,17 @@ class WorkCompleter<T> {
 
   Completer _innerCompleter = Completer();
 
-  CompletionResult _completionResult;
+  CompletionResult<T> _completionResult;
 
   void complete(T result) {
-    _completionResult = CompletionResult(
+    _completionResult = CompletionResult<T>(
         result: result
     );
     _innerCompleter.complete(result);
   }
 
   void completeError(e) {
-    _completionResult = CompletionResult(
+    _completionResult = CompletionResult<T>(
         error: e
     );
     _innerCompleter.completeError(e);
@@ -33,7 +33,7 @@ class WorkCompleter<T> {
     return _innerCompleter.future;
   }
 
-  CompletionResult get completionResult {
+  CompletionResult<T> get completionResult {
     return _completionResult;
   }
 }
