@@ -45,6 +45,12 @@ class Activity extends BaseObject {
     return task.description;
   }
 
+  bool get isSoon {
+    var difference = time.millisecondsSinceEpoch - DateTime.now().millisecondsSinceEpoch;
+    int daysMargin = 5;
+    return difference > 0 && difference < 86400 * 1000 * daysMargin;
+  }
+
   @override
   void parse(Map json) {
     super.parse(json);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tareas/logic/managers/subscribed_activities.dart';
 import 'package:tareas/ui/extensions/backgrounds.dart';
+import 'package:tareas/ui/extensions/dates.dart';
 import 'package:tareas/ui/lists/base/tableview.dart';
 
 class SubscribedActivitiesList extends StatelessWidget {
@@ -44,7 +45,7 @@ class SubscribedActivitiesList extends StatelessWidget {
                 return Container(
                   padding: EdgeInsets.all(20),
                   child: Text(
-                    sectionDateTime.toString()
+                    FriendlyDateFormat.format(sectionDateTime)
                   ),
                 );
               },

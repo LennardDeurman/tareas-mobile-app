@@ -11,6 +11,8 @@ class BrandColors {
   static const Color overlayColor = Color.fromRGBO(0, 0, 0, 0.5);
   static const Color selectedColor = Color.fromRGBO(0, 162, 238, 1);
   static const Color notSelectedColor = Color.fromRGBO(204, 204, 204, 1);
+  static const Color listItemBackgroundColor = Color.fromRGBO(242, 242, 242, 1);
+  static const Color iconColor = Color.fromRGBO(0, 151, 222, 1);
 
   static MaterialColor get primarySwatch {
     List strengths = <double>[.05];

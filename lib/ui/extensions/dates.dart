@@ -13,6 +13,14 @@ class TimeString {
 
 }
 
+class FriendlyDateFormat {
+
+  static String format(DateTime dateTime) {
+    return TimeString(dateTime).value;
+  }
+
+}
+
 class DateString {
 
   final DateTime dateTime;
