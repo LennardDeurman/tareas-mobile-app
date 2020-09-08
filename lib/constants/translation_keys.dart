@@ -39,4 +39,5 @@ class TranslationKeys {
   static const String loadingDescription = "loadingDescription";
   static const String noResults = "noResults";
   static const String informationNotAvailable = "informationNotAvailable";
+  static const String errorLoadingMessage = "errorLoadingMessage";
 }

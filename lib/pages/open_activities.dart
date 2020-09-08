@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tareas/constants/brand_colors.dart';
 import 'package:tareas/constants/translation_keys.dart';
 import 'package:tareas/logic/delegates/selection.dart';
 import 'package:tareas/logic/managers/open_activities.dart';
 import 'package:tareas/models/category.dart';
 import 'package:tareas/ui/calendar.dart';
+import 'package:tareas/ui/extensions/messages.dart';
 import 'package:tareas/ui/extensions/presentation.dart';
 import 'package:tareas/ui/extensions/dialogs.dart';
 import 'package:tareas/ui/extensions/headers.dart';
@@ -91,12 +93,21 @@ class _OpenActivitiesPageState extends State<OpenActivitiesPage> with _OpenActiv
                   child: Calendar(
                     provider: manager.calendarOverviewProvider,
                     initialSelectedDay: manager.calendarSelectionDelegate.selectedObject,
-                    onDateSelected: (DateTime date) {
+                    onDateSelected: (DateTime date) async {
                       manager.calendarSelectionDelegate.selectedObject = date;
-                      manager.lookUpBySelectedDate();
+
+                      await manager.lookUpBySelectedDate().catchError((e) {
+                        showToast(
+                          message: FlutterI18n.translate(context, TranslationKeys.errorLoadingMessage)
+                        );
+                      });
+
                       Future.delayed(Duration(milliseconds: 500), () {
                         _overlayCreator.dismissOverlay();
                       });
+
+
+
                     }
                   )
                 ),

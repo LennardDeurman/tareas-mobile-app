@@ -42,7 +42,7 @@ class OpenActivitiesResult {
   }
 
   bool get allSuccess {
-    return _failedCompletionResults.length == 0;
+    return completionResults.length > 0 && _failedCompletionResults.length == 0;
   }
 
   List<Activity> get items {
@@ -98,8 +98,11 @@ class OpenActivitiesProvider {
         return operation.workCompleter.future;
       }).toList();
 
+
+
       return Future.wait(workingFutures).catchError((e) { //If one of the blocks throws an error, the whole future fails => correct, and all the operations will be removed
         runningOperations.forEach((operation) => this._operations.remove(operation));
+        throw e;
       });
     } else {
       //There are no running operations, so complete immediatly

@@ -62,17 +62,17 @@ class OpenActivitiesManager {
   final OpenActivitiesDownloader openActivitiesDownloader = OpenActivitiesDownloader();
 
   Future lookUpBySelectedDate() async {
-    await openActivitiesDownloader.load(dateTime: calendarSelectionDelegate.selectedObject);
+    return openActivitiesDownloader.load(dateTime: calendarSelectionDelegate.selectedObject);
   }
 
   Future refreshOpenActivities() async {
     openActivitiesDownloader.unloadExisting();
-    await openActivitiesDownloader.load(dateTime: DatePair(calendarSelectionDelegate.selectedObject).endDate);
+    return openActivitiesDownloader.load(dateTime: DatePair(calendarSelectionDelegate.selectedObject).endDate);
   }
 
   Future refreshCalendar() async {
     calendarOverviewProvider.unloadExisting();
-    await calendarOverviewProvider.load();
+    return calendarOverviewProvider.load();
   }
 
   Future updateCategories(List<Category> categories) async {
@@ -80,7 +80,11 @@ class OpenActivitiesManager {
     calendarOverviewProvider.categories = categories;
     openActivitiesDownloader.categories = categories;
 
-    await refreshCalendar();
-    await refreshOpenActivities();
+    return Future.wait(
+      [
+        refreshCalendar(),
+        refreshOpenActivities()
+      ]
+    );
   }
 }
