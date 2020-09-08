@@ -35,4 +35,8 @@ class TranslationKeys {
   static const String connectionError = "connectionError";
   static const String connectionErrorMessage = "connectionErrorMessage";
   static const String closeAndReconnect = "closeAndReconnect";
+  static const String loadingInProgress = "loadingInProgress";
+  static const String loadingDescription = "loadingDescription";
+  static const String noResults = "noResults";
+  static const String informationNotAvailable = "informationNotAvailable";
 }

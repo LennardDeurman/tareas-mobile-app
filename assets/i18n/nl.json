@@ -33,5 +33,9 @@
   "connectionError": "Verbindingsprobleem",
   "connectionErrorMessage": "We konden je profielgegevens niet ophalen van de server, en daardoor niet inloggen. Check of je een actieve internetverbinding hebt en klik op de knop hieronder om het opnieuw te proberen.",
   "reconnect": "Opnieuw verbinden",
-  "closeAndReconnect": "Sluiten & opnieuw inloggen"
+  "closeAndReconnect": "Sluiten & opnieuw inloggen",
+  "noResults": "Geen resultaat",
+  "informationNotAvailable": "Deze informatie is momenteel niet beschikbaar. Probeer het later opnieuw.",
+  "loadingInProgress": "Bezig met laden",
+  "loadingDescription": "Nog even geduld alsjeblieft"
 }

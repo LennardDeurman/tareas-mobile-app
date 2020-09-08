@@ -11,24 +11,24 @@ class OpenActivitiesList extends StatelessWidget {
 
   OpenActivitiesList (this.manager);
 
-  Widget buildBackground() {
+  Widget buildBackground(BuildContext context) {
     OpenActivitiesResult openActivitiesResult = manager.openActivitiesDownloader.notifier.value;
     bool isLoading = manager.openActivitiesDownloader.loadingDelegate.isLoading;
     if (openActivitiesResult != null) {
       if (openActivitiesResult.items.length == 0) {
         if (isLoading) {
-          return backgroundsBuilder.loadingBackground();
+          return backgroundsBuilder.loadingBackground(context);
         } else if (openActivitiesResult.allSuccess) {
-          return backgroundsBuilder.noResultsBackground();
+          return backgroundsBuilder.noResultsBackground(context);
         } else if (openActivitiesResult.allFailed) {
-          return backgroundsBuilder.errorBackground();
+          return backgroundsBuilder.errorBackground(context);
         }
       }
     } else {
       if (isLoading) {
-        return backgroundsBuilder.loadingBackground();
+        return backgroundsBuilder.loadingBackground(context);
       } else {
-        return backgroundsBuilder.noResultsBackground();
+        return backgroundsBuilder.noResultsBackground(context);
       }
     }
     return Container();
@@ -66,7 +66,7 @@ class OpenActivitiesList extends StatelessWidget {
             builder: (BuildContext context, OpenActivitiesResult result, Widget widget) {
               return Stack(
                 children: <Widget>[
-                  buildBackground(),
+                  buildBackground(context),
                   buildList()
                 ],
               );

@@ -1,28 +1,99 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:tareas/constants/asset_paths.dart';
+import 'package:tareas/constants/translation_keys.dart';
+
+
 
 class BackgroundsBuilder {
 
-  Widget loadingBackground() {
+  Widget background({ List<Widget> children }) {
     return Container(
       child: Center(
-        child: CircularProgressIndicator(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: children,
+          )
       ),
     );
   }
 
-  Widget noResultsBackground() {
+  Widget illustration(String assetPath) {
     return Container(
-      child: Center(
-        child: Text("No result"),
+      width: 250,
+      height: 170,
+      child: Image(
+        image: AssetImage(
+            assetPath
+        ),
       ),
     );
   }
 
-  Widget errorBackground() {
-    return Container(
-      child: Center(
-        child: Text("Error occured"),
+  Widget titleLabel(String text) {
+    return Text(
+      text,
+      style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.w600
       ),
+    );
+  }
+
+  Widget descriptionLabel(String text) {
+    return Container(
+      width: 300,
+      child: Text(
+        text,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+            fontSize: 16
+        ),
+      ),
+    );
+  }
+
+  Widget loadingBackground(BuildContext context) {
+    return background(
+        children: [
+          illustration(AssetPaths.listLoading),
+          titleLabel(FlutterI18n.translate(context, TranslationKeys.loadingInProgress)),
+          descriptionLabel(FlutterI18n.translate(context, TranslationKeys.loadingDescription))
+        ]
+    );
+  }
+
+  Widget noResultsBackground(BuildContext context) {
+    return background(
+        children: [
+          illustration(AssetPaths.listNoResults),
+          titleLabel(FlutterI18n.translate(context, TranslationKeys.noResults)),
+          descriptionLabel(FlutterI18n.translate(context, TranslationKeys.informationNotAvailable))
+        ]
+    );
+  }
+
+  Widget errorBackground(BuildContext context) {
+    return background(
+      children: [
+        illustration(AssetPaths.listError),
+        descriptionLabel(FlutterI18n.translate(context, TranslationKeys.informationNotAvailable))
+      ]
+    );
+  }
+
+}
+
+class SubscribedActivitiesBackgroundsBuilder extends BackgroundsBuilder {
+
+  @override
+  Widget noResultsBackground(BuildContext context) {
+    return background(
+        children: [
+          illustration(AssetPaths.listNoSubscribedActivities),
+          descriptionLabel(FlutterI18n.translate(context, TranslationKeys.noSubscribedTasks))
+        ]
     );
   }
 

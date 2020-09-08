@@ -8,28 +8,28 @@ class SubscribedActivitiesList extends StatelessWidget {
 
   final SubscribedActivitiesManager manager;
 
-  final BackgroundsBuilder backgroundsBuilder = BackgroundsBuilder();
+  final BackgroundsBuilder backgroundsBuilder = SubscribedActivitiesBackgroundsBuilder();
 
   SubscribedActivitiesList (this.manager);
 
-  Widget buildBackground() {
+  Widget buildBackground(BuildContext context) {
     SubscribedActivitiesResult subscribedActivitiesResult = manager.notifier.value;
     bool isLoading = manager.loadingDelegate.isLoading;
     if (subscribedActivitiesResult != null) {
       if (isLoading) {
-        return backgroundsBuilder.loadingBackground();
+        return backgroundsBuilder.loadingBackground(context);
       } else if (subscribedActivitiesResult.completionResult.error != null) {
-        return backgroundsBuilder.errorBackground();
+        return backgroundsBuilder.errorBackground(context);
       } else if (subscribedActivitiesResult.completionResult.result != null) {
         if (subscribedActivitiesResult.completionResult.result.length == 0) {
-          return backgroundsBuilder.noResultsBackground();
+          return backgroundsBuilder.noResultsBackground(context);
         }
       }
     } else {
       if (isLoading) {
-        return backgroundsBuilder.loadingBackground();
+        return backgroundsBuilder.loadingBackground(context);
       } else {
-        return backgroundsBuilder.noResultsBackground();
+        return backgroundsBuilder.noResultsBackground(context);
       }
     }
     return Container();
@@ -65,7 +65,7 @@ class SubscribedActivitiesList extends StatelessWidget {
         onRefresh: () async {
           return await manager.refresh(
             force: true
-          );
+          ); 
         },
         child: ValueListenableBuilder<bool>(
             valueListenable: manager.loadingDelegate.notifier,
@@ -75,7 +75,7 @@ class SubscribedActivitiesList extends StatelessWidget {
                   builder: (BuildContext context, SubscribedActivitiesResult result, Widget widget) {
                     return Stack(
                       children: <Widget>[
-                        buildBackground(),
+                        buildBackground(context),
                         buildList()
                       ],
                     );
