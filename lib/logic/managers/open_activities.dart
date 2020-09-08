@@ -37,10 +37,9 @@ class OpenActivitiesDownloader {
     };
 
     loadingDelegate.isLoading = true;
-    return await _openActivitiesGlobalSyncOperation.execute().then((_) {
-      var value = this.openActivitiesProvider.getResult();
+    return await _openActivitiesGlobalSyncOperation.execute().whenComplete(() {
+      var value = this.openActivitiesProvider.getResult(); //Should be called also when an error is thrown
       notifier.value = value;
-    }).whenComplete(() {
       loadingDelegate.isLoading = false;
     });
   }
