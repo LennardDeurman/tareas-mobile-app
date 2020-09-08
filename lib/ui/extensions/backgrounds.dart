@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:tareas/constants/asset_paths.dart';
+import 'package:tareas/constants/custom_fonts.dart';
 import 'package:tareas/constants/translation_keys.dart';
 
 
@@ -59,7 +60,12 @@ class BackgroundsBuilder {
         children: [
           illustration(AssetPaths.listLoading),
           titleLabel(FlutterI18n.translate(context, TranslationKeys.loadingInProgress)),
-          descriptionLabel(FlutterI18n.translate(context, TranslationKeys.loadingDescription))
+          descriptionLabel(FlutterI18n.translate(context, TranslationKeys.loadingDescription)),
+          Container(
+            width: 250,
+            margin: EdgeInsets.symmetric(vertical: 25),
+            child: LinearProgressIndicator(),
+          )
         ]
     );
   }
@@ -87,12 +93,51 @@ class BackgroundsBuilder {
 
 class SubscribedActivitiesBackgroundsBuilder extends BackgroundsBuilder {
 
+  Widget buildNoResultsDescription(BuildContext context) {
+    String baseText = FlutterI18n.translate(context, TranslationKeys.noSubscribedTasks);
+    String openTasks = FlutterI18n.translate(context, TranslationKeys.openTasks).toLowerCase().trim();
+    int start = baseText.indexOf(openTasks);
+    String firstPart = baseText.substring(0, start).trim();
+    String lastPart = baseText.substring(start + openTasks.length, baseText.length).trim();
+
+
+    return Container(
+      width: 300,
+      child: RichText(
+        textAlign: TextAlign.center,
+        text: TextSpan(
+            style: TextStyle(
+                fontSize: 16,
+                height: 2,
+                color: Colors.black,
+                fontFamily: CustomFonts.openSans
+            ),
+            children: <TextSpan>[
+              TextSpan(
+                  text: firstPart + " "
+              ),
+              TextSpan(
+                  text: openTasks,
+                  style: TextStyle(
+                      decoration: TextDecoration.underline
+                  )
+              ),
+              TextSpan(
+                  text:  " " + lastPart
+              )
+            ]
+        ),
+      ),
+    );
+
+  }
+
   @override
   Widget noResultsBackground(BuildContext context) {
     return background(
         children: [
           illustration(AssetPaths.listNoSubscribedActivities),
-          descriptionLabel(FlutterI18n.translate(context, TranslationKeys.noSubscribedTasks))
+          buildNoResultsDescription(context)
         ]
     );
   }
