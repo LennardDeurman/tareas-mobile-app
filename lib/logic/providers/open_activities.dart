@@ -9,12 +9,13 @@ import 'package:tareas/logic/datepair.dart';
 class OpenActivitiesResult {
 
   final List<CompletionResult> completionResults;
+  final DateTime lastBlockDate;
 
   List<CompletionResult> _failedCompletionResults = [];
   List<CompletionResult> _succeedCompletionResults = [];
   List<Activity> _activityItems = [];
 
-  OpenActivitiesResult (this.completionResults) {
+  OpenActivitiesResult (this.completionResults, this.lastBlockDate) {
     sortItems();
   }
 
@@ -143,12 +144,20 @@ class OpenActivitiesProvider {
 
   OpenActivitiesResult getResult() {
 
-    List<CompletionResult> completionResults = _operations.map((operation) {
-      return operation.workCompleter.completionResult;
-    }).toList();
+    List<CompletionResult> completionResults = [];
+    DateTime lastBlockDate;
+
+    _operations.forEach((operation) {
+      completionResults.add(operation.workCompleter.completionResult);
+      if (lastBlockDate == null) {
+        lastBlockDate = operation.endDate;
+      } else if (lastBlockDate.millisecondsSinceEpoch < operation.endDate.millisecondsSinceEpoch) {
+        lastBlockDate = operation.endDate;
+      }
+    });
 
     return OpenActivitiesResult(
-        completionResults
+       completionResults, lastBlockDate
     );
 
   }

@@ -5,6 +5,7 @@ import 'package:tareas/constants/brand_colors.dart';
 import 'package:tareas/constants/translation_keys.dart';
 import 'package:tareas/logic/delegates/selection.dart';
 import 'package:tareas/logic/managers/open_activities.dart';
+import 'package:tareas/logic/providers/open_activities.dart';
 import 'package:tareas/models/category.dart';
 import 'package:tareas/ui/calendar.dart';
 import 'package:tareas/ui/extensions/messages.dart';
@@ -54,6 +55,7 @@ class _OpenActivitiesHeaderManager {
 class _OpenActivitiesPageState extends State<OpenActivitiesPage> with _OpenActivitiesHeaderManager, AutomaticKeepAliveClientMixin {
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<OpenActivitiesListState> openActivitiesListKey = GlobalKey<OpenActivitiesListState>();
   final OpenActivitiesManager manager = OpenActivitiesManager();
   LogoutPresenter _logoutPresenter;
 
