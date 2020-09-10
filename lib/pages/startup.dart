@@ -111,6 +111,7 @@ class _StartupPageState extends State<StartupPage> {
                         ),
                       ),
                       onPressed: () {
+                        this.manager.loadingDelegate.isLoading = false;
                         Navigator.pop(context);
                       },
                     ),

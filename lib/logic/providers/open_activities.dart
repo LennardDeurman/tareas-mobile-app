@@ -9,12 +9,13 @@ import 'package:tareas/logic/datepair.dart';
 class OpenActivitiesResult {
 
   final List<CompletionResult> completionResults;
+  final DateTime lastBlockDate;
 
   List<CompletionResult> _failedCompletionResults = [];
   List<CompletionResult> _succeedCompletionResults = [];
   List<Activity> _activityItems = [];
 
-  OpenActivitiesResult (this.completionResults) {
+  OpenActivitiesResult (this.completionResults, this.lastBlockDate) {
     sortItems();
   }
 
@@ -42,7 +43,7 @@ class OpenActivitiesResult {
   }
 
   bool get allSuccess {
-    return _failedCompletionResults.length == 0;
+    return completionResults.length > 0 && _failedCompletionResults.length == 0;
   }
 
   List<Activity> get items {
@@ -98,8 +99,11 @@ class OpenActivitiesProvider {
         return operation.workCompleter.future;
       }).toList();
 
+
+
       return Future.wait(workingFutures).catchError((e) { //If one of the blocks throws an error, the whole future fails => correct, and all the operations will be removed
         runningOperations.forEach((operation) => this._operations.remove(operation));
+        throw e;
       });
     } else {
       //There are no running operations, so complete immediatly
@@ -140,12 +144,20 @@ class OpenActivitiesProvider {
 
   OpenActivitiesResult getResult() {
 
-    List<CompletionResult> completionResults = _operations.map((operation) {
-      return operation.workCompleter.completionResult;
-    }).toList();
+    List<CompletionResult> completionResults = [];
+    DateTime lastBlockDate;
+
+    _operations.forEach((operation) {
+      completionResults.add(operation.workCompleter.completionResult);
+      if (lastBlockDate == null) {
+        lastBlockDate = operation.endDate;
+      } else if (lastBlockDate.millisecondsSinceEpoch < operation.endDate.millisecondsSinceEpoch) {
+        lastBlockDate = operation.endDate;
+      }
+    });
 
     return OpenActivitiesResult(
-        completionResults
+       completionResults, lastBlockDate
     );
 
   }

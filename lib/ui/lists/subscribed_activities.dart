@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tareas/logic/managers/subscribed_activities.dart';
+import 'package:tareas/models/activity.dart';
+import 'package:tareas/ui/cells/activity.dart';
 import 'package:tareas/ui/extensions/backgrounds.dart';
 import 'package:tareas/ui/extensions/dates.dart';
 import 'package:tareas/ui/lists/base/tableview.dart';
@@ -40,6 +42,12 @@ class SubscribedActivitiesList extends StatelessWidget {
     if (subscribedActivitiesResult != null) {
       return TableView(
           TableViewBuilder(
+              itemBuilder: (BuildContext context, int section, int row) {
+                Activity activity = subscribedActivitiesResult.sortedResult.sectionItems[section][row];
+                return ActivityCell(
+                  activity
+                );
+              },
               sectionHeaderBuilder: (int section) {
                 DateTime sectionDateTime = subscribedActivitiesResult.sortedResult.sectionKeys[section];
                 return Container(

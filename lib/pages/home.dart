@@ -54,17 +54,19 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                       Column(
                         children: <Widget>[
                           Expanded(
-                            child: TabBarView(
+                            child: Container(child: TabBarView(
                               controller: _controller,
                               children: <Widget>[
                                 OpenActivitiesPage(),
                                 SubscribedActivitiesPage(),
                                 ProfilePage()
                               ],
-                            ),
+                            ), margin: EdgeInsets.only(
+                              bottom: 90
+                            ))
                           ),
                           SizedBox(
-                            height: 90,
+                            height: 10,
                           )
                         ],
                       ),

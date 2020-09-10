@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tareas/constants/brand_colors.dart';
 import 'package:tareas/constants/translation_keys.dart';
 import 'package:tareas/logic/delegates/selection.dart';
 import 'package:tareas/logic/managers/open_activities.dart';
+import 'package:tareas/logic/providers/open_activities.dart';
 import 'package:tareas/models/category.dart';
 import 'package:tareas/ui/calendar.dart';
+import 'package:tareas/ui/extensions/messages.dart';
 import 'package:tareas/ui/extensions/presentation.dart';
 import 'package:tareas/ui/extensions/dialogs.dart';
 import 'package:tareas/ui/extensions/headers.dart';
@@ -52,6 +55,7 @@ class _OpenActivitiesHeaderManager {
 class _OpenActivitiesPageState extends State<OpenActivitiesPage> with _OpenActivitiesHeaderManager, AutomaticKeepAliveClientMixin {
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<OpenActivitiesListState> openActivitiesListKey = GlobalKey<OpenActivitiesListState>();
   final OpenActivitiesManager manager = OpenActivitiesManager();
   LogoutPresenter _logoutPresenter;
 
@@ -91,12 +95,36 @@ class _OpenActivitiesPageState extends State<OpenActivitiesPage> with _OpenActiv
                   child: Calendar(
                     provider: manager.calendarOverviewProvider,
                     initialSelectedDay: manager.calendarSelectionDelegate.selectedObject,
-                    onDateSelected: (DateTime date) {
+                    onDateSelected: (DateTime date) async {
                       manager.calendarSelectionDelegate.selectedObject = date;
-                      manager.lookUpBySelectedDate();
+
+                      bool alreadyLoaded = openActivitiesListKey.currentState.isLoaded(date);
+                      if (openActivitiesListKey.currentState != null) {
+                        if (alreadyLoaded) {
+                          openActivitiesListKey.currentState.scrollToNearest(date, withAnimation: false);
+                        }
+                      }
+
+                      if (!alreadyLoaded) {
+                        openActivitiesListKey.currentState.scrollToBottom(withAnimation: false);
+                      }
+
                       Future.delayed(Duration(milliseconds: 500), () {
                         _overlayCreator.dismissOverlay();
                       });
+
+                      var lookupFuture = manager.lookUpBySelectedDate().then((value) {
+                        if (!alreadyLoaded) {
+                          openActivitiesListKey.currentState.scrollToNearest(date);
+                        }
+                      }).catchError((e) {
+                        showToast(
+                            message: FlutterI18n.translate(context, TranslationKeys.errorLoadingMessage)
+                        );
+                      });
+
+                      openActivitiesListKey.currentState.appendingItemsLoadingDelegate.attachFuture(lookupFuture);
+
                     }
                   )
                 ),
@@ -158,7 +186,8 @@ class _OpenActivitiesPageState extends State<OpenActivitiesPage> with _OpenActiv
           ), key: _headerContainerKey),
           Expanded(
             child: OpenActivitiesList(
-              manager
+              manager,
+              key: openActivitiesListKey
             )
           )
         ],
