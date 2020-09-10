@@ -98,17 +98,32 @@ class _OpenActivitiesPageState extends State<OpenActivitiesPage> with _OpenActiv
                     onDateSelected: (DateTime date) async {
                       manager.calendarSelectionDelegate.selectedObject = date;
 
-                      await manager.lookUpBySelectedDate().catchError((e) {
-                        showToast(
-                          message: FlutterI18n.translate(context, TranslationKeys.errorLoadingMessage)
-                        );
-                      });
+                      bool alreadyLoaded = openActivitiesListKey.currentState.isLoaded(date);
+                      if (openActivitiesListKey.currentState != null) {
+                        if (alreadyLoaded) {
+                          openActivitiesListKey.currentState.scrollToNearest(date, withAnimation: false);
+                        }
+                      }
+
+                      if (!alreadyLoaded) {
+                        openActivitiesListKey.currentState.scrollToBottom(withAnimation: false);
+                      }
 
                       Future.delayed(Duration(milliseconds: 500), () {
                         _overlayCreator.dismissOverlay();
                       });
 
+                      var lookupFuture = manager.lookUpBySelectedDate().then((value) {
+                        if (!alreadyLoaded) {
+                          openActivitiesListKey.currentState.scrollToNearest(date);
+                        }
+                      }).catchError((e) {
+                        showToast(
+                            message: FlutterI18n.translate(context, TranslationKeys.errorLoadingMessage)
+                        );
+                      });
 
+                      openActivitiesListKey.currentState.appendingItemsLoadingDelegate.attachFuture(lookupFuture);
 
                     }
                   )
@@ -171,7 +186,8 @@ class _OpenActivitiesPageState extends State<OpenActivitiesPage> with _OpenActiv
           ), key: _headerContainerKey),
           Expanded(
             child: OpenActivitiesList(
-              manager
+              manager,
+              key: openActivitiesListKey
             )
           )
         ],

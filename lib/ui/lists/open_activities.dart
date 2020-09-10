@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:tareas/constants/translation_keys.dart';
+import 'package:tareas/logic/delegates/loading.dart';
 import 'package:tareas/logic/managers/open_activities.dart';
 import 'package:tareas/logic/providers/open_activities.dart';
 import 'package:tareas/models/activity.dart';
@@ -10,7 +13,7 @@ class OpenActivitiesList extends StatefulWidget {
 
   final OpenActivitiesManager manager;
 
-  OpenActivitiesList (this.manager);
+  OpenActivitiesList (this.manager, { GlobalKey<OpenActivitiesListState> key }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -22,6 +25,7 @@ class OpenActivitiesList extends StatefulWidget {
 class OpenActivitiesListState extends State<OpenActivitiesList> {
   
   final BackgroundsBuilder backgroundsBuilder = BackgroundsBuilder();
+  final LoadingDelegate appendingItemsLoadingDelegate = LoadingDelegate();
 
   final ItemScrollController itemScrollController = ItemScrollController();
 
@@ -35,18 +39,36 @@ class OpenActivitiesListState extends State<OpenActivitiesList> {
     return false;
   }
 
-  void scrollToBottom() {
-    OpenActivitiesResult openActivitiesResult = widget.manager.openActivitiesDownloader.notifier.value;
-    List<Activity> activities = openActivitiesResult.items;
-    itemScrollController.scrollTo(
-      index: activities.length,
-      duration: Duration(
-        milliseconds: 200
-      )
-    );
+  void scrollToIndex(int index, { bool withAnimation }) {
+    if (withAnimation) {
+      itemScrollController.scrollTo(
+          index: index,
+          duration: Duration(
+              milliseconds: 200
+          )
+      );
+    } else {
+      itemScrollController.jumpTo(
+          index: index
+      );
+    }
   }
 
-  void scrollToNearest(DateTime dateTime) {
+  void scrollToBottom({ bool withAnimation = true }) {
+    OpenActivitiesResult openActivitiesResult = widget.manager.openActivitiesDownloader.notifier.value;
+    List<Activity> activities = openActivitiesResult.items;
+    if (activities.length > 0) {
+      scrollToIndex(
+        activities.length - 1,
+        withAnimation: withAnimation
+      );
+    }
+
+
+
+  }
+
+  void scrollToNearest(DateTime dateTime, { bool withAnimation = true }) {
     OpenActivitiesResult openActivitiesResult = widget.manager.openActivitiesDownloader.notifier.value;
     List<Activity> activities = openActivitiesResult.items;
     List<int> sameDayActivityIndices = [];
@@ -60,6 +82,8 @@ class OpenActivitiesListState extends State<OpenActivitiesList> {
         if (closestActivityIndex != null) {
           Activity closestActivity = activities[closestActivityIndex];
           int timeDifferenceFromClosestActivity = closestActivity.time.millisecondsSinceEpoch - dateTime.millisecondsSinceEpoch;
+          timeDifferenceFromClosestActivity = timeDifferenceFromClosestActivity.abs();
+          difference = difference.abs();
           if (difference < timeDifferenceFromClosestActivity) {
             closestActivityIndex = i;
           }
@@ -74,8 +98,13 @@ class OpenActivitiesListState extends State<OpenActivitiesList> {
       indexToScroll = sameDayActivityIndices.first;
     }
 
-    if (indexToScroll != null)
-      itemScrollController.scrollTo(index: indexToScroll, duration: Duration(milliseconds: 200));
+    if (indexToScroll != null) {
+      scrollToIndex(
+          indexToScroll,
+          withAnimation: withAnimation
+      );
+    }
+
 
   }
 
@@ -108,12 +137,48 @@ class OpenActivitiesListState extends State<OpenActivitiesList> {
     if (openActivitiesResult != null) {
       if (openActivitiesResult.items.length > 0) {
         return ScrollablePositionedList.builder(
-            itemCount: openActivitiesResult.items.length,
+            itemCount: openActivitiesResult.items.length + 1,
             itemScrollController: this.itemScrollController,
             itemBuilder: (BuildContext context, int position) {
-              return ActivityCell(
-                  openActivitiesResult.items[position]
-              );
+              if (position < openActivitiesResult.items.length) {
+                return ActivityCell(
+                    openActivitiesResult.items[position]
+                );
+              } else {
+                return ValueListenableBuilder(
+                  valueListenable: this.appendingItemsLoadingDelegate.notifier,
+                  builder: (BuildContext context, bool isLoading, Widget widget) {
+                    return Visibility(
+                      visible: appendingItemsLoadingDelegate.isLoading,
+                      child: Container(
+                        margin: EdgeInsets.symmetric(vertical: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              width: 25,
+                              height: 25,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 3,
+                              ),
+                            ),
+                            SizedBox(width: 25),
+                            Container(
+                              child: Text(
+                                FlutterI18n.translate(context, TranslationKeys.loadingExtraInProgress),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 25)
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+                );
+              }
             }
         );
       }

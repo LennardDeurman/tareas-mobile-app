@@ -37,6 +37,7 @@
   "noResults": "Geen resultaat",
   "informationNotAvailable": "Deze informatie is momenteel niet beschikbaar. Probeer het later opnieuw.",
   "loadingInProgress": "Bezig met laden",
+  "loadingExtraInProgress": "Bezig met laden...",
   "loadingDescription": "Nog even geduld alsjeblieft",
   "errorLoadingMessage": "Er ging iets mis, mogelijk wordt niet alle informatie getoond."
 }
