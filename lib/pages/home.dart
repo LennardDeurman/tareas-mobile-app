@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                             ))
                           ),
                           SizedBox(
-                            height: 90,
+                            height: 10,
                           )
                         ],
                       ),
