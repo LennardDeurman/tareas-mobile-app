@@ -9,6 +9,7 @@ class NetworkParams {
   static const String certifiedUserId = "certifiedUserId";
   static const String certifiedOnly = "certifiedOnly";
   static const String page = "page";
+  static const String teams = "teams";
 
   static String dateString(DateTime dateTime) {
     if (dateTime != null) {

@@ -2,6 +2,7 @@ import 'package:tareas/models/abstract.dart';
 import 'package:tareas/models/address.dart';
 import 'package:tareas/models/certificate.dart';
 import 'package:tareas/models/contact_info.dart';
+import 'package:tareas/models/team.dart';
 
 class CertificationHolderKeys {
   static const String expirationDate = "expirationDate";
@@ -46,6 +47,7 @@ class MemberKeys {
   static const String addresses = "addresses";
   static const String contactInfo = "contactInfo";
   static const String certifications = "certifications";
+  static const String teams = "teams";
 }
 
 class Member extends BaseObject {
@@ -54,10 +56,11 @@ class Member extends BaseObject {
   String lastName;
   DateTime birthDay;
   int age;
-  int socialPoint = 2341; //TODO: Parse the real social point
+  int socialPoint = 0;
   List<Address> addresses;
   ContactInfo contactInfo;
   List<CertificationHolder> certifications;
+  List<Team> teams;
 
   Member (Map map) : super(map);
 
@@ -74,6 +77,9 @@ class Member extends BaseObject {
     });
     certifications = parseList(json[MemberKeys.certifications], toObject: (Map map) {
       return CertificationHolder(map);
+    });
+    teams = parseList(json[MemberKeys.teams], toObject: (Map map) {
+      return Team(map);
     });
     contactInfo = parseObject(json[MemberKeys.contactInfo], toObject: (Map map) {
       return ContactInfo(map);
@@ -93,6 +99,7 @@ class Member extends BaseObject {
       MemberKeys.birthDay: jsonValueOfDate(birthDay),
       MemberKeys.age: age,
       MemberKeys.addresses: objectsMapList(addresses),
+      MemberKeys.teams: objectsMapList(teams),
       MemberKeys.certifications: objectsMapList(certifications),
       MemberKeys.contactInfo: objectMap(contactInfo)
     };

@@ -1,5 +1,6 @@
 import 'package:tareas/models/activity.dart';
 import 'package:tareas/models/category.dart';
+import 'package:tareas/models/team.dart';
 import 'package:tareas/network/abstract.dart';
 import 'package:tareas/network/auth/service.dart';
 import 'package:tareas/network/params.dart';
@@ -38,12 +39,13 @@ class ActivitiesFetcher extends RestFetcher<Activity> {
     return await this.requestHelper.getAll(url("activities"));
   }
 
-  Future<List<Activity>> getOpenActivities({ DateTime startDate, DateTime endDate, bool certifiedOnly, List<Category> categories, String certifiedUserId }) async {
+  Future<List<Activity>> getOpenActivities({ DateTime startDate, DateTime endDate, bool certifiedOnly, List<Category> categories, List<Team> teams, String certifiedUserId }) async {
     return await this.requestHelper.getAll(url("openActivities", queryParams: {
       NetworkParams.startDate: NetworkParams.dateString(startDate),
       NetworkParams.endDate: NetworkParams.dateString(endDate),
       NetworkParams.certifiedOnly: certifiedOnly.toString(),
       NetworkParams.category: NetworkParams.namedIdList(categories),
+      NetworkParams.teams: NetworkParams.namedIdList(teams),
       NetworkParams.certifiedUserId: certifiedUserId
     }));
   }

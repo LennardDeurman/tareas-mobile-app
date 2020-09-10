@@ -19,6 +19,7 @@ class OpenActivitiesOperation extends Operation {
     var value = await activitiesFetcher.getOpenActivities(
         certifiedOnly: this.certifiedOnly,
         certifiedUserId: AuthService().identityResult.userInfo.memberId,
+        teams:  AuthService().identityResult.activeMember.teams,
         categories: categories,
         startDate: this.startDate,
         endDate: this.endDate
