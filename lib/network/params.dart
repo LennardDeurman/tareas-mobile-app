@@ -19,7 +19,7 @@ class NetworkParams {
   }
 
   static String namedIdList(List<BaseObject> list) {
-    return list.map((v) => v.id).toList().join(",");
+    return list.map((v) => v.toString()).toList().join(";");
   }
 
 }

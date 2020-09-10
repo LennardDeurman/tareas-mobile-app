@@ -98,5 +98,10 @@ class SimpleObject extends BaseObject {
     name = json[SimpleObjectKeys.name];
   }
 
+  @override
+  String toString() {
+    return name;
+  }
+
 }
 
