@@ -35,6 +35,7 @@ class _SubscribedActivitiesPageState extends State<SubscribedActivitiesPage> wit
         children: <Widget>[
           PageHeader(
             title: FlutterI18n.translate(context, TranslationKeys.subscribed),
+            padding: EdgeInsets.only(left: 20, top: 15),
           ),
           Expanded(
               child: SubscribedActivitiesList(

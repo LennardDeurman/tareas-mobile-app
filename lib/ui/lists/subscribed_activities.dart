@@ -48,12 +48,22 @@ class SubscribedActivitiesList extends StatelessWidget {
                   activity
                 );
               },
+              sectionFooterBuilder: (int section) {
+                return SizedBox(height: 10);
+              },
               sectionHeaderBuilder: (int section) {
                 DateTime sectionDateTime = subscribedActivitiesResult.sortedResult.sectionKeys[section];
                 return Container(
-                  padding: EdgeInsets.all(20),
+                  padding: EdgeInsets.only(
+                    bottom: 12,
+                    left: 20,
+                    top: 12
+                  ),
                   child: Text(
-                    FriendlyDateFormat.format(sectionDateTime)
+                    FriendlyDateFormat.format(sectionDateTime, onlyDate: true),
+                    style: TextStyle(
+                      fontSize: 21
+                    ),
                   ),
                 );
               },

@@ -15,8 +15,20 @@ class TimeString {
 
 class FriendlyDateFormat {
 
-  static String format(DateTime dateTime) {
-    return TimeString(dateTime).value;
+  static String capitalize(String value) {
+    return '${value[0].toUpperCase()}${value.substring(1)}';
+  }
+
+  static String format(DateTime dateTime, { bool onlyDate = false, bool capitalize = true }) {
+    String value;
+    if (onlyDate) {
+      value = DateFormat("EEEE d MMMM").format(dateTime);
+    } else {
+      value = TimeString(dateTime).value;
+    }
+    if (capitalize)
+      value = FriendlyDateFormat.capitalize(value);
+    return value;
   }
 
 }

@@ -58,16 +58,18 @@ class OpenActivitiesHeader extends PageHeader {
 class PageHeader extends StatelessWidget {
 
   final String title;
+  final EdgeInsets padding;
 
   PageHeader ({
     @required this.title,
+    this.padding,
     GlobalKey key
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(
+      padding: padding ?? EdgeInsets.symmetric(
           vertical: 15,
           horizontal: 20
       ),
