@@ -5,6 +5,7 @@ import 'package:tareas/logic/completer.dart';
 import 'package:tareas/logic/operations/open_activities.dart';
 import 'package:tareas/logic/operations/abstract.dart';
 import 'package:tareas/logic/datepair.dart';
+import 'package:tareas/network/auth/service.dart';
 
 class OpenActivitiesResult {
 
@@ -16,10 +17,6 @@ class OpenActivitiesResult {
   List<Activity> _activityItems = [];
 
   OpenActivitiesResult (this.completionResults, this.lastBlockDate) {
-    sortItems();
-  }
-
-  void sortItems() {
     for (CompletionResult completionResult in this.completionResults) {
       bool hasError = completionResult.error != null;
       if (completionResult.result != null) {
@@ -32,11 +29,22 @@ class OpenActivitiesResult {
         _succeedCompletionResults.add(completionResult);
       }
     }
+    sortItems();
+  }
+
+  void sortItems() {
+
+    _activityItems = _activityItems.where((activity) => activity.slotInfo.findSlot(AuthService().identityResult.activeMember.id) == null); //Only show activities where the user has not assigned to
 
     _activityItems.sort((Activity activity1, Activity activity2) {
       return activity1.time.compareTo(activity2.time);
     });
+
+
+
   }
+
+
 
   bool get allFailed {
     return _succeedCompletionResults.length == 0;
