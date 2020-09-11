@@ -77,6 +77,7 @@ class SecondaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OutlineButton(
+
       borderSide: BorderSide(
         color: this.borderColor ?? color,
         width: 1

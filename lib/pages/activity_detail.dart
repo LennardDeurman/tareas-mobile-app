@@ -37,55 +37,149 @@ class _ActivityDetailPageState extends State<ActivityDetailPage> {
         backgroundColor: Colors.white.withOpacity(0.7),
         elevation: 0,
       ),
-      body: Container(
-        color: Colors.white,
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            Expanded(
-              child: Container(
-                  color: Colors.red,
-                  child: SingleChildScrollView(
-                    child: Column(
+      body: Stack(
+        children: <Widget>[
+          Positioned.fill(
+            child: Container(
+              color: Colors.white,
+              child: SingleChildScrollView(
+                padding: EdgeInsets.only(bottom: 80),
+                child: Column(
+                  children: <Widget>[
+                    Container(child: Stack(
                       children: <Widget>[
-                        Container(height: 250, color: Colors.black),
-                        Container(height: 250, color: Colors.blue),
-                        Container(height: 250, color: Colors.black),
-                        Container(height: 250, color: Colors.blue),
+                        Container(child: Image(
+                          image: NetworkImage(
+                              "https://singularityhub.com/wp-content/uploads/2018/10/abstract-blurred-background-casino_shutterstock_1126650161.jpg" //TODO: Replace!!
+                          ),
+                          fit: BoxFit.cover,
+                        ), constraints: BoxConstraints(
+                            minHeight: 300
+                        )),
+                        Positioned.fill(
+                          child: Container(
+                            child: Stack(
+                              children: <Widget>[
+                                Align(
+                                    alignment: Alignment.bottomLeft,
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 5,
+                                          horizontal: 6
+                                      ),
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(7)
+                                      ),
+                                      child: TextWithIcon(
+                                        iconData: FontAwesomeIcons.clock,
+                                        textMargin: EdgeInsets.symmetric(
+                                            horizontal: 5
+                                        ),
+                                        iconMargin: EdgeInsets.symmetric(
+                                            horizontal: 3
+                                        ),
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w600,
+                                        color: widget.activity.isSoon ? BrandColors.errorColor : Colors.black,
+                                        text: FriendlyDateFormat.format(widget.activity.time),
+                                      ),
+                                    )
+                                )
+                              ],
+                            ),
+                            margin: EdgeInsets.all(20),
+                          ),
+                        )
                       ],
-                    ),
-                  ),
-              ),
+                    )),
+                    Container(
+                      padding: EdgeInsets.all(20),
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(
+                                bottom: 6
+                            ),
+                            child: Row(
+                              children: <Widget>[
+                                FaIcon(
+                                  TareasIcons.categoryIcons[this.widget.activity.task.category.name],
+                                  color: BrandColors.iconColor,
+                                ),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                Text(
+                                  this.widget.activity.name,
+                                  style: TextStyle(
+                                    fontSize: 21,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.symmetric(
+                                vertical: 12
+                            ),
+                            child: Text(
+                              widget.activity.shortDescription,
+                              style: TextStyle(
+                                  fontSize: 16
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.symmetric(
+                                vertical: 15
+                            ),
+                            child: Text(
+                              widget.activity.description,
+                              style: TextStyle(
+                                  fontSize: 16
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              )
             ),
-            Container(
-              margin: EdgeInsets.only(
-                bottom: 20,
-                left: 20,
-                right: 20,
-                top: 10
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              height: 80,
+              color: Colors.white,
+              padding: EdgeInsets.symmetric(
+                horizontal: 20
               ),
               child: Row(
                 children: <Widget>[
                   Visibility(
-                    visible: true,
-                    child: Expanded(
-                      child: PrimaryButton(
-                        color: BrandColors.primaryColor,
-                        iconData: FontAwesomeIcons.check,
-                        text: "Accepteren",
-                        onPressed: () {
+                      visible: false,
+                      child: Expanded(
+                        child: PrimaryButton(
+                          color: BrandColors.primaryColor,
+                          iconData: FontAwesomeIcons.check,
+                          text: "Accepteren",
+                          onPressed: () {
 
-                        },
-                      ),
-                    )
+                          },
+                        ),
+                      )
                   ),
                   Visibility(
-                    visible: false,
+                    visible: true,
                     child: SecondaryButton(
                       borderRadius: 7,
                       textMargin: EdgeInsets.symmetric(
-                        vertical: 12,
-                        horizontal: 5
+                          vertical: 12,
+                          horizontal: 5
                       ),
                       iconMargin: EdgeInsets.symmetric(
                           vertical: 12,
@@ -100,8 +194,9 @@ class _ActivityDetailPageState extends State<ActivityDetailPage> {
                       },
                     ),
                   ),
+                  Spacer(),
                   Visibility(
-                    visible: false,
+                    visible: true,
                     child: PrimaryButton(
                       borderRadius: 7,
                       textMargin: EdgeInsets.symmetric(
@@ -119,14 +214,13 @@ class _ActivityDetailPageState extends State<ActivityDetailPage> {
 
                       },
                     ),
-                  ),
-
+                  )
                 ],
-              ),
-            )
-          ],
-        )
-      ),
+              )
+            ),
+          )
+        ],
+      )
     );
   }
 
