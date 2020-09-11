@@ -42,7 +42,7 @@ class SubscribedActivitiesList extends StatelessWidget {
     if (subscribedActivitiesResult != null) {
       return TableView(
           TableViewBuilder(
-              itemBuilder: (BuildContext context, int section, int row) {
+              itemBuilder: (BuildContext context, int row, int section) {
                 Activity activity = subscribedActivitiesResult.sortedResult.sectionItems[section][row];
                 return ActivityCell(
                   activity

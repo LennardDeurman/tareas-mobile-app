@@ -8,6 +8,7 @@ class BrandColors {
   static const Color inputColor = Colors.black12;
   static const Color errorColor = Colors.red;
   static const Color textLabelColor = Color.fromRGBO(128, 128, 128, 1);
+  static const Color secondarButtonBorderColor = Color.fromRGBO(166, 166, 166, 1);
   static const Color overlayColor = Color.fromRGBO(0, 0, 0, 0.5);
   static const Color selectedColor = Color.fromRGBO(0, 162, 238, 1);
   static const Color notSelectedColor = Color.fromRGBO(204, 204, 204, 1);

@@ -28,16 +28,6 @@ class _ActivityDetailPageState extends State<ActivityDetailPage> {
 
    */
 
-  Widget buildActions() {
-    return PrimaryButton(
-      color: BrandColors.primaryColor,
-      iconData: FontAwesomeIcons.check,
-      text: "Accepteren",
-      onPressed: () {
-
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,117 +40,92 @@ class _ActivityDetailPageState extends State<ActivityDetailPage> {
       body: Container(
         color: Colors.white,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            Container(child: Stack(
-              children: <Widget>[
-                Container(child: Image(
-                  image: NetworkImage(
-                      "https://singularityhub.com/wp-content/uploads/2018/10/abstract-blurred-background-casino_shutterstock_1126650161.jpg" //TODO: Replace!!
-                  ),
-                  fit: BoxFit.cover,
-                ), constraints: BoxConstraints(
-                    minHeight: 300
-                )),
-                Positioned.fill(
-                  child: Container(
-                    child: Stack(
+            Expanded(
+              child: Container(
+                  color: Colors.red,
+                  child: SingleChildScrollView(
+                    child: Column(
                       children: <Widget>[
-                        Align(
-                          alignment: Alignment.bottomLeft,
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                              vertical: 5,
-                              horizontal: 6
-                            ),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(7)
-                            ),
-                            child: TextWithIcon(
-                              iconData: FontAwesomeIcons.clock,
-                              textMargin: EdgeInsets.symmetric(
-                                  horizontal: 5
-                              ),
-                              iconMargin: EdgeInsets.symmetric(
-                                  horizontal: 3
-                              ),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: widget.activity.isSoon ? BrandColors.errorColor : Colors.black,
-                              text: FriendlyDateFormat.format(widget.activity.time),
-                            ),
-                          )
-                        )
+                        Container(height: 250, color: Colors.black),
+                        Container(height: 250, color: Colors.blue),
+                        Container(height: 250, color: Colors.black),
+                        Container(height: 250, color: Colors.blue),
                       ],
                     ),
-                    margin: EdgeInsets.all(20),
                   ),
-                )
-              ],
-            )),
-            Expanded(child: Container(
-              padding: EdgeInsets.all(20),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisSize: MainAxisSize.max,
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(
+                bottom: 20,
+                left: 20,
+                right: 20,
+                top: 10
+              ),
+              child: Row(
                 children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(
-                      bottom: 6
-                    ),
-                    child: Row(
-                      children: <Widget>[
-                        FaIcon(
-                          TareasIcons.categoryIcons[this.widget.activity.task.category.name],
-                          color: BrandColors.iconColor,
-                        ),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Text(
-                          this.widget.activity.name,
-                          style: TextStyle(
-                            fontSize: 21,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.symmetric(
-                      vertical: 12
-                    ),
-                    child: Text(
-                      widget.activity.shortDescription,
-                      style: TextStyle(
-                        fontSize: 16
+                  Visibility(
+                    visible: true,
+                    child: Expanded(
+                      child: PrimaryButton(
+                        color: BrandColors.primaryColor,
+                        iconData: FontAwesomeIcons.check,
+                        text: "Accepteren",
+                        onPressed: () {
+
+                        },
                       ),
-                    ),
+                    )
                   ),
-                  Container(
-                    margin: EdgeInsets.symmetric(
-                      vertical: 15
-                    ),
-                    child: Text(
-                      widget.activity.description,
-                      style: TextStyle(
-                          fontSize: 16
+                  Visibility(
+                    visible: false,
+                    child: SecondaryButton(
+                      borderRadius: 7,
+                      textMargin: EdgeInsets.symmetric(
+                        vertical: 12,
+                        horizontal: 5
                       ),
+                      iconMargin: EdgeInsets.symmetric(
+                          vertical: 12,
+                          horizontal: 3
+                      ),
+                      color: BrandColors.textLabelColor,
+                      borderColor: BrandColors.secondarButtonBorderColor,
+                      iconData: FontAwesomeIcons.undo,
+                      text: "Terugzetten",
+                      onPressed: () {
+
+                      },
                     ),
                   ),
-                  Spacer(),
-                  buildActions()
+                  Visibility(
+                    visible: false,
+                    child: PrimaryButton(
+                      borderRadius: 7,
+                      textMargin: EdgeInsets.symmetric(
+                          vertical: 12,
+                          horizontal: 5
+                      ),
+                      iconMargin: EdgeInsets.symmetric(
+                          vertical: 12,
+                          horizontal: 3
+                      ),
+                      color: BrandColors.primaryColor,
+                      iconData: FontAwesomeIcons.thumbsUp,
+                      text: "Taak afgerond",
+                      onPressed: () {
+
+                      },
+                    ),
+                  ),
+
                 ],
               ),
-            )),
-
+            )
           ],
-        ),
+        )
       ),
     );
   }
