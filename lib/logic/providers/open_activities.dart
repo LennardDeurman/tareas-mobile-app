@@ -40,8 +40,6 @@ class OpenActivitiesResult {
       return activity1.time.compareTo(activity2.time);
     });
 
-
-
   }
 
 

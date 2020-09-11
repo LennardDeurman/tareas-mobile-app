@@ -18,6 +18,15 @@ class RequestHelper<T> {
     }
   }
 
+  String encodeBody(body) {
+    if (body is String) {
+      return body;
+    } else if (body is Map) {
+      return json.encode(body);
+    }
+    return null;
+  }
+
   Future<List<T>> getAll(String url) async {
     var headers = AuthorizationHeader.map();
     var response = await http.get(url, headers: headers);
@@ -40,15 +49,22 @@ class RequestHelper<T> {
     return toObject(map);
   }
 
-  Future<T> post(String url, { Map body }) async {
-    var response = await http.post(url, body: json.encode(body), headers: AuthorizationHeader.map());
+  Future<T> post(String url, { body }) async {
+    var response = await http.post(url, body: encodeBody(body), headers: AuthorizationHeader.map());
     validate(response);
     Map map = json.decode(response.body);
     return toObject(map);
   }
 
-  Future<T> put(String url, { Map body }) async {
-    var response = await http.put(url, body: json.encode(body), headers: AuthorizationHeader.map());
+  Future<T> put(String url, { body }) async {
+    var response = await http.put(url, body: encodeBody(body), headers: AuthorizationHeader.map());
+    validate(response);
+    Map map = json.decode(response.body);
+    return toObject(map);
+  }
+
+  Future<T> delete(String url) async {
+    var response = await http.put(url, headers: AuthorizationHeader.map());
     validate(response);
     Map map = json.decode(response.body);
     return toObject(map);

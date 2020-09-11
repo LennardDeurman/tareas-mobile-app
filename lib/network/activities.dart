@@ -55,6 +55,19 @@ class ActivitiesFetcher extends RestFetcher<Activity> {
     return await this.requestHelper.getAll(url("subscribedActivities/$memberId"));
   }
 
+  Future<Activity> assignSlot(String activityId, String slotId) async {
+    String memberId = AuthService().identityResult.userInfo.memberId;
+    return await this.requestHelper.post(url("activities/$activityId/slots/$slotId/assign"), body: memberId);
+  }
+
+  Future<Activity> unAssignSlot(String activityId, String slotId) async {
+    return await this.requestHelper.delete(url("activities/$activityId/slots/$slotId/assign"));
+  }
+
+  Future<Activity> completeSlot(String activityId, String slotId) async {
+    return await this.requestHelper.post(url("activities/$activityId/slots/$slotId/complete"));
+  }
+
 
 
 }
