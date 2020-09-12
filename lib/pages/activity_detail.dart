@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:flutter_progress_dialog/flutter_progress_dialog.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tareas/constants/brand_colors.dart';
 import 'package:tareas/constants/icons.dart';
@@ -41,16 +40,14 @@ class _ActivityDetailPageState extends State<ActivityDetailPage> {
     super.initState();
   }
 
-  bool get shouldShowBar {
+  bool get shouldShowBar { 
     return _activityDetailManager.stateNotifier.value == ActivityDetailState.openForEnrollment
         || _activityDetailManager.stateNotifier.value == ActivityDetailState.enrolled;
   }
 
   void _showError() {
-    showSnackBar(
-        scaffoldKey: scaffoldKey,
-        message: FlutterI18n.translate(context, TranslationKeys.errorLoadingMessage),
-        isError: true
+    showToast(
+      message:  FlutterI18n.translate(context, TranslationKeys.errorLoadingMessage)
     );
   }
 
@@ -70,13 +67,10 @@ class _ActivityDetailPageState extends State<ActivityDetailPage> {
   }
 
   void _executeAction(Future future) {
-    showProgressDialog(context: context);
     future.catchError((e) {
       _showError();
     });
-    future.whenComplete(() {
-      dismissProgressDialog();
-    });
+
     _activityDetailManager.loadingDelegate.attachFuture(
         future
     );
@@ -156,199 +150,253 @@ class _ActivityDetailPageState extends State<ActivityDetailPage> {
                   Positioned.fill(
                     child: Container(
                         color: Colors.white,
-                        child: SingleChildScrollView(
-                          padding: shouldShowBar ? EdgeInsets.only(bottom: 80) : null,
-                          child: Column(
-                            children: <Widget>[
-                              Container(child: Stack(
-                                children: <Widget>[
-                                  Container(child: Image(
-                                    image: NetworkImage(
-                                        "https://singularityhub.com/wp-content/uploads/2018/10/abstract-blurred-background-casino_shutterstock_1126650161.jpg" //TODO: Replace!!
-                                    ),
-                                    fit: BoxFit.cover,
-                                  ), constraints: BoxConstraints(
-                                      minHeight: 300
-                                  )),
-                                  Positioned.fill(
-                                    child: Container(
-                                      child: Stack(
-                                        children: <Widget>[
-                                          Align(
-                                              alignment: Alignment.bottomLeft,
-                                              child: Container(
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 5,
-                                                    horizontal: 6
-                                                ),
-                                                decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius: BorderRadius.circular(7)
-                                                ),
-                                                child: TextWithIcon(
-                                                  iconData: FontAwesomeIcons.clock,
-                                                  textMargin: EdgeInsets.symmetric(
-                                                      horizontal: 5
-                                                  ),
-                                                  iconMargin: EdgeInsets.symmetric(
-                                                      horizontal: 3
-                                                  ),
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: widget.activity.isSoon ? BrandColors.errorColor : Colors.black,
-                                                  text: FriendlyDateFormat.format(widget.activity.time),
-                                                ),
-                                              )
-                                          )
-                                        ],
-                                      ),
-                                      margin: EdgeInsets.all(20),
-                                    ),
-                                  )
-                                ],
-                              )),
-                              Container(
-                                padding: EdgeInsets.all(20),
-                                child: Column(
+                        child: RefreshIndicator(
+                          onRefresh: () {
+                            return _activityDetailManager.refreshActivity();
+                          },
+                          child: SingleChildScrollView(
+                            padding: shouldShowBar ? EdgeInsets.only(bottom: 80) : null,
+                            child: Column(
+                              children: <Widget>[
+                                Container(child: Stack(
                                   children: <Widget>[
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                          bottom: 6
+                                    Container(child: Image(
+                                      image: NetworkImage(
+                                          "https://singularityhub.com/wp-content/uploads/2018/10/abstract-blurred-background-casino_shutterstock_1126650161.jpg" //TODO: Replace!!
                                       ),
-                                      child: Row(
-                                        children: <Widget>[
-                                          FaIcon(
-                                            TareasIcons.categoryIcons[this.widget.activity.task.category.name],
-                                            color: BrandColors.iconColor,
-                                          ),
-                                          SizedBox(
-                                            width: 15,
-                                          ),
-                                          Text(
-                                            this.widget.activity.name,
-                                            style: TextStyle(
-                                              fontSize: 21,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                        top: 6,
-                                        bottom: 12
-                                      ),
-                                      child: () {
-                                        int assignedCount = _activityDetailManager.activity.slotInfo.assignedSlots.length;
-                                        int slotsCount = _activityDetailManager.activity.slotInfo.slots.length;
-                                        if (state == ActivityDetailState.enrolled || state == ActivityDetailState.enrolledAndCompleted) {
-                                          String names = _activityDetailManager.activity.slotInfo.slots.map((value) {
-                                            var member = value.assignedTo;
-                                            var isMe = member.id == AuthService().identityResult.activeMember.id;
-                                            var name = member.firstName;
-                                            if (isMe) {
-                                              name = FlutterI18n.translate(context, TranslationKeys.myNamePlaceholder, { "user": name });
-                                            }
-                                            return name;
-                                          }).toList().join(", ");
-                                          return TextWithIcon(
-                                            iconData: FontAwesomeIcons.user,
-                                            text: "$names ($assignedCount / $slotsCount)"
-                                          );
-                                        } else {
-                                          return TextWithIcon(
-                                            color: Colors.red,
-                                            iconData: FontAwesomeIcons.user,
-                                            text: FlutterI18n.translate(
-                                              context,
-                                              TranslationKeys.requiredPersons,
-                                              {
-                                                "current": assignedCount.toString(),
-                                                "max": slotsCount.toString()
-                                              }
-                                            ),
-                                          );
-                                        }
-                                      }(),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.symmetric(
-                                          vertical: 12
-                                      ),
-                                      child: Text(
-                                        widget.activity.shortDescription,
-                                        style: TextStyle(
-                                            fontSize: 16
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.symmetric(
-                                          vertical: 15
-                                      ),
-                                      child: Text(
-                                        widget.activity.description,
-                                        style: TextStyle(
-                                            fontSize: 16
-                                        ),
-                                      ),
-                                    ),
-                                    Visibility(
-                                      visible: state == ActivityDetailState.enrolledAndCompleted,
+                                      fit: BoxFit.cover,
+                                    ), constraints: BoxConstraints(
+                                        minHeight: 300
+                                    )),
+                                    Positioned.fill(
                                       child: Container(
-                                        margin: EdgeInsets.symmetric(
-                                            vertical: 10
+                                        child: Stack(
+                                          children: <Widget>[
+                                            Align(
+                                                alignment: Alignment.bottomLeft,
+                                                child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 5,
+                                                      horizontal: 6
+                                                  ),
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius: BorderRadius.circular(7)
+                                                  ),
+                                                  child: TextWithIcon(
+                                                    iconData: FontAwesomeIcons.clock,
+                                                    textMargin: EdgeInsets.symmetric(
+                                                        horizontal: 5
+                                                    ),
+                                                    iconMargin: EdgeInsets.symmetric(
+                                                        horizontal: 3
+                                                    ),
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: widget.activity.isSoon ? BrandColors.errorColor : Colors.black,
+                                                    text: FriendlyDateFormat.format(widget.activity.time),
+                                                  ),
+                                                )
+                                            )
+                                          ],
                                         ),
-                                        child: TextWithIcon(
-                                          iconData: Icons.check,
-                                          color: Colors.green,
-                                          text: FlutterI18n.translate(context, TranslationKeys.alreadyFinished),
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                    ),
-                                    Visibility(
-                                      visible: state == ActivityDetailState.full,
-                                      child: Container(
-                                        margin: EdgeInsets.symmetric(
-                                            vertical: 10
-                                        ),
-                                        child: TextWithIcon(
-                                          iconData: Icons.warning,
-                                          color: Colors.amber,
-                                          text: FlutterI18n.translate(context, TranslationKeys.activityFull),
-                                          fontSize: 16,
-                                        ),
+                                        margin: EdgeInsets.all(20),
                                       ),
                                     )
                                   ],
-                                ),
-                              )
-                            ],
+                                )),
+                                Container(
+                                  padding: EdgeInsets.all(20),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                                    children: <Widget>[
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                            bottom: 6
+                                        ),
+                                        child: Row(
+                                          children: <Widget>[
+                                            FaIcon(
+                                              TareasIcons.categoryIcons[this.widget.activity.task.category.name],
+                                              color: BrandColors.iconColor,
+                                            ),
+                                            SizedBox(
+                                              width: 15,
+                                            ),
+                                            Text(
+                                              this.widget.activity.name,
+                                              style: TextStyle(
+                                                fontSize: 21,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                            top: 8,
+                                            bottom: 12
+                                        ),
+                                        child: () {
+                                          int assignedCount = _activityDetailManager.activity.slotInfo.assignedSlots.length;
+                                          int slotsCount = _activityDetailManager.activity.slotInfo.slots.length;
+                                          if (state == ActivityDetailState.enrolled || state == ActivityDetailState.enrolledAndCompleted) {
+                                            String names = _activityDetailManager.activity.slotInfo.assignedSlots.map((value) {
+                                              var member = value.assignedTo;
+                                              var name = member.firstName;
+                                              return name;
+                                            }).toList().join(", ");
+                                            return TextWithIcon(
+                                                iconData: FontAwesomeIcons.user,
+                                                color: Colors.red,
+                                                textMargin: EdgeInsets.only(
+                                                    left: 12
+                                                ),
+                                                text: "$names ($assignedCount/$slotsCount)"
+                                            );
+                                          } else {
+                                            return TextWithIcon(
+                                              color: Colors.red,
+                                              iconData: FontAwesomeIcons.user,
+                                              textMargin: EdgeInsets.only(
+                                                  left: 12
+                                              ),
+                                              text: FlutterI18n.translate(
+                                                  context,
+                                                  TranslationKeys.requiredPersons,
+                                                  {
+                                                    "current": assignedCount.toString(),
+                                                    "max": slotsCount.toString()
+                                                  }
+                                              ),
+                                            );
+                                          }
+                                        }(),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.symmetric(
+                                            vertical: 12
+                                        ),
+                                        child: Text(
+                                          widget.activity.shortDescription,
+                                          style: TextStyle(
+                                              fontSize: 16
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.symmetric(
+                                            vertical: 15
+                                        ),
+                                        child: Text(
+                                          widget.activity.description,
+                                          style: TextStyle(
+                                              fontSize: 16
+                                          ),
+                                        ),
+                                      ),
+                                      Visibility(
+                                        visible: state == ActivityDetailState.enrolledAndCompleted,
+                                        child: Container(
+                                          margin: EdgeInsets.symmetric(
+                                              vertical: 10
+                                          ),
+                                          child: TextWithIcon(
+                                            iconData: Icons.check,
+                                            color: Colors.green,
+                                            iconSize: 30,
+                                            textMargin: EdgeInsets.only(
+                                                left: 12
+                                            ),
+                                            fontWeight: FontWeight.bold,
+                                            text: FlutterI18n.translate(context, TranslationKeys.alreadyFinished),
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ),
+                                      Visibility(
+                                        visible: state == ActivityDetailState.full,
+                                        child: Container(
+                                          margin: EdgeInsets.symmetric(
+                                              vertical: 10
+                                          ),
+                                          child: TextWithIcon(
+                                            iconData: Icons.warning,
+                                            color: Colors.amber,
+                                            text: FlutterI18n.translate(context, TranslationKeys.activityFull),
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         )
                     ),
                   ),
-                  Visibility(child: Align(
+                  Align(
                     alignment: Alignment.bottomCenter,
-                    child: Container(
-                        height: 80,
-                        color: Colors.white,
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 20
-                        ),
-                        child: () {
-                          if (state == ActivityDetailState.openForEnrollment) {
-                            return _openStateBar();
-                          } else if (state == ActivityDetailState.enrolled) {
-                            return _enrolledStateBar();
-                          } else {
-                            return Container();
-                          }
-                        }()
+                    child: Visibility(
+                      child: Container(
+                          height: 80,
+                          color: Colors.white,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 20
+                          ),
+                          child: () {
+                            if (state == ActivityDetailState.openForEnrollment) {
+                              return _openStateBar();
+                            } else if (state == ActivityDetailState.enrolled) {
+                              return _enrolledStateBar();
+                            } else {
+                              return Container();
+                            }
+                          }()
+                      ),
+                      visible: shouldShowBar,
                     ),
-                  ), visible: shouldShowBar)
+                  ),
+                  Visibility(child: Positioned.fill(
+                      child: Center(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 20,
+                              horizontal: 25
+                          ),
+                          decoration: BoxDecoration(
+                              color: Colors.black.withOpacity(0.8),
+                              borderRadius: BorderRadius.circular(20)
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Container(
+                                width: 30,
+                                height: 30,
+                                child:  CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(
+                                    left: 20
+                                ),
+                                child: Text(
+                                  FlutterI18n.translate(context, TranslationKeys.sendingData),
+                                  style: TextStyle(
+                                      color: Colors.white
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      )
+                  ), visible: isLoading)
                 ],
               );
             },

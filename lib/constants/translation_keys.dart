@@ -48,4 +48,5 @@ class TranslationKeys {
   static const String requiredPersons = "requiredPersons";
   static const String alreadyFinished = "alreadyFinished";
   static const String activityFull = "activityFull";
+  static const String sendingData = "sendingData";
 }

@@ -95,13 +95,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_progress_dialog:
-    dependency: "direct main"
-    description:
-      name: flutter_progress_dialog
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.0"
   flutter_stetho:
     dependency: "direct main"
     description:

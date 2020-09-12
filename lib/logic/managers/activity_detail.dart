@@ -60,19 +60,37 @@ class ActivityDetailManager {
     _stateNotifier.value = determineState();
   }
 
+  Future refreshActivity({ bool refreshStateOnComplete = true }) {
+    Completer<Activity> completer = Completer();
+    activitiesFetcher.get(
+      activity.id
+    ).then((value) {
+      activity.parse(value.toMap());
+      completer.complete(value);
+    }).catchError((e) {
+      completer.completeError(e);
+    }).whenComplete(() {
+      if (refreshStateOnComplete)
+        _refreshState();
+    });
+    return completer.future;
+  }
+
   Future<Activity> unAssign() {
     Completer<Activity> completer = Completer();
     if (_assignedToActiveMemberSlot != null) {
+      String slotId = _assignedToActiveMemberSlot.id;
       activity.slotInfo.unAssign(_assignedToActiveMemberSlot);
       _refreshState();
       activitiesFetcher.unAssignSlot(
           activity.id,
-          _assignedToActiveMemberSlot.id
+          slotId
       ).then((value) {
         activity.parse(value.toMap());
         completer.complete(value);
       }).catchError((e) {
-        activity.slotInfo.assign(_assignedToActiveMemberSlot, AuthService().identityResult.activeMember);
+        Slot selectedSlotForUser = activity.slotInfo.slots.firstWhere((value) => value.id == slotId, orElse: () { return activity.slotInfo.nextOpenSlot(); });
+        activity.slotInfo.assign(selectedSlotForUser, AuthService().identityResult.activeMember);
         completer.completeError(e);
       }).whenComplete(() {
         _refreshState();

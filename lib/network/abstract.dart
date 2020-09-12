@@ -20,7 +20,7 @@ class RequestHelper<T> {
 
   String encodeBody(body) {
     if (body is String) {
-      return body;
+      return json.encode(body);
     } else if (body is Map) {
       return json.encode(body);
     }
@@ -50,7 +50,10 @@ class RequestHelper<T> {
   }
 
   Future<T> post(String url, { body }) async {
-    var response = await http.post(url, body: encodeBody(body), headers: AuthorizationHeader.map());
+    var bodyStr = encodeBody(body);
+    var headers = AuthorizationHeader.map();
+    headers["Content-Type"] = "application/json";
+    var response = await http.post(url, body: bodyStr, headers: headers);
     validate(response);
     Map map = json.decode(response.body);
     return toObject(map);
@@ -64,7 +67,7 @@ class RequestHelper<T> {
   }
 
   Future<T> delete(String url) async {
-    var response = await http.put(url, headers: AuthorizationHeader.map());
+    var response = await http.delete(url, headers: AuthorizationHeader.map());
     validate(response);
     Map map = json.decode(response.body);
     return toObject(map);
