@@ -29,6 +29,14 @@ class SlotInfo {
   List<Slot> _unAssignedSlots;
   List<Slot> _assignedSlots;
 
+  List<Slot> get unAssignedSlots {
+    return _unAssignedSlots;
+  }
+
+  List<Slot> get assignedSlots {
+    return _assignedSlots;
+  }
+
   SlotInfo ({ this.slots, this.count }) {
     _refresh();
   }
@@ -76,7 +84,9 @@ class SlotInfo {
     slot.isCompleted = true;
   }
 
-
+  void undoCompleted(Slot slot) {
+    slot.isCompleted = false;
+  }
 
 
 }

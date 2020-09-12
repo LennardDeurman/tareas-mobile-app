@@ -38,6 +38,13 @@
   "informationNotAvailable": "Deze informatie is momenteel niet beschikbaar. Probeer het later opnieuw.",
   "loadingInProgress": "Bezig met laden",
   "loadingExtraInProgress": "Bezig met laden...",
+  "accept": "Accepteren",
+  "setBack": "Terugzetten",
+  "completeTask": "Taak afgerond",
   "loadingDescription": "Nog even geduld alsjeblieft",
-  "errorLoadingMessage": "Er ging iets mis, mogelijk wordt niet alle informatie getoond."
+  "errorLoadingMessage": "Er ging iets mis, mogelijk wordt niet alle informatie getoond.",
+  "myNamePlaceholder": "{user} (ik)",
+  "requiredPersons": "{current} van {max} benodigde inschrijvingen",
+  "alreadyFinished": "Je hebt deze taak reeds afgerond",
+  "activityFull": "(VOL!) Er zijn genoeg aanmeldingen voor deze taak, het is niet meer mogelijk om in te schrijven"
 }

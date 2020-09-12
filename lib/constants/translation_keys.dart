@@ -41,4 +41,11 @@ class TranslationKeys {
   static const String informationNotAvailable = "informationNotAvailable";
   static const String errorLoadingMessage = "errorLoadingMessage";
   static const String loadingExtraInProgress = "loadingExtraInProgress";
+  static const String accept = "accept";
+  static const String setBack = "setBack";
+  static const String completeTask = "completeTask";
+  static const String myNamePlaceholder = "myNamePlaceholder";
+  static const String requiredPersons = "requiredPersons";
+  static const String alreadyFinished = "alreadyFinished";
+  static const String activityFull = "activityFull";
 }
