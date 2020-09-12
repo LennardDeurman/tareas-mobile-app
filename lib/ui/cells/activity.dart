@@ -10,8 +10,9 @@ import 'package:tareas/ui/extensions/labels.dart';
 class ActivityCell extends StatelessWidget {
 
   final Activity activity;
+  final bool shouldShowSlotInfo;
 
-  ActivityCell (this.activity);
+  ActivityCell (this.activity, { this.shouldShowSlotInfo = true });
 
   @override
   Widget build(BuildContext context) {
@@ -63,20 +64,19 @@ class ActivityCell extends StatelessWidget {
                       children: <Widget>[
                         Row(
                           children: <Widget>[
-                            Text(
+                            Expanded(child: Text(
                               activity.name,
                               style: TextStyle(
                                 fontSize: 21,
                                 fontWeight: FontWeight.w600,
                               ),
-                            ),
-                            Spacer(),
-                            Text(
+                            )),
+                            Visibility(child: Text(
                               "${activity.slotInfo.assignedSlots.length} / ${activity.slotInfo.count}",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold
                               ),
-                            )
+                            ), visible: shouldShowSlotInfo)
                           ],
                         ),
                         Visibility(child: Container(

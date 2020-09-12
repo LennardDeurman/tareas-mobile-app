@@ -45,7 +45,8 @@ class SubscribedActivitiesList extends StatelessWidget {
               itemBuilder: (BuildContext context, int row, int section) {
                 Activity activity = subscribedActivitiesResult.sortedResult.sectionItems[section][row];
                 return ActivityCell(
-                  activity
+                  activity,
+                  shouldShowSlotInfo: false,
                 );
               },
               sectionFooterBuilder: (int section) {
