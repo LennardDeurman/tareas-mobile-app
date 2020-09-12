@@ -40,9 +40,9 @@ class SubscribedActivitiesResult {
       Map resultMap = Map<DateTime, List<Activity>>();
       for (Activity activity in activities) {
         DateTime dateTime = DateTime(
-          activity.time.day,
+          activity.time.year,
           activity.time.month,
-          activity.time.year
+          activity.time.day
         );
         if (resultMap.containsKey(dateTime)) {
           List<Activity> activitiesInMap = resultMap[dateTime];
@@ -56,7 +56,12 @@ class SubscribedActivitiesResult {
       }
 
       dates = resultMap.keys.toList();
-      items = resultMap.values.toList();
+      dates.sort((a, b) => a.compareTo(b));
+
+      for (DateTime dateTime in dates) {
+        List<Activity> activities = resultMap[dateTime];
+        items.add(activities);
+      }
 
     }
 

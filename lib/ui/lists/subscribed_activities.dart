@@ -18,15 +18,16 @@ class SubscribedActivitiesList extends StatelessWidget {
     SubscribedActivitiesResult subscribedActivitiesResult = manager.notifier.value;
     bool isLoading = manager.loadingDelegate.isLoading;
     if (subscribedActivitiesResult != null) {
-      if (isLoading) {
-        return backgroundsBuilder.loadingBackground(context);
-      } else if (subscribedActivitiesResult.completionResult.error != null) {
-        return backgroundsBuilder.errorBackground(context);
-      } else if (subscribedActivitiesResult.completionResult.result != null) {
-        if (subscribedActivitiesResult.completionResult.result.length == 0) {
-          return backgroundsBuilder.noResultsBackground(context);
+      if (subscribedActivitiesResult.completionResult != null) {
+        if (subscribedActivitiesResult.completionResult.result != null && subscribedActivitiesResult.completionResult.result.length > 0) {
+          return Container();
+        } else if (isLoading) {
+          return backgroundsBuilder.loadingBackground(context);
+        } else if (subscribedActivitiesResult.completionResult.error != null) {
+          return backgroundsBuilder.errorBackground(context);
         }
       }
+
     } else {
       if (isLoading) {
         return backgroundsBuilder.loadingBackground(context);
