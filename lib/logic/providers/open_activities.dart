@@ -34,7 +34,7 @@ class OpenActivitiesResult {
 
   void sortItems() {
 
-    _activityItems = _activityItems.where((activity) => activity.slotInfo.findSlot(AuthService().identityResult.activeMember.id) == null); //Only show activities where the user has not assigned to
+    _activityItems = _activityItems.where((activity) => activity.slotInfo.findSlot(AuthService().identityResult.activeMember.id) == null).toList(); //Only show activities where the user has not assigned to
 
     _activityItems.sort((Activity activity1, Activity activity2) {
       return activity1.time.compareTo(activity2.time);

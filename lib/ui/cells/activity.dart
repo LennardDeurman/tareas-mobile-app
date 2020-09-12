@@ -61,12 +61,23 @@ class ActivityCell extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        Text(
-                          activity.name,
-                          style: TextStyle(
-                            fontSize: 21,
-                            fontWeight: FontWeight.w600,
-                          ),
+                        Row(
+                          children: <Widget>[
+                            Text(
+                              activity.name,
+                              style: TextStyle(
+                                fontSize: 21,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            Spacer(),
+                            Text(
+                              "${activity.slotInfo.assignedSlots.length} / ${activity.slotInfo.count}",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold
+                              ),
+                            )
+                          ],
                         ),
                         Visibility(child: Container(
                           margin: EdgeInsets.symmetric(vertical: 8),

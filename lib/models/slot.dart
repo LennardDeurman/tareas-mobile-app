@@ -12,7 +12,7 @@ class SlotKeys {
 
 class Slot extends BaseObject {
 
-  int activityId;
+  String activityId;
   bool isAssigned;
   bool isCompleted;
   Member assignedTo;
