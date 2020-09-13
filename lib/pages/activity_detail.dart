@@ -1,3 +1,4 @@
+import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
@@ -7,7 +8,6 @@ import 'package:tareas/constants/icons.dart';
 import 'package:tareas/constants/translation_keys.dart';
 import 'package:tareas/logic/managers/activity_detail.dart';
 import 'package:tareas/models/activity.dart';
-import 'package:tareas/network/auth/service.dart';
 import 'package:tareas/ui/extensions/buttons.dart';
 import 'package:tareas/ui/extensions/dates.dart';
 import 'package:tareas/ui/extensions/labels.dart';
@@ -64,6 +64,16 @@ class _ActivityDetailPageState extends State<ActivityDetailPage> {
   void _complete() {
     Future<Activity> future = _activityDetailManager.complete();
     _executeAction(future);
+  }
+
+  void _addCalendarEvent() {
+    Event event = Event(
+      title: _activityDetailManager.activity.name,
+      description: _activityDetailManager.activity.description,
+      startDate: _activityDetailManager.activity.time,
+      endDate: _activityDetailManager.activity.time.add(Duration(hours: 2)),
+    );
+    Add2Calendar.addEvent2Cal(event);
   }
 
   void _executeAction(Future future) {
@@ -138,6 +148,12 @@ class _ActivityDetailPageState extends State<ActivityDetailPage> {
       appBar: AppBar(
         backgroundColor: Colors.white.withOpacity(0.7),
         elevation: 0,
+        actions: <Widget>[
+          IconButton(
+            icon: FaIcon(FontAwesomeIcons.calendarPlus),
+            onPressed: _addCalendarEvent,
+          )
+        ],
       ),
       body: ValueListenableBuilder(
         valueListenable: _activityDetailManager.loadingDelegate.notifier,

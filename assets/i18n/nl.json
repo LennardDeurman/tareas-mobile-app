@@ -47,5 +47,6 @@
   "requiredPersons": "{current} van {max} benodigde inschrijvingen",
   "alreadyFinished": "Je hebt deze taak reeds afgerond",
   "activityFull": "(VOL!) Er zijn genoeg aanmeldingen voor deze taak, het is niet meer mogelijk om in te schrijven",
-  "sendingData": "Gegevens versturen..."
+  "sendingData": "Gegevens versturen...",
+  "successFullyAddedToCalendar": "Succesvol toegevoegd aan agenda"
 }

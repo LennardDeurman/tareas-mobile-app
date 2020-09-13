@@ -49,4 +49,5 @@ class TranslationKeys {
   static const String alreadyFinished = "alreadyFinished";
   static const String activityFull = "activityFull";
   static const String sendingData = "sendingData";
+  static const String successFullyAddedToCalendar = "successFullyAddedToCalendar";
 }
