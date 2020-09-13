@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:tareas/constants/translation_keys.dart';
+import 'package:tareas/logic/delegates/activity_changes.dart';
 import 'package:tareas/logic/delegates/loading.dart';
 import 'package:tareas/logic/managers/open_activities.dart';
 import 'package:tareas/logic/providers/open_activities.dart';
 import 'package:tareas/models/activity.dart';
+import 'package:tareas/models/category.dart';
+import 'package:tareas/network/auth/service.dart';
 import 'package:tareas/ui/cells/activity.dart';
 import 'package:tareas/ui/extensions/backgrounds.dart';
 
@@ -28,6 +31,46 @@ class OpenActivitiesListState extends State<OpenActivitiesList> {
   final LoadingDelegate appendingItemsLoadingDelegate = LoadingDelegate();
 
   final ItemScrollController itemScrollController = ItemScrollController();
+
+  ActivityChangesHandler _handler;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _handler = ActivityChangesHandler(
+        onUpdate: (Activity activity) {
+          OpenActivitiesResult openActivitiesResult = widget.manager.openActivitiesDownloader.notifier.value;
+          if (openActivitiesResult != null) {
+            Activity existingActivity = openActivitiesResult.findById(activity.id);
+            if (existingActivity != null) {
+              existingActivity.parse(activity.toMap());
+            } else {
+              String myMemberId = AuthService().identityResult.activeMember.id;
+              if (activity.slotInfo.unAssignedSlots.length > 0 &&
+                  activity.slotInfo.findSlot(myMemberId) == null &&
+                  activity.time.millisecondsSinceEpoch < openActivitiesResult.lastBlockDate.millisecondsSinceEpoch
+              ) {
+                List<Category> selectedCategories = widget.manager.categoriesSelectionDelegate.selectedObjects;
+                if (selectedCategories != null && selectedCategories.length > 0) {
+                  Category taskCategory = activity.task.category;
+                  if (taskCategory != null && selectedCategories.contains(taskCategory)) {
+                    openActivitiesResult.insert(activity);
+                  }
+                } else {
+                  openActivitiesResult.insert(activity);
+                }
+              }
+            }
+          }
+          openActivitiesResult.sort();
+        },
+    );
+
+    ActivityChangesDelegate().register(
+        handler: _handler
+    );
+  }
 
   bool isLoaded(DateTime dateTime) {
     OpenActivitiesResult openActivitiesResult = widget.manager.openActivitiesDownloader.notifier.value;
@@ -209,6 +252,14 @@ class OpenActivitiesListState extends State<OpenActivitiesList> {
               );
             }
         )
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    ActivityChangesDelegate().unRegister(
+        handler: _handler
     );
   }
   

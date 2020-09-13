@@ -126,9 +126,8 @@ class Activity extends BaseObject {
   }
 
   bool get isSoon {
-    var difference = time.millisecondsSinceEpoch - DateTime.now().millisecondsSinceEpoch;
-    int daysMargin = 5;
-    return difference > 0 && difference < 86400 * 1000 * daysMargin;
+    Duration duration = time.difference(DateTime.now());
+    return duration.inDays < 5;
   }
 
   @override

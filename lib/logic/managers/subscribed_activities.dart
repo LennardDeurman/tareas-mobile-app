@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
+import 'package:tareas/logic/activities_result.dart';
 import 'package:tareas/logic/completer.dart';
 import 'package:tareas/logic/delegates/loading.dart';
 import 'package:tareas/logic/operations/subscribed_activities.dart';
 import 'package:tareas/models/activity.dart';
+import 'package:tareas/network/auth/service.dart';
 
 class SubscribedActivitiesSortedResult {
 
@@ -22,7 +24,7 @@ class SubscribedActivitiesSortedResult {
 
 }
 
-class SubscribedActivitiesResult {
+class SubscribedActivitiesResult extends ActivitiesResult {
 
   final CompletionResult<List<Activity>> completionResult;
 
@@ -33,21 +35,50 @@ class SubscribedActivitiesResult {
   }
 
   SubscribedActivitiesResult (this.completionResult) {
+    sort();
+  }
+
+  @override
+  bool filter(Activity activity) {
+    if (activity.isCompleted) {
+      return false;
+    }
+    var slot = activity.slotInfo.findSlot(AuthService().identityResult.activeMember.id);
+    if (slot != null) {
+      if (slot.isCompleted) {
+        return false;
+      }
+      return true;
+    }
+
+    return false;
+  }
+
+  @override
+  void insert(Activity activity) {
+    if (completionResult.result != null) {
+      completionResult.result.add(activity);
+    }
+  }
+
+  @override
+  void sort() {
     List<DateTime> dates = [];
     List<List<Activity>> items = [];
     if (completionResult.result != null) {
       List<Activity> activities = completionResult.result;
+      activities = activities.where(filter).toList();
       Map resultMap = Map<DateTime, List<Activity>>();
       for (Activity activity in activities) {
         DateTime dateTime = DateTime(
-          activity.time.year,
-          activity.time.month,
-          activity.time.day
+            activity.time.year,
+            activity.time.month,
+            activity.time.day
         );
         if (resultMap.containsKey(dateTime)) {
           List<Activity> activitiesInMap = resultMap[dateTime];
           activitiesInMap.add(
-            activity
+              activity
           );
           resultMap[dateTime] = activitiesInMap;
         } else {
@@ -64,13 +95,18 @@ class SubscribedActivitiesResult {
       }
 
     }
-
     _subscribedActivitiesSortedResult = SubscribedActivitiesSortedResult(
-      sectionKeys: dates,
-      sectionItems: items
+        sectionKeys: dates,
+        sectionItems: items
     );
   }
 
+  @override
+  Activity findById(String id) {
+    return completionResult.result.firstWhere((activity) => activity.id == id, orElse: () {
+      return null;
+    });
+  }
 
 
 }

@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tareas/constants/brand_colors.dart';
 import 'package:tareas/constants/icons.dart';
 import 'package:tareas/constants/translation_keys.dart';
+import 'package:tareas/logic/delegates/activity_changes.dart';
 import 'package:tareas/logic/managers/activity_detail.dart';
 import 'package:tareas/models/activity.dart';
 import 'package:tareas/ui/extensions/buttons.dart';
@@ -53,16 +54,25 @@ class _ActivityDetailPageState extends State<ActivityDetailPage> {
 
   void _unAssign() {
     Future future = _activityDetailManager.unAssign();
+    future.then((activity) {
+      ActivityChangesDelegate().onUpdate(activity);
+    });
     _executeAction(future);
   }
 
   void _assign() {
     Future future = _activityDetailManager.assign();
+    future.then((activity) {
+      ActivityChangesDelegate().onUpdate(activity);
+    });
     _executeAction(future);
   }
 
   void _complete() {
     Future<Activity> future = _activityDetailManager.complete();
+    future.then((activity) {
+      ActivityChangesDelegate().onUpdate(activity);
+    });
     _executeAction(future);
   }
 
@@ -168,7 +178,9 @@ class _ActivityDetailPageState extends State<ActivityDetailPage> {
                         color: Colors.white,
                         child: RefreshIndicator(
                           onRefresh: () {
-                            return _activityDetailManager.refreshActivity();
+                            return _activityDetailManager.refreshActivity().then((activity) {
+                              ActivityChangesDelegate().onUpdate(activity);
+                            });
                           },
                           child: SingleChildScrollView(
                             padding: shouldShowBar ? EdgeInsets.only(bottom: 80) : null,

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:tareas/logic/activities_result.dart';
 import 'package:tareas/models/activity.dart';
 import 'package:tareas/models/category.dart';
 import 'package:tareas/logic/completer.dart';
@@ -7,7 +8,7 @@ import 'package:tareas/logic/operations/abstract.dart';
 import 'package:tareas/logic/datepair.dart';
 import 'package:tareas/network/auth/service.dart';
 
-class OpenActivitiesResult {
+class OpenActivitiesResult extends ActivitiesResult {
 
   final List<CompletionResult> completionResults;
   final DateTime lastBlockDate;
@@ -29,17 +30,33 @@ class OpenActivitiesResult {
         _succeedCompletionResults.add(completionResult);
       }
     }
-    sortItems();
+    sort();
   }
 
-  void sortItems() {
+  @override
+  Activity findById(String id) {
+    return _activityItems.firstWhere((activity) => activity.id == id, orElse: () {
+      return null;
+    });
+  }
 
-    _activityItems = _activityItems.where((activity) => activity.slotInfo.findSlot(AuthService().identityResult.activeMember.id) == null).toList(); //Only show activities where the user has not assigned to
+  @override
+  void insert(Activity activity) {
+    _activityItems.add(activity);
+  }
+
+  @override
+  bool filter(Activity activity) {
+    return activity.slotInfo.findSlot(AuthService().identityResult.activeMember.id) == null; //Only if there is no slot associated with the member
+  }
+
+  @override
+  void sort() {
+    _activityItems = _activityItems.where(filter).toList(); //Only show activities where the user has not assigned to
 
     _activityItems.sort((Activity activity1, Activity activity2) {
       return activity1.time.compareTo(activity2.time);
     });
-
   }
 
 
