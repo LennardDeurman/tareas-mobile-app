@@ -18,7 +18,7 @@ Future main() async {
       path: AssetPaths.localization,
       forcedLocale: new Locale('nl'));
   WidgetsFlutterBinding.ensureInitialized();
-  HttpOverrides.global = new MyHttpOverrides(); //For testing cases
+  //HttpOverrides.global = new MyHttpOverrides(); //For testing cases, DOESN'T WORK ON IOS
   Intl.defaultLocale = "nl-NL";
   await flutterI18nDelegate.load(null);
   Stetho.initialize();
