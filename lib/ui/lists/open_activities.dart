@@ -32,46 +32,6 @@ class OpenActivitiesListState extends State<OpenActivitiesList> {
 
   final ItemScrollController itemScrollController = ItemScrollController();
 
-  ActivityChangesHandler _handler;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _handler = ActivityChangesHandler(
-        onUpdate: (Activity activity) {
-          OpenActivitiesResult openActivitiesResult = widget.manager.openActivitiesDownloader.notifier.value;
-          if (openActivitiesResult != null) {
-            Activity existingActivity = openActivitiesResult.findById(activity.id);
-            if (existingActivity != null) {
-              existingActivity.parse(activity.toMap());
-            } else {
-              String myMemberId = AuthService().identityResult.activeMember.id;
-              if (activity.slotInfo.unAssignedSlots.length > 0 &&
-                  activity.slotInfo.findSlot(myMemberId) == null &&
-                  activity.time.millisecondsSinceEpoch < openActivitiesResult.lastBlockDate.millisecondsSinceEpoch
-              ) {
-                List<Category> selectedCategories = widget.manager.categoriesSelectionDelegate.selectedObjects;
-                if (selectedCategories != null && selectedCategories.length > 0) {
-                  Category taskCategory = activity.task.category;
-                  if (taskCategory != null && selectedCategories.contains(taskCategory)) {
-                    openActivitiesResult.insert(activity);
-                  }
-                } else {
-                  openActivitiesResult.insert(activity);
-                }
-              }
-            }
-          }
-          openActivitiesResult.sort();
-        },
-    );
-
-    ActivityChangesDelegate().register(
-        handler: _handler
-    );
-  }
-
   bool isLoaded(DateTime dateTime) {
     OpenActivitiesResult openActivitiesResult = widget.manager.openActivitiesDownloader.notifier.value;
     if (openActivitiesResult != null) {
@@ -255,12 +215,5 @@ class OpenActivitiesListState extends State<OpenActivitiesList> {
     );
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    ActivityChangesDelegate().unRegister(
-        handler: _handler
-    );
-  }
   
 }

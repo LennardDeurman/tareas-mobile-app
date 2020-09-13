@@ -197,8 +197,9 @@ class _OpenActivitiesPageState extends State<OpenActivitiesPage> with _OpenActiv
 
   @override
   void dispose() {
-    super.dispose();
+    manager.dispose();
     _logoutPresenter.unregister();
+    super.dispose();
   }
 
 }

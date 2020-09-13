@@ -14,8 +14,6 @@ import 'package:tareas/ui/extensions/dates.dart';
 import 'package:tareas/ui/extensions/labels.dart';
 import 'package:tareas/ui/extensions/messages.dart';
 
-
-
 class ActivityDetailPage extends StatefulWidget {
 
   final Activity activity;
@@ -31,19 +29,19 @@ class ActivityDetailPage extends StatefulWidget {
 
 class _ActivityDetailPageState extends State<ActivityDetailPage> {
 
-  ActivityDetailManager _activityDetailManager;
+  ActivityDetailManager _manager;
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
-    _activityDetailManager = ActivityDetailManager(this.widget.activity);
+    _manager = ActivityDetailManager(this.widget.activity);
     super.initState();
   }
 
   bool get shouldShowBar { 
-    return _activityDetailManager.stateNotifier.value == ActivityDetailState.openForEnrollment
-        || _activityDetailManager.stateNotifier.value == ActivityDetailState.enrolled;
+    return _manager.stateNotifier.value == ActivityDetailState.openForEnrollment
+        || _manager.stateNotifier.value == ActivityDetailState.enrolled;
   }
 
   void _showError() {
@@ -53,35 +51,35 @@ class _ActivityDetailPageState extends State<ActivityDetailPage> {
   }
 
   void _unAssign() {
-    Future future = _activityDetailManager.unAssign();
+    Future future = _manager.unAssign();
     future.then((activity) {
-      ActivityChangesDelegate().onUpdate(activity);
+      ActivityNotificationCenter().sendNotification(activity);
     });
     _executeAction(future);
   }
 
   void _assign() {
-    Future future = _activityDetailManager.assign();
+    Future future = _manager.assign();
     future.then((activity) {
-      ActivityChangesDelegate().onUpdate(activity);
+      ActivityNotificationCenter().sendNotification(activity);
     });
     _executeAction(future);
   }
 
   void _complete() {
-    Future<Activity> future = _activityDetailManager.complete();
+    Future<Activity> future = _manager.complete();
     future.then((activity) {
-      ActivityChangesDelegate().onUpdate(activity);
+      ActivityNotificationCenter().sendNotification(activity);
     });
     _executeAction(future);
   }
 
   void _addCalendarEvent() {
     Event event = Event(
-      title: _activityDetailManager.activity.name,
-      description: _activityDetailManager.activity.description,
-      startDate: _activityDetailManager.activity.time,
-      endDate: _activityDetailManager.activity.time.add(Duration(hours: 2)),
+      title: _manager.activity.name,
+      description: _manager.activity.description,
+      startDate: _manager.activity.time,
+      endDate: _manager.activity.time.add(Duration(hours: 2)),
     );
     Add2Calendar.addEvent2Cal(event);
   }
@@ -91,7 +89,7 @@ class _ActivityDetailPageState extends State<ActivityDetailPage> {
       _showError();
     });
 
-    _activityDetailManager.loadingDelegate.attachFuture(
+    _manager.loadingDelegate.attachFuture(
         future
     );
   }
@@ -166,10 +164,10 @@ class _ActivityDetailPageState extends State<ActivityDetailPage> {
         ],
       ),
       body: ValueListenableBuilder(
-        valueListenable: _activityDetailManager.loadingDelegate.notifier,
+        valueListenable: _manager.loadingDelegate.notifier,
         builder: (BuildContext context, bool isLoading, Widget innerWidget) {
           return ValueListenableBuilder(
-            valueListenable: _activityDetailManager.stateNotifier,
+            valueListenable: _manager.stateNotifier,
             builder: (BuildContext context, ActivityDetailState state, Widget innerWidget) {
               return Stack(
                 children: <Widget>[
@@ -178,8 +176,8 @@ class _ActivityDetailPageState extends State<ActivityDetailPage> {
                         color: Colors.white,
                         child: RefreshIndicator(
                           onRefresh: () {
-                            return _activityDetailManager.refreshActivity().then((activity) {
-                              ActivityChangesDelegate().onUpdate(activity);
+                            return _manager.refreshActivity().then((activity) {
+                              ActivityNotificationCenter().sendNotification(activity);
                             });
                           },
                           child: SingleChildScrollView(
@@ -267,10 +265,10 @@ class _ActivityDetailPageState extends State<ActivityDetailPage> {
                                             bottom: 12
                                         ),
                                         child: () {
-                                          int assignedCount = _activityDetailManager.activity.slotInfo.assignedSlots.length;
-                                          int slotsCount = _activityDetailManager.activity.slotInfo.slots.length;
+                                          int assignedCount = _manager.activity.slotInfo.assignedSlots.length;
+                                          int slotsCount = _manager.activity.slotInfo.slots.length;
                                           if (state == ActivityDetailState.enrolled || state == ActivityDetailState.enrolledAndCompleted) {
-                                            String names = _activityDetailManager.activity.slotInfo.assignedSlots.map((value) {
+                                            String names = _manager.activity.slotInfo.assignedSlots.map((value) {
                                               var member = value.assignedTo;
                                               var name = member.firstName;
                                               return name;
@@ -431,7 +429,7 @@ class _ActivityDetailPageState extends State<ActivityDetailPage> {
           );
         },
       )
-    );
+    ); 
   }
 
 }

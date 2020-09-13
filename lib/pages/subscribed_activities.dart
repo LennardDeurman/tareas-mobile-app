@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:tareas/constants/translation_keys.dart';
-import 'package:tareas/logic/delegates/activity_changes.dart';
 import 'package:tareas/logic/managers/subscribed_activities.dart';
-import 'package:tareas/models/activity.dart';
-import 'package:tareas/models/slot.dart';
-import 'package:tareas/network/auth/service.dart';
 import 'package:tareas/ui/extensions/headers.dart';
 import 'package:tareas/ui/lists/subscribed_activities.dart';
 
@@ -20,37 +16,13 @@ class SubscribedActivitiesPage extends StatefulWidget {
 
 class _SubscribedActivitiesPageState extends State<SubscribedActivitiesPage> with AutomaticKeepAliveClientMixin {
 
-  final SubscribedActivitiesManager subscribedActivitiesManager = SubscribedActivitiesManager();
+  final SubscribedActivitiesManager manager = SubscribedActivitiesManager();
 
-  ActivityChangesHandler _handler;
 
   @override
   void initState() {
     super.initState();
-    _handler = ActivityChangesHandler(
-      onUpdate: (Activity activity) {
-        SubscribedActivitiesResult subscribedActivitiesResult = subscribedActivitiesManager.notifier.value;
-        if (subscribedActivitiesResult != null) {
-          Activity existingActivity = subscribedActivitiesResult.findById(activity.id);
-          if (existingActivity != null) {
-            existingActivity.parse(activity.toMap());
-          } else {
-            String myMemberId = AuthService().identityResult.activeMember.id;
-            Slot slot = activity.slotInfo.findSlot(myMemberId);
-            if (slot != null && !slot.isCompleted) {
-              subscribedActivitiesResult.insert(activity);
-            }
-          }
-          subscribedActivitiesResult.sort();
-        }
-      },
-    );
-
-    ActivityChangesDelegate().register(
-      handler: _handler
-    );
-
-    subscribedActivitiesManager.refresh();
+    manager.refresh();
   }
 
   @override
@@ -68,7 +40,7 @@ class _SubscribedActivitiesPageState extends State<SubscribedActivitiesPage> wit
           ),
           Expanded(
               child: SubscribedActivitiesList(
-                subscribedActivitiesManager
+                manager
               )
           )
         ],
@@ -81,11 +53,8 @@ class _SubscribedActivitiesPageState extends State<SubscribedActivitiesPage> wit
 
   @override
   void dispose() {
+    manager.dispose();
     super.dispose();
-
-    ActivityChangesDelegate().unRegister(
-      handler: _handler
-    );
   }
 
 }

@@ -3,38 +3,37 @@ import 'package:tareas/models/activity.dart';
 
 typedef ActivityChangeCallback = void Function(Activity);
 
-class ActivityChangesHandler {
+abstract class ActivityNotificationObserver {
 
-  ActivityChangeCallback onUpdate;
+  ActivityNotificationObserver ();
 
-  ActivityChangesHandler ({ this.onUpdate });
+  void onNotificationReceived(Activity activity);
 
 }
 
+class ActivityNotificationCenter {
 
-class ActivityChangesDelegate {
 
+  static final ActivityNotificationCenter _instance = ActivityNotificationCenter._internal();
 
-  static final ActivityChangesDelegate _instance = ActivityChangesDelegate._internal();
-
-  factory ActivityChangesDelegate() {
+  factory ActivityNotificationCenter() {
     return _instance;
   }
 
-  ActivityChangesDelegate._internal();
+  ActivityNotificationCenter._internal();
 
-  List<ActivityChangesHandler> _activityChangesHandlers = [];
+  List<ActivityNotificationObserver> _observers = [];
 
-  void register({ @required ActivityChangesHandler handler }) {
-    _activityChangesHandlers.add(handler);
+  void register({ @required ActivityNotificationObserver observer }) {
+    _observers.add(observer);
   }
 
-  void unRegister({ @required ActivityChangesHandler handler }) {
-    _activityChangesHandlers.remove(handler);
+  void unRegister({ @required ActivityNotificationObserver observer }) {
+    _observers.remove(observer);
   }
 
-  void onUpdate(Activity activity) {
-    _activityChangesHandlers.forEach((handler) => handler.onUpdate(activity));
+  void sendNotification(Activity activity) {
+    _observers.forEach((observer) => observer.onNotificationReceived(activity));
   }
 
 }

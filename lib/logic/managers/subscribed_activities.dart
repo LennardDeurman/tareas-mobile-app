@@ -3,8 +3,10 @@ import 'package:flutter/foundation.dart';
 import 'package:tareas/logic/activities_result.dart';
 import 'package:tareas/logic/completer.dart';
 import 'package:tareas/logic/delegates/loading.dart';
+import 'package:tareas/logic/managers/activities_base.dart';
 import 'package:tareas/logic/operations/subscribed_activities.dart';
 import 'package:tareas/models/activity.dart';
+import 'package:tareas/models/slot.dart';
 import 'package:tareas/network/auth/service.dart';
 
 class SubscribedActivitiesSortedResult {
@@ -112,7 +114,7 @@ class SubscribedActivitiesResult extends ActivitiesResult {
 }
 
 
-class SubscribedActivitiesManager {
+class SubscribedActivitiesManager extends ActivitiesManager {
 
   SubscribedActivitiesOperation _currentOperation;
 
@@ -143,6 +145,24 @@ class SubscribedActivitiesManager {
       var result = SubscribedActivitiesResult(workCompleter.completionResult);
       notifier.value = result;
     });
+  }
+
+  @override
+  void onNotificationReceived(Activity activity) {
+    SubscribedActivitiesResult subscribedActivitiesResult = notifier.value;
+    if (subscribedActivitiesResult != null) {
+      Activity existingActivity = subscribedActivitiesResult.findById(activity.id);
+      if (existingActivity != null) {
+        existingActivity.parse(activity.toMap());
+      } else {
+        String myMemberId = AuthService().identityResult.activeMember.id;
+        Slot slot = activity.slotInfo.findSlot(myMemberId);
+        if (slot != null && !slot.isCompleted) {
+          subscribedActivitiesResult.insert(activity); //Insert the new activity when the user has a slot and it's not completed
+        }
+      }
+      subscribedActivitiesResult.sort();
+    }
   }
 
 }
