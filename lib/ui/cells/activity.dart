@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tareas/constants/brand_colors.dart';
 import 'package:tareas/constants/icons.dart';
 import 'package:tareas/models/activity.dart';
@@ -47,14 +46,14 @@ class ActivityCell extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  padding: EdgeInsets.only(top: 3),
-                  child: FaIcon(
+                  padding: EdgeInsets.only(top: 3)
+                  /*child: FaIcon(
                     TareasIcons.categoryIcons[
-                    activity.task.category.name
+                    activity.task.category .name
                     ],
                     size: 24,
                     color: BrandColors.iconColor,
-                  ),
+                  ),*/
                 ),
                 Expanded(
                   child: Container(
@@ -98,7 +97,7 @@ class ActivityCell extends StatelessWidget {
                           ),
                           padding: EdgeInsets.all(7),
                           child: TextWithIcon(
-                            iconData: FontAwesomeIcons.clock,
+                            iconData: IconAssetPaths.clock,
                             textMargin: EdgeInsets.symmetric(
                                 horizontal: 5
                             ),

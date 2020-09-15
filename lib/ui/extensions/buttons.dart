@@ -3,7 +3,7 @@ import 'package:tareas/ui/extensions/labels.dart';
 
 class PrimaryButton extends StatelessWidget {
 
-  final IconData iconData;
+  final String iconData;
   final String text;
   final Color color;
   final Function onPressed;
@@ -60,7 +60,7 @@ class PrimaryButton extends StatelessWidget {
 
 class SecondaryButton extends StatelessWidget {
 
-  final IconData iconData;
+  final String iconData;
   final String text;
   final Color color;
   final Color borderColor;
@@ -69,9 +69,10 @@ class SecondaryButton extends StatelessWidget {
   final EdgeInsets iconMargin;
   final bool isLoading;
   final double fontSize;
+  final double iconSize;
   final double borderRadius;
 
-  SecondaryButton ({ @required this.iconData, @required this.text, @required this.color, @required this.onPressed, this.isLoading = false, this.textMargin, this.iconMargin, this.fontSize, this.borderRadius, this.borderColor });
+  SecondaryButton ({ @required this.iconData, @required this.text, @required this.color, @required this.onPressed, this.isLoading = false, this.iconSize = 18, this.textMargin, this.iconMargin, this.fontSize, this.borderRadius, this.borderColor });
 
 
   @override
@@ -88,6 +89,7 @@ class SecondaryButton extends StatelessWidget {
       child: Container(
         child: TextWithIcon(
           iconData: iconData,
+          iconSize: iconSize,
           iconMargin: iconMargin ?? EdgeInsets.symmetric(
               vertical: 16,
               horizontal: 6

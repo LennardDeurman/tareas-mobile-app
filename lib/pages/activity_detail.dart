@@ -2,7 +2,7 @@ import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tareas/constants/brand_colors.dart';
 import 'package:tareas/constants/icons.dart';
 import 'package:tareas/constants/translation_keys.dart';
@@ -109,7 +109,7 @@ class _ActivityDetailPageState extends State<ActivityDetailPage> {
           ),
           color: BrandColors.textLabelColor,
           borderColor: BrandColors.secondarButtonBorderColor,
-          iconData: FontAwesomeIcons.undo,
+          iconData: IconAssetPaths.undo,
           text: FlutterI18n.translate(context, TranslationKeys.setBack),
           onPressed: _unAssign,
         ),
@@ -125,7 +125,7 @@ class _ActivityDetailPageState extends State<ActivityDetailPage> {
               horizontal: 3
           ),
           color: BrandColors.primaryColor,
-          iconData: FontAwesomeIcons.thumbsUp,
+          iconData: IconAssetPaths.thumbsUp,
           text: FlutterI18n.translate(context, TranslationKeys.completeTask),
           onPressed: _complete,
         )
@@ -139,7 +139,7 @@ class _ActivityDetailPageState extends State<ActivityDetailPage> {
         Expanded(
           child: PrimaryButton(
             color: BrandColors.primaryColor,
-            iconData: FontAwesomeIcons.check,
+            iconData: IconAssetPaths.check,
             text: FlutterI18n.translate(context, TranslationKeys.accept),
             onPressed: _assign,
           ),
@@ -159,7 +159,11 @@ class _ActivityDetailPageState extends State<ActivityDetailPage> {
         elevation: 0,
         actions: <Widget>[
           IconButton(
-            icon: FaIcon(FontAwesomeIcons.calendarPlus),
+            icon: SvgPicture.asset(
+              IconAssetPaths.calendarPlus,
+              width: 24,
+              height: 24,
+            ),
             onPressed: _addCalendarEvent,
           )
         ],
@@ -213,7 +217,7 @@ class _ActivityDetailPageState extends State<ActivityDetailPage> {
                                                         borderRadius: BorderRadius.circular(7)
                                                     ),
                                                     child: TextWithIcon(
-                                                      iconData: FontAwesomeIcons.clock,
+                                                      iconData: IconAssetPaths.clock,
                                                       textMargin: EdgeInsets.symmetric(
                                                           horizontal: 5
                                                       ),
@@ -245,10 +249,10 @@ class _ActivityDetailPageState extends State<ActivityDetailPage> {
                                           ),
                                           child: Row(
                                             children: <Widget>[
-                                              FaIcon(
+                                              /*FaIcon(
                                                 TareasIcons.categoryIcons[this.widget.activity.task.category.name],
                                                 color: BrandColors.iconColor,
-                                              ),
+                                              ),*/
                                               SizedBox(
                                                 width: 15,
                                               ),
@@ -277,7 +281,7 @@ class _ActivityDetailPageState extends State<ActivityDetailPage> {
                                                 return name;
                                               }).toList().join(", ");
                                               return TextWithIcon(
-                                                  iconData: FontAwesomeIcons.user,
+                                                  iconData: IconAssetPaths.user,
                                                   color: Colors.red,
                                                   textMargin: EdgeInsets.only(
                                                       left: 12
@@ -287,7 +291,7 @@ class _ActivityDetailPageState extends State<ActivityDetailPage> {
                                             } else {
                                               return TextWithIcon(
                                                 color: Colors.red,
-                                                iconData: FontAwesomeIcons.user,
+                                                iconData: IconAssetPaths.user,
                                                 textMargin: EdgeInsets.only(
                                                     left: 12
                                                 ),
@@ -332,7 +336,7 @@ class _ActivityDetailPageState extends State<ActivityDetailPage> {
                                                 vertical: 10
                                             ),
                                             child: TextWithIcon(
-                                              iconData: Icons.check,
+                                              iconData: IconAssetPaths.check,
                                               color: Colors.green,
                                               iconSize: 30,
                                               textMargin: EdgeInsets.only(
@@ -351,7 +355,7 @@ class _ActivityDetailPageState extends State<ActivityDetailPage> {
                                                 vertical: 10
                                             ),
                                             child: TextWithIcon(
-                                              iconData: Icons.warning,
+                                              iconData: IconAssetPaths.engineWarning,
                                               color: Colors.amber,
                                               text: FlutterI18n.translate(context, TranslationKeys.activityFull),
                                               fontSize: 16,

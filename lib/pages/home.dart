@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tareas/constants/brand_colors.dart';
+import 'package:tareas/constants/icons.dart';
 import 'package:tareas/ui/extensions/clippers.dart';
 import 'package:tareas/constants/translation_keys.dart';
 import 'package:tareas/pages/open_activities.dart';
@@ -86,12 +87,22 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                                     controller: _controller,
                                     tabs: <Widget>[
                                       Tab(
-                                        icon: FaIcon(FontAwesomeIcons.thLarge),
+                                        icon: SvgPicture.asset(
+                                          IconAssetPaths.thLarge,
+                                          width: 24,
+                                          height: 24,
+                                          color: Colors.white,
+                                        ),
                                         text: FlutterI18n.translate(context, TranslationKeys.open),
                                       ),
                                       Container(
                                         child: Tab(
-                                          icon: FaIcon(FontAwesomeIcons.tasks),
+                                          icon: SvgPicture.asset(
+                                              IconAssetPaths.tasks,
+                                              width: 24,
+                                              height: 24,
+                                              color: Colors.white,
+                                          ),
                                           text: FlutterI18n.translate(context, TranslationKeys.subscribed),
                                         ),
                                         padding: EdgeInsets.only(
@@ -99,7 +110,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                                         ),
                                       ),
                                       Tab(
-                                        icon: FaIcon(FontAwesomeIcons.userAlt),
+                                        icon: SvgPicture.asset(
+                                            IconAssetPaths.user,
+                                            width: 24,
+                                            height: 24,
+                                            color: Colors.white,
+                                        ),
                                         text: FlutterI18n.translate(context, TranslationKeys.profile),
                                       )
                                     ],

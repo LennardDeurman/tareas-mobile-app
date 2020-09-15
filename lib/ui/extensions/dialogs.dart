@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tareas/constants/brand_colors.dart';
+import 'package:tareas/constants/icons.dart';
 import 'package:tareas/constants/translation_keys.dart';
 import 'package:tareas/logic/delegates/selection.dart';
 import 'package:tareas/models/category.dart';
@@ -65,7 +65,7 @@ class PreferencesDialog extends StatelessWidget {
                     ),
                     child: Container(child:
                       PrimaryButton(
-                        iconData: FontAwesomeIcons.save,
+                        iconData: IconAssetPaths.save,
                         text: FlutterI18n.translate(context, TranslationKeys.save),
                         color: BrandColors.primaryColor,
                         onPressed: onSave

@@ -9,12 +9,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  font_awesome_flutter: ^8.7.0
   cupertino_icons: ^0.1.2
   flutter_i18n: ^0.8.3
   flutter_auth0: ^0.5.0
   flutter_webview_plugin: ^0.3.11
-  shared_preferences: any
+  shared_preferences: any 
   scoped_model: ^1.0.1
   intl: ^0.16.1
   flutter_stetho: ^0.5.2
@@ -23,6 +22,7 @@ dependencies:
   fluttertoast: ^7.0.4
   scrollable_positioned_list: ^0.1.7
   add_2_calendar: ^1.4.0
+  flutter_svg: ^0.17.1
 
 dev_dependencies:
   flutter_test:
@@ -41,6 +41,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/icons/
     - assets/i18n/
   fonts:
     - family: OpenSans

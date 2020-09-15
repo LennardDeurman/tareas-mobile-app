@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:scoped_model/scoped_model.dart';
+import 'package:tareas/constants/icons.dart';
 import 'package:tareas/constants/translation_keys.dart';
-import 'package:tareas/logic/delegates/loading.dart';
 import 'package:tareas/logic/managers/startup.dart';
 import 'package:tareas/network/auth/identity.dart';
 import 'package:tareas/network/auth/service.dart';
@@ -39,7 +37,7 @@ class _StartupPageState extends State<StartupPage> {
         if (e is MissingIdentityError) {
           _presentRetryDialog();
         } else {
-          _showSnackbar("Er ging iets mis, probeer opnieuw in te loggen");
+          _showSnackbar(FlutterI18n.translate(context, TranslationKeys.connectionErrorMessage));
         }
       }
     );
@@ -86,7 +84,7 @@ class _StartupPageState extends State<StartupPage> {
                         text: FlutterI18n.translate(context, TranslationKeys.reconnect),
                         color: BrandColors.primaryColor,
                         isLoading: this.manager.loadingDelegate.isLoading,
-                        iconData: FontAwesomeIcons.connectdevelop,
+                        iconData: IconAssetPaths.globe,
                         onPressed: () {
                           this.manager.tryAutoInitialize(
                               onSuccess: () {
@@ -141,7 +139,7 @@ class _StartupPageState extends State<StartupPage> {
     manager.initializeAuth(
       onSuccess: _presentHome,
       onError: (e) {
-        _showSnackbar("Er kon niet worden ingelogd");
+        _showSnackbar(FlutterI18n.translate(context, TranslationKeys.errorLogin));
       }
     );
   }

@@ -48,5 +48,6 @@
   "alreadyFinished": "Je hebt deze taak reeds afgerond",
   "activityFull": "(VOL!) Er zijn genoeg aanmeldingen voor deze taak, het is niet meer mogelijk om in te schrijven",
   "sendingData": "Gegevens versturen...",
-  "successFullyAddedToCalendar": "Succesvol toegevoegd aan agenda"
+  "successFullyAddedToCalendar": "Succesvol toegevoegd aan agenda",
+  "errorLogin": "Er kon niet worden ingelogd"
 }

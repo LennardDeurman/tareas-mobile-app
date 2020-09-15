@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tareas/constants/brand_colors.dart';
+import 'package:tareas/constants/icons.dart';
 import 'package:tareas/constants/translation_keys.dart';
 import 'package:tareas/logic/delegates/loading.dart';
 import 'package:tareas/network/auth/service.dart';
@@ -155,7 +155,7 @@ class _ProfilePageState extends State<ProfilePage> with ProfilePageUI, Automatic
                   valueListenable: _loadingDelegate.notifier,
                   builder: (BuildContext context, bool value, Widget widget) {
                     return PrimaryButton(
-                      iconData: FontAwesomeIcons.signOutAlt,
+                      iconData: IconAssetPaths.signOutAlt,
                       text: FlutterI18n.translate(context, TranslationKeys.signOut),
                       color: Colors.red,
                       onPressed: _signOut,

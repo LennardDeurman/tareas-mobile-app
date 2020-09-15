@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/fa_icon.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tareas/constants/brand_colors.dart';
 
 class TextWithIcon extends StatefulWidget {
 
-  final IconData iconData;
+  final String iconData;
   final double iconSize;
   final double fontSize;
   final EdgeInsets iconMargin;
@@ -45,10 +45,11 @@ class TextWithIconState extends State<TextWithIcon> {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Container(
-          child: FaIcon(
+          child: SvgPicture.asset(
             widget.iconData,
-            size: widget.iconSize,
             color: _currentColor,
+            width: widget.iconSize,
+            height: widget.iconSize,
           ),
           margin: widget.iconMargin,
         ),

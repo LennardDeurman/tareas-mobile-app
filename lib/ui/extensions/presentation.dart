@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tareas/constants/icons.dart';
 import 'package:tareas/constants/translation_keys.dart';
 import 'package:tareas/network/auth/service.dart';
 import 'package:tareas/pages/home.dart';
@@ -65,7 +65,7 @@ class LogoutPresenter {
                   ),
                   PrimaryButton(
                     color: Colors.red,
-                    iconData: FontAwesomeIcons.signOutAlt,
+                    iconData: IconAssetPaths.signOutAlt,
                     text: FlutterI18n.translate(context, TranslationKeys.proceed),
                     onPressed: _doTransition,
                   )

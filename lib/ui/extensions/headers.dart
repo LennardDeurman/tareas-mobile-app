@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tareas/constants/icons.dart';
 import 'package:tareas/constants/translation_keys.dart';
 import 'package:tareas/ui/extensions/labels.dart';
 
@@ -26,10 +26,11 @@ class OpenActivitiesHeader extends PageHeader {
     return Row(
       children: <Widget>[
         TextWithIcon(
-            iconData: FontAwesomeIcons.calendar,
+            iconData: IconAssetPaths.calendarStar,
             key: calendarButtonKey,
             text: FlutterI18n.translate(context, TranslationKeys.calendar),
             color: Colors.black,
+            iconSize: 21,
             iconMargin: EdgeInsets.only(
                 right: 10
             ),
@@ -39,10 +40,11 @@ class OpenActivitiesHeader extends PageHeader {
           width: 30,
         ),
         TextWithIcon(
-          iconData: FontAwesomeIcons.slidersH,
+          iconData: IconAssetPaths.slidersHSquare,
           key: preferencesButtonKey,
           text: FlutterI18n.translate(context, TranslationKeys.preferences),
           color: Colors.black,
+          iconSize: 21,
           iconMargin: EdgeInsets.only(
               right: 10
           ),
