@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tareas/constants/brand_colors.dart';
-import 'package:tareas/constants/icons.dart';
+import 'package:tareas/constants/asset_paths.dart';
 import 'package:tareas/models/activity.dart';
 import 'package:tareas/pages/activity_detail.dart';
 import 'package:tareas/ui/extensions/dates.dart';

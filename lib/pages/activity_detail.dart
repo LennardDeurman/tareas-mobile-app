@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tareas/constants/brand_colors.dart';
-import 'package:tareas/constants/icons.dart';
+import 'package:tareas/constants/asset_paths.dart';
 import 'package:tareas/constants/translation_keys.dart';
 import 'package:tareas/logic/delegates/activity_changes.dart';
 import 'package:tareas/logic/managers/activity_detail.dart';

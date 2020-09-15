@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tareas/constants/brand_colors.dart';
-import 'package:tareas/constants/icons.dart';
+import 'package:tareas/constants/asset_paths.dart';
 import 'package:tareas/logic/delegates/selection.dart';
 import 'package:tareas/models/category.dart';
 import 'package:tareas/network/auth/service.dart';
