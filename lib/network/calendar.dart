@@ -18,7 +18,7 @@ class CalendarOverviewFetcher extends Fetcher {
       NetworkParams.startDate: NetworkParams.dateString(startDate),
       NetworkParams.endDate: NetworkParams.dateString(endDate),
       NetworkParams.certifiedOnly: certifiedOnly.toString(),
-      NetworkParams.category: NetworkParams.namedIdList(categories),
+      NetworkParams.categories: NetworkParams.namedIdList(categories),
       NetworkParams.certifiedUserId: certifiedUserId
     }));
   }

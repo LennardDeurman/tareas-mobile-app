@@ -44,9 +44,10 @@ class ActivitiesFetcher extends RestFetcher<Activity> {
       NetworkParams.startDate: NetworkParams.dateString(startDate),
       NetworkParams.endDate: NetworkParams.dateString(endDate),
       NetworkParams.certifiedOnly: certifiedOnly.toString(),
-      NetworkParams.category: NetworkParams.namedIdList(categories),
+      NetworkParams.categories: NetworkParams.namedIdList(categories),
       NetworkParams.teams: NetworkParams.namedIdList(teams), 
-      NetworkParams.certifiedUserId: certifiedUserId
+      NetworkParams.certifiedUserId: certifiedUserId,
+      NetworkParams.includeTeamlessActivities: true.toString()
     }));
   }
 
