@@ -1,4 +1,4 @@
-name: tareas
+name: Tareas
 description: An app for dividing tasks in clubs
 
 version: 1.0.0+1
@@ -24,9 +24,15 @@ dependencies:
   flutter_svg: ^0.17.1
 
 dev_dependencies:
+  flutter_launcher_icons: "^0.7.0"
   flutter_test:
     sdk: flutter
 
+flutter_icons:
+  ios: true
+  android: true
+  image_path_ios: "assets/launcher/icon.png"
+  image_path_android: "assets/launcher/icon.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
