@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:flutter_stetho/flutter_stetho.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n_delegate.dart';
@@ -8,7 +7,6 @@ import 'package:intl/intl.dart';
 import 'package:tareas/constants/asset_paths.dart';
 import 'package:tareas/constants/brand_colors.dart';
 import 'package:tareas/constants/custom_fonts.dart';
-import 'package:tareas/network/override_client.dart';
 import 'package:tareas/pages/startup.dart';
 
 Future main() async {

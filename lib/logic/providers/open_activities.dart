@@ -104,7 +104,7 @@ class OpenActivitiesProvider {
 
     if (existingOperation == null) {
       DatePairGenerator generator = DatePairGenerator(lastEndDate);
-      while (generator.next(targetedDate: dateTime) != null);
+      while (generator.next(targetedDate: dateTime) != null)
       for (DatePair datePair in generator.datePairs) {
         _addOperation(
             start: datePair.startDate,

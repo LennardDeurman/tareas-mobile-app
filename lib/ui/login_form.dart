@@ -72,7 +72,7 @@ class LoginFormUI {
           width: 100,
           height: 100,
           child: Image(
-            image: AssetImage(AssetPaths.loginLogo),
+            image: AssetImage(ImageAssetPaths.loginLogo),
           ),
         ),
         Container(

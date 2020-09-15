@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:tareas/constants/translation_keys.dart';
-import 'package:tareas/logic/delegates/activity_changes.dart';
 import 'package:tareas/logic/delegates/loading.dart';
 import 'package:tareas/logic/managers/open_activities.dart';
 import 'package:tareas/logic/providers/open_activities.dart';
 import 'package:tareas/models/activity.dart';
-import 'package:tareas/models/category.dart';
-import 'package:tareas/network/auth/service.dart';
 import 'package:tareas/ui/cells/activity.dart';
 import 'package:tareas/ui/extensions/backgrounds.dart';
 

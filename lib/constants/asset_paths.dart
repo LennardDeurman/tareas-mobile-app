@@ -44,6 +44,13 @@ class IconAssetPaths {
 
 class ImageAssetPaths {
 
-  
+  static String loginLogo = AssetPaths.imagePng("logo_login_tareas");
+  static String loginBackground = AssetPaths.imagePng("icon_background_mobile");
+  static String tasksNoResults = AssetPaths.imagePng("placeholder_no_tasks");
+  static String loading = AssetPaths.imageGif("loading");
+  static String listLoading = AssetPaths.imagePng("list_loading");
+  static String listError = AssetPaths.imagePng("list_error");
+  static String listNoResults = AssetPaths.imagePng("list_no_subcribed_activities");
+  static String listNoSubscribedActivities = AssetPaths.imagePng("list_no_results");
 
 }

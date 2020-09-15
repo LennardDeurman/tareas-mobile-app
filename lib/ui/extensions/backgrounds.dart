@@ -58,7 +58,7 @@ class BackgroundsBuilder {
   Widget loadingBackground(BuildContext context) {
     return background(
         children: [
-          illustration(AssetPaths.listLoading),
+          illustration(ImageAssetPaths.listLoading),
           titleLabel(FlutterI18n.translate(context, TranslationKeys.loadingInProgress)),
           descriptionLabel(FlutterI18n.translate(context, TranslationKeys.loadingDescription)),
           Container(
@@ -73,7 +73,7 @@ class BackgroundsBuilder {
   Widget noResultsBackground(BuildContext context) {
     return background(
         children: [
-          illustration(AssetPaths.listNoResults),
+          illustration(ImageAssetPaths.listNoResults),
           titleLabel(FlutterI18n.translate(context, TranslationKeys.noResults)),
           descriptionLabel(FlutterI18n.translate(context, TranslationKeys.informationNotAvailable))
         ]
@@ -83,7 +83,7 @@ class BackgroundsBuilder {
   Widget errorBackground(BuildContext context) {
     return background(
       children: [
-        illustration(AssetPaths.listError),
+        illustration(ImageAssetPaths.listError),
         descriptionLabel(FlutterI18n.translate(context, TranslationKeys.informationNotAvailable))
       ]
     );
@@ -136,7 +136,7 @@ class SubscribedActivitiesBackgroundsBuilder extends BackgroundsBuilder {
   Widget noResultsBackground(BuildContext context) {
     return background(
         children: [
-          illustration(AssetPaths.listNoSubscribedActivities),
+          illustration(ImageAssetPaths.listNoSubscribedActivities),
           buildNoResultsDescription(context)
         ]
     );

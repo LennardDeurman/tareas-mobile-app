@@ -13,8 +13,7 @@ dependencies:
   flutter_i18n: ^0.8.3
   flutter_auth0: ^0.5.0
   flutter_webview_plugin: ^0.3.11
-  shared_preferences: any 
-  scoped_model: ^1.0.1
+  shared_preferences: any
   intl: ^0.16.1
   flutter_stetho: ^0.5.2
   flutter_calendar_carousel: ^1.4.12

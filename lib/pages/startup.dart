@@ -8,7 +8,6 @@ import 'package:tareas/network/auth/service.dart';
 import 'package:tareas/ui/extensions/buttons.dart';
 import 'package:tareas/ui/extensions/clippers.dart';
 import 'package:tareas/ui/login_form.dart';
-import 'package:tareas/constants/asset_paths.dart';
 import 'package:tareas/constants/brand_colors.dart';
 
 class StartupPage extends StatefulWidget {
@@ -155,7 +154,7 @@ class _StartupPageState extends State<StartupPage> {
             return Container(
               decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage(AssetPaths.loading),
+                      image: AssetImage(ImageAssetPaths.loading),
                       fit: BoxFit.cover
                   )
               ),
@@ -171,7 +170,7 @@ class _StartupPageState extends State<StartupPage> {
                           child: Container(
                             decoration: BoxDecoration(
                                 image: DecorationImage(
-                                    image: AssetImage(AssetPaths.loginBackground),
+                                    image: AssetImage(ImageAssetPaths.loginBackground),
                                     fit: BoxFit.cover
                                 )
                             ),
