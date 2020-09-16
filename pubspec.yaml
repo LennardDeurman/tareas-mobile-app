@@ -1,4 +1,4 @@
-name: Tareas
+name: tareas
 description: An app for dividing tasks in clubs
 
 version: 1.0.0+1
@@ -25,8 +25,12 @@ dependencies:
 
 dev_dependencies:
   flutter_launcher_icons: "^0.7.0"
+  flutter_launcher_name: "^0.0.1"
   flutter_test:
     sdk: flutter
+
+flutter_launcher_name:
+  name: "Tareas"
 
 flutter_icons:
   ios: true
