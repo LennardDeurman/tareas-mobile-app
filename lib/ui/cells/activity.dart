@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tareas/constants/brand_colors.dart';
 import 'package:tareas/constants/asset_paths.dart';
+import 'package:tareas/constants/categories.dart';
 import 'package:tareas/models/activity.dart';
 import 'package:tareas/pages/activity_detail.dart';
 import 'package:tareas/ui/extensions/dates.dart';
@@ -46,14 +48,15 @@ class ActivityCell extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  padding: EdgeInsets.only(top: 3)
-                  /*child: FaIcon(
-                    TareasIcons.categoryIcons[
-                    activity.task.category .name
-                    ],
-                    size: 24,
+                  padding: EdgeInsets.only(top: 3),
+                  child: SvgPicture.asset(
+                    Categories.map[
+                    activity.task.category.name
+                    ].iconAssetPath,
+                    width: 24,
+                    height: 24,
                     color: BrandColors.iconColor,
-                  ),*/
+                  )
                 ),
                 Expanded(
                   child: Container(

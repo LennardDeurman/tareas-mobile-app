@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tareas/constants/brand_colors.dart';
 import 'package:tareas/constants/asset_paths.dart';
+import 'package:tareas/constants/categories.dart';
 import 'package:tareas/logic/delegates/selection.dart';
 import 'package:tareas/models/category.dart';
 import 'package:tareas/network/auth/service.dart';
@@ -24,7 +25,9 @@ class CategoriesList extends StatelessWidget {
             return AuthService().categoriesProvider.categories.map((e) {
               return PrimaryButton(
                 color: selectionDelegate.isSelected(e) ? BrandColors.selectedColor : BrandColors.notSelectedColor,
-                iconData: IconAssetPaths.check,//TareasIcons.categoryIcons[e.name],
+                iconData: Categories.map[
+                  e.name
+                  ].iconAssetPath,
                 text: e.name,
                 onPressed: () {
                   selectionDelegate.toggle(e);

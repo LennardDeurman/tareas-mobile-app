@@ -5,6 +5,7 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tareas/constants/brand_colors.dart';
 import 'package:tareas/constants/asset_paths.dart';
+import 'package:tareas/constants/categories.dart';
 import 'package:tareas/constants/translation_keys.dart';
 import 'package:tareas/logic/delegates/activity_changes.dart';
 import 'package:tareas/logic/managers/activity_detail.dart';
@@ -194,8 +195,10 @@ class _ActivityDetailPageState extends State<ActivityDetailPage> {
                                   Container(child: Stack(
                                     children: <Widget>[
                                       Container(child: Image(
-                                        image: NetworkImage(
-                                            "https://singularityhub.com/wp-content/uploads/2018/10/abstract-blurred-background-casino_shutterstock_1126650161.jpg" //TODO: Replace!!
+                                        image: AssetImage(
+                                          Categories.map[
+                                            _manager.activity.task.category.name
+                                          ].imageAssetPath
                                         ),
                                         fit: BoxFit.cover,
                                       ), constraints: BoxConstraints(
@@ -249,10 +252,14 @@ class _ActivityDetailPageState extends State<ActivityDetailPage> {
                                           ),
                                           child: Row(
                                             children: <Widget>[
-                                              /*FaIcon(
-                                                TareasIcons.categoryIcons[this.widget.activity.task.category.name],
+                                              SvgPicture.asset(
+                                                Categories.map[
+                                                _manager.activity.task.category.name
+                                                ].iconAssetPath,
+                                                width: 24,
+                                                height: 24,
                                                 color: BrandColors.iconColor,
-                                              ),*/
+                                              ),
                                               SizedBox(
                                                 width: 15,
                                               ),

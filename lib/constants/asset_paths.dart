@@ -3,13 +3,14 @@ class AssetPaths {
   
   static const String localization = "assets/i18n";
   static const String images = "assets/images";
+  static const String categoryImages = "assets/images/categories";
   static const String icons = "assets/icons";
   
   
-  static String svg(String key) => "$icons/$key.svg";
-  static String imagePng(String key) => "$images/$key.png";
-  static String imageGif(String key) => "$images/$key.gif";
-  
+  static String svg(String key, { String base = AssetPaths.icons }) => "$base/$key.svg";
+  static String imagePng(String key, { String base = AssetPaths.images }) => "$base/$key.png";
+  static String imageGif(String key, { String base = AssetPaths.images }) => "$base/$key.gif";
+  static String imageJpg(String key, { String base = AssetPaths.images }) => "$base/$key.jpg";
 
 }
 
@@ -52,5 +53,13 @@ class ImageAssetPaths {
   static String listError = AssetPaths.imagePng("list_error");
   static String listNoResults = AssetPaths.imagePng("list_no_subcribed_activities");
   static String listNoSubscribedActivities = AssetPaths.imagePng("list_no_results");
-
+  static String categoryActivities = AssetPaths.imageJpg("activiteiten", base: AssetPaths.categoryImages);
+  static String categoryAdministration = AssetPaths.imageJpg("administratie", base: AssetPaths.categoryImages);
+  static String categoryEvents = AssetPaths.imageJpg("evenement", base: AssetPaths.categoryImages);
+  static String categoryBar = AssetPaths.imageJpg("kantine", base: AssetPaths.categoryImages);
+  static String categorySocial = AssetPaths.imageJpg("maatschappelijk", base: AssetPaths.categoryImages);
+  static String categoryOther = AssetPaths.imageJpg("overig", base: AssetPaths.categoryImages);
+  static String categorySportpark = AssetPaths.imageJpg("sportpark", base: AssetPaths.categoryImages);
+  static String categoryMatchRelated = AssetPaths.imageJpg("wedstrijd", base: AssetPaths.categoryImages);
 }
+

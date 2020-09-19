@@ -48,6 +48,12 @@ class AuthResult {
 
   }
 
+  void validate() {
+    if (!(accessToken != null && accessToken != "")) {
+        throw Exception("No token found!!");
+    }
+  }
+
 
   int get milliSecondsTillExpiry {
     return expiryDate.millisecondsSinceEpoch - DateTime.now().millisecondsSinceEpoch;
@@ -253,6 +259,9 @@ class AuthService with AuthServicePresentation {
     await performIdentityFetch();
 
     await categoriesProvider.load();
+
+    if (authResult != null)
+      authResult.validate();
 
     if (identityResult == null) {
       throw MissingIdentityError();
