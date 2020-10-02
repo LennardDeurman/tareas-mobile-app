@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tareas/models/account.dart';
 import 'package:tareas/models/member.dart';
+import 'package:tareas/network/account.dart';
 import 'package:tareas/network/auth/service.dart';
-import 'package:tareas/network/members.dart';
 
 class AuthorizationError implements Exception {
 
@@ -21,14 +23,14 @@ class UserInfo {
 
   String sub;
   String email;
-  String memberId;
+  String accountId;
   bool emailVerified;
 
   UserInfo (Map map) {
     sub = map["sub"];
     email = map["email"];
     emailVerified = map["email_verified"];
-    memberId = map["https://tareas.nl/member_id"];
+    accountId = map["https://tareas.nl/account_id"];
   }
 
 }
@@ -36,10 +38,50 @@ class UserInfo {
 
 class IdentityResult {
 
-  UserInfo userInfo;
-  Member activeMember;
+  final UserInfo userInfo;
+  final Account account;
 
-  IdentityResult ({ this.userInfo, this.activeMember });
+  Member _activeMember;
+
+  Member get activeMember {
+    return _activeMember;
+  }
+
+  static const String preferredMemberIdKey = "preferredMemberIdKey";
+
+  IdentityResult ({ this.userInfo, this.account }) {
+    if (account != null) {
+      _activeMember = account.members.first;
+
+      SharedPreferences.getInstance().then((instance) {
+        String preferredMemberId = instance.get(IdentityResult.preferredMemberIdKey);
+        if (preferredMemberId != null) {
+          setPreferredMember(
+              preferredMemberId
+          );
+        }
+      });
+    }
+  }
+
+  Future<bool> setPreferredMember(String id, { bool shouldSave = true }) async {
+    _activeMember = account.members.firstWhere((member) {
+      return member.id == id;
+    }, orElse: () {
+      return _activeMember;
+    });
+
+    bool valid = _activeMember.id == id;
+    if (shouldSave) {
+      if (valid) {
+        var prefInstance = await SharedPreferences.getInstance();
+        prefInstance.setString(IdentityResult.preferredMemberIdKey, id);
+      }
+    }
+
+    return valid;
+  }
+
 
 
 }
@@ -69,14 +111,14 @@ class IdentityRequest {
   }
 
   Future<IdentityResult> fetch() async {
-    MembersFetcher fetcher = MembersFetcher();
+    AccountFetcher fetcher = AccountFetcher();
     Completer<IdentityResult> completer = Completer();
 
     try {
       UserInfo userInfo = await fetchUserInfo();
-      Member member = await fetcher.get(userInfo.memberId);
+      Account account = await fetcher.get(userInfo.accountId);
       var result = IdentityResult(
-          activeMember: member,
+          account: account,
           userInfo: userInfo
       );
       completer.complete(result);

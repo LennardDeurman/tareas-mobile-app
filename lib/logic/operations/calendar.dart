@@ -18,7 +18,7 @@ class CalendarOverviewOperation extends Operation {
     CalendarOverviewFetcher calendarOverviewFetcher = CalendarOverviewFetcher();
     CalendarOverviewResult value = await calendarOverviewFetcher.getResult(
         certifiedOnly: this.certifiedOnly,
-        certifiedUserId: AuthService().identityResult.userInfo.memberId,
+        certifiedUserId: AuthService().identityResult.activeMember.id,
         categories: categories,
         startDate: this.startDate,
         endDate: this.endDate

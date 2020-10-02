@@ -52,12 +52,12 @@ class ActivitiesFetcher extends RestFetcher<Activity> {
   }
 
   Future<List<Activity>> getSubscribedActivities() async {
-    String memberId = AuthService().identityResult.userInfo.memberId;
+    String memberId = AuthService().identityResult.activeMember.id;
     return await this.requestHelper.getAll(url("subscribedActivities/$memberId"));
   }
 
   Future<Activity> assignSlot(String activityId, String slotId) async {
-    String memberId = AuthService().identityResult.userInfo.memberId;
+    String memberId = AuthService().identityResult.activeMember.id;
     return await this.requestHelper.post(url("activities/$activityId/slots/$slotId/assign"), body: memberId);
   }
 
