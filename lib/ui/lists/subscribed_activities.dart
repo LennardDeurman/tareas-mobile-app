@@ -12,7 +12,13 @@ class SubscribedActivitiesList extends StatelessWidget {
 
   final BackgroundsBuilder backgroundsBuilder = SubscribedActivitiesBackgroundsBuilder();
 
-  SubscribedActivitiesList (this.manager);
+  final GlobalKey<RefreshIndicatorState> refreshKey = GlobalKey<RefreshIndicatorState>();
+
+  SubscribedActivitiesList (this.manager) {
+    manager.onOrganisationChange = () {
+      refreshKey.currentState.show();
+    };
+  }
 
   Widget buildBackground(BuildContext context) {
     SubscribedActivitiesResult subscribedActivitiesResult = manager.notifier.value;
@@ -87,6 +93,7 @@ class SubscribedActivitiesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
+      key: refreshKey,
         onRefresh: () async {
           return await manager.refresh(
             force: true

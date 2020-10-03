@@ -7,7 +7,7 @@ import 'package:tareas/constants/brand_colors.dart';
 import 'package:tareas/constants/asset_paths.dart';
 import 'package:tareas/constants/categories.dart';
 import 'package:tareas/constants/translation_keys.dart';
-import 'package:tareas/logic/delegates/activity_changes.dart';
+import 'package:tareas/logic/delegates/notification_center.dart';
 import 'package:tareas/logic/managers/activity_detail.dart';
 import 'package:tareas/models/activity.dart';
 import 'package:tareas/ui/extensions/buttons.dart';

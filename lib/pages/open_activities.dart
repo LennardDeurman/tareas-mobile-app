@@ -63,6 +63,10 @@ class _OpenActivitiesPageState extends State<OpenActivitiesPage> with _OpenActiv
     manager.refreshOpenActivities();
     manager.refreshCalendar();
 
+    manager.onOrganisationChange = () {
+      openActivitiesListKey.currentState.refreshKey.currentState.show();
+    };
+
     _overlayCreator = OverlayCreator(
       headerContainerKey: _headerContainerKey
     );

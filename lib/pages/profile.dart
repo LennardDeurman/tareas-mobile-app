@@ -4,11 +4,17 @@ import 'package:tareas/constants/brand_colors.dart';
 import 'package:tareas/constants/asset_paths.dart';
 import 'package:tareas/constants/translation_keys.dart';
 import 'package:tareas/logic/delegates/loading.dart';
+import 'package:tareas/logic/delegates/notification_center.dart';
+import 'package:tareas/models/member.dart';
 import 'package:tareas/network/auth/service.dart';
 import 'package:tareas/ui/extensions/buttons.dart';
 import 'package:tareas/ui/extensions/headers.dart';
 import 'package:tareas/ui/extensions/dates.dart';
 import 'package:tareas/ui/extensions/presentation.dart';
+import 'package:tareas/ui/organisation_picker.dart';
+
+
+
 
 class ProfilePage extends StatefulWidget {
 
@@ -82,6 +88,19 @@ class _ProfilePageState extends State<ProfilePage> with ProfilePageUI, Automatic
     _loadingDelegate.attachFuture(future);
   }
 
+  void _showOrganizationsPickers() {
+    OrganisationPicker(
+      onPressed: (Member member) {
+        AuthService().identityResult.setPreferredMember(
+          member.id,
+          shouldSave: true
+        );
+        MemberChangeNotificationCenter().sendNotification(member);
+
+        setState(() {});
+      }
+    ).show(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -144,18 +163,20 @@ class _ProfilePageState extends State<ProfilePage> with ProfilePageUI, Automatic
 
                 widgets.add(
                     cell(
-                      label: "Organisatie",
+                      label: FlutterI18n.translate(context, TranslationKeys.organisation),
                       child: Container(
-                        child: Row(
-                          children: <Widget>[
-                            Text("Tareas test omgeving",
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.black,
-                                    decoration: TextDecoration.underline
-                                )
-                            ),
-                          ],
+                        child: GestureDetector(
+                          child: Text(activeMember.organisation.name,
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  decoration: TextDecoration.underline
+                              )
+                          ),
+                          onTap: () {
+                            if (AuthService().identityResult.account.members.length > 1) {
+                              _showOrganizationsPickers();
+                            }
+                          },
                         ),
                         margin: EdgeInsets.symmetric(
                             vertical: 8

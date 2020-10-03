@@ -6,6 +6,7 @@ import 'package:tareas/logic/delegates/loading.dart';
 import 'package:tareas/logic/managers/activities_base.dart';
 import 'package:tareas/logic/operations/subscribed_activities.dart';
 import 'package:tareas/models/activity.dart';
+import 'package:tareas/models/member.dart';
 import 'package:tareas/models/slot.dart';
 import 'package:tareas/network/auth/service.dart';
 
@@ -148,7 +149,7 @@ class SubscribedActivitiesManager extends ActivitiesManager {
   }
 
   @override
-  void onNotificationReceived(Activity activity) {
+  void onActivityNotificationReceived(Activity activity) {
     SubscribedActivitiesResult subscribedActivitiesResult = notifier.value;
     if (subscribedActivitiesResult != null) {
       Activity existingActivity = subscribedActivitiesResult.findById(activity.id);
@@ -163,6 +164,13 @@ class SubscribedActivitiesManager extends ActivitiesManager {
       }
       subscribedActivitiesResult.sort();
     }
+  }
+
+  @override
+  void onMemberNotificationReceived(Member member) {
+    super.onMemberNotificationReceived(member);
+    notifier.value = null;
+
   }
 
 }

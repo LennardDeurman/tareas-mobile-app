@@ -26,6 +26,7 @@ class OpenActivitiesListState extends State<OpenActivitiesList> {
   
   final BackgroundsBuilder backgroundsBuilder = BackgroundsBuilder();
   final LoadingDelegate appendingItemsLoadingDelegate = LoadingDelegate();
+  final GlobalKey<RefreshIndicatorState> refreshKey = GlobalKey<RefreshIndicatorState>();
 
   final ItemScrollController itemScrollController = ItemScrollController();
 
@@ -189,6 +190,7 @@ class OpenActivitiesListState extends State<OpenActivitiesList> {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
+        key: refreshKey,
         onRefresh: () async {
           widget.manager.refreshCalendar();
           return await widget.manager.refreshOpenActivities(); //But wait for the new results to complete

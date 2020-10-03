@@ -47,6 +47,7 @@ class IdentityResult {
     return _activeMember;
   }
 
+
   static const String preferredMemberIdKey = "preferredMemberIdKey";
 
   IdentityResult ({ this.userInfo, this.account }) {

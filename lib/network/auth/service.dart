@@ -200,7 +200,8 @@ class AuthService with AuthServicePresentation {
     webAuth.authorize({
       'audience': 'https://localhost:44339/',
       'domain': domain,
-      'scope': 'openid email offline_access member app_metadata user_metadata'
+      'scope': 'openid email offline_access member app_metadata user_metadata',
+      'ui_locales': 'nl'
     });
 
 
@@ -229,8 +230,7 @@ class AuthService with AuthServicePresentation {
   Future<IdentityResult> performIdentityFetch() async {
     return IdentityRequest(authResult).fetch().then(
             (value) => identityResult = value
-    ).catchError((e) {
-      print("Fetching the user failed");
+    ).catchError((e) {print("Fetching the user failed");
       if (e is AuthorizationError) {
         logout();
       }

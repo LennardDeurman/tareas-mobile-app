@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:tareas/constants/brand_colors.dart';
-import 'package:tareas/constants/asset_paths.dart';
 import 'package:tareas/constants/categories.dart';
 import 'package:tareas/logic/delegates/selection.dart';
 import 'package:tareas/models/category.dart';
 import 'package:tareas/network/auth/service.dart';
 import 'package:tareas/ui/extensions/buttons.dart';
+
+
 
 class CategoriesList extends StatelessWidget {
 
@@ -18,23 +19,27 @@ class CategoriesList extends StatelessWidget {
     return ValueListenableBuilder(
       valueListenable: selectionDelegate.notifier,
       builder: (BuildContext context, List<Category> results, Widget widget){
-        return Wrap(
-          runSpacing: 12,
-          spacing: 8,
-          children: () {
-            return AuthService().categoriesProvider.categories.map((e) {
-              return PrimaryButton(
-                color: selectionDelegate.isSelected(e) ? BrandColors.selectedColor : BrandColors.notSelectedColor,
-                iconData: Categories.map[
-                  e.name
-                  ].iconAssetPath,
-                text: e.name,
-                onPressed: () {
-                  selectionDelegate.toggle(e);
-                },
-              );
-            }).toList();
-          }(),
+        return LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints parentConstraints) {
+            return Wrap(
+              runSpacing: 12,
+              spacing: 8,
+              children: () {
+                return AuthService().categoriesProvider.categories.map((category) {
+                  return PrimaryButton(
+                    color: selectionDelegate.isSelected(category) ? BrandColors.selectedColor : BrandColors.notSelectedColor,
+                    iconData: Categories.map[
+                    category.name
+                    ].iconAssetPath,
+                    text: category.name,
+                    onPressed: () {
+                      selectionDelegate.toggle(category);
+                    },
+                  );
+                }).toList();
+              }(),
+            );
+          },
         );
       },
     );

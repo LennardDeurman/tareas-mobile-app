@@ -9,6 +9,7 @@ import 'package:tareas/logic/providers/open_activities.dart';
 import 'package:tareas/logic/providers/calendar.dart';
 import 'package:tareas/models/category.dart';
 import 'package:tareas/models/activity.dart';
+import 'package:tareas/models/member.dart';
 import 'package:tareas/network/auth/service.dart';
 
 
@@ -91,7 +92,7 @@ class OpenActivitiesManager extends ActivitiesManager {
   }
 
   @override
-  void onNotificationReceived(Activity activity) {
+  void onActivityNotificationReceived(Activity activity) {
     OpenActivitiesResult openActivitiesResult = openActivitiesDownloader.notifier.value;
     if (openActivitiesResult != null) {
       Activity existingActivity = openActivitiesResult.findById(activity.id);
@@ -117,5 +118,15 @@ class OpenActivitiesManager extends ActivitiesManager {
     }
     openActivitiesResult.sort();
   }
+
+  @override
+  void onMemberNotificationReceived(Member member) {
+    super.onMemberNotificationReceived(member);
+    openActivitiesDownloader.unloadExisting();
+    calendarOverviewProvider.unloadExisting();
+
+  }
+
+
 
 }
