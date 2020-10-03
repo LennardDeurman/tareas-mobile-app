@@ -3,6 +3,8 @@ import 'package:tareas/network/auth/header.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:tareas/network/auth/service.dart';
+
 
 class RequestHelper<T> {
 
@@ -18,6 +20,15 @@ class RequestHelper<T> {
     }
   }
 
+  Map<String, String> headers() {
+    Map<String, String> allHeaders = Map<String, String>();
+    allHeaders.addAll(AuthorizationHeader.map());
+    if (AuthService().identityResult != null && AuthService().identityResult.activeMember != null) {
+      allHeaders["OrganisationId"] = AuthService().identityResult.activeMember.organisation.id;
+    }
+    return allHeaders;
+  }
+
   String encodeBody(body) {
     if (body is String) {
       return json.encode(body);
@@ -28,8 +39,7 @@ class RequestHelper<T> {
   }
 
   Future<List<T>> getAll(String url) async {
-    var headers = AuthorizationHeader.map();
-    var response = await http.get(url, headers: headers);
+    var response = await http.get(url, headers: headers());
     validate(response);
     List items = json.decode(response.body);
     List<T> objects = [];
@@ -43,7 +53,7 @@ class RequestHelper<T> {
   }
 
   Future<T> getSingle(String url) async {
-    var response = await http.get(url, headers: AuthorizationHeader.map());
+    var response = await http.get(url, headers: headers());
     validate(response);
     Map map = json.decode(response.body);
     return toObject(map);
@@ -51,23 +61,23 @@ class RequestHelper<T> {
 
   Future<T> post(String url, { body }) async {
     var bodyStr = encodeBody(body);
-    var headers = AuthorizationHeader.map();
-    headers["Content-Type"] = "application/json";
-    var response = await http.post(url, body: bodyStr, headers: headers);
+    var hds = headers();
+    hds["Content-Type"] = "application/json";
+    var response = await http.post(url, body: bodyStr, headers: hds);
     validate(response);
     Map map = json.decode(response.body);
     return toObject(map);
   }
 
   Future<T> put(String url, { body }) async {
-    var response = await http.put(url, body: encodeBody(body), headers: AuthorizationHeader.map());
+    var response = await http.put(url, body: encodeBody(body), headers: headers());
     validate(response);
     Map map = json.decode(response.body);
     return toObject(map);
   }
 
   Future<T> delete(String url) async {
-    var response = await http.delete(url, headers: AuthorizationHeader.map());
+    var response = await http.delete(url, headers: headers());
     validate(response);
     Map map = json.decode(response.body);
     return toObject(map);

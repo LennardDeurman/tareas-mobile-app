@@ -141,7 +141,30 @@ class _ProfilePageState extends State<ProfilePage> with ProfilePageUI, Automatic
                   );
                   widgets.add(certificatesCell);
                 }
+
+                widgets.add(
+                    cell(
+                      label: "Organisatie",
+                      child: Container(
+                        child: Row(
+                          children: <Widget>[
+                            Text("Tareas test omgeving",
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                    decoration: TextDecoration.underline
+                                )
+                            ),
+                          ],
+                        ),
+                        margin: EdgeInsets.symmetric(
+                            vertical: 8
+                        ),
+                      ),
+                    )
+                );
               }
+
 
 
               widgets.add(Container(

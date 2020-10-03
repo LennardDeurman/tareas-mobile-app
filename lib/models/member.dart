@@ -2,6 +2,7 @@ import 'package:tareas/models/abstract.dart';
 import 'package:tareas/models/address.dart';
 import 'package:tareas/models/certificate.dart';
 import 'package:tareas/models/contact_info.dart';
+import 'package:tareas/models/organisation.dart';
 import 'package:tareas/models/team.dart';
 
 class CertificationHolderKeys {
@@ -48,6 +49,7 @@ class MemberKeys {
   static const String contactInfo = "contactInfo";
   static const String certifications = "certifications";
   static const String teams = "teams";
+  static const String organisation = "organisation";
 }
 
 class Member extends BaseObject {
@@ -59,6 +61,7 @@ class Member extends BaseObject {
   int socialPoint = 0;
   List<Address> addresses;
   ContactInfo contactInfo;
+  Organisation organisation;
   List<CertificationHolder> certifications;
   List<Team> teams;
 
@@ -84,6 +87,9 @@ class Member extends BaseObject {
     contactInfo = parseObject(json[MemberKeys.contactInfo], toObject: (Map map) {
       return ContactInfo(map);
     });
+    organisation = parseObject(json[MemberKeys.organisation], toObject: (Map map) {
+      return Organisation(map);
+    });
   }
 
   String get fullName {
@@ -101,7 +107,8 @@ class Member extends BaseObject {
       MemberKeys.addresses: objectsMapList(addresses),
       MemberKeys.teams: objectsMapList(teams),
       MemberKeys.certifications: objectsMapList(certifications),
-      MemberKeys.contactInfo: objectMap(contactInfo)
+      MemberKeys.contactInfo: objectMap(contactInfo),
+      MemberKeys.organisation: objectMap(organisation)
     };
   }
 

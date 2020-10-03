@@ -23,7 +23,7 @@ class AccountFetcher extends RestFetcher<Account> {
 
   @override
   Future<Account> get(String id) {
-    return requestHelper.getSingle(url("accounts/id"));
+    return requestHelper.getSingle(url("accounts/$id"));
   }
 
   @override
