@@ -1,4 +1,4 @@
-package com.tareas.app
+package com.sjevraoj.tareas
 
 import android.os.Bundle
 import io.flutter.app.FlutterActivity

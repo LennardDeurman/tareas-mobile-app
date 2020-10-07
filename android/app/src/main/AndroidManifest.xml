@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.tareas.app">
+    package="com.sjevraoj.tareas">
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
          calls FlutterMain.startInitialization(this); in its onCreate method.
          In most cases you can leave this as-is, but you if you want to provide
@@ -37,7 +37,7 @@
                 <data
                     android:host="dev-vpji-vk5.eu.auth0.com"
                     android:pathPrefix="/android/${applicationId}/callback"
-                    android:scheme="com.tareas.app" />
+                    android:scheme="com.sjevraoj.tareas" />
             </intent-filter>
         </activity>
     </application>
