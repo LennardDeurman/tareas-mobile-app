@@ -95,7 +95,7 @@ class Host {
   static bool isDebug = Foundation.kDebugMode;
 
   static String get() {
-    if (isDebug && false) { //TODO: Change!
+    if (isDebug) { 
       return debugEnvironment;
     } else {
       return liveEnvironment;

@@ -112,11 +112,7 @@ class _StartupPageState extends State<StartupPage> {
 
 
   void _handleAuthError(e) {
-    if (e is MissingIdentityError) {
-      _presentRetryDialog();
-    } else {
-      _showSnackbar(FlutterI18n.translate(context, TranslationKeys.connectionErrorMessage));
-    }
+    _presentRetryDialog();
   }
 
   void _presentHome() {
@@ -140,6 +136,7 @@ class _StartupPageState extends State<StartupPage> {
       manager,
       onCloseAndReLoginPressed: ()  {
         AuthService().logout();
+        Navigator.pop(context);
       },
       onRetryPressed: () {
         this.manager.tryAutoInitialize(
@@ -152,15 +149,6 @@ class _StartupPageState extends State<StartupPage> {
     );
   }
 
-  void _showSnackbar(String message) {
-    _scaffoldKey.currentState.showSnackBar(
-        SnackBar(
-            content: Text(
-                message
-            )
-        )
-    );
-  }
 
   void _startLoginProcess() {
     manager.initializeAuth(

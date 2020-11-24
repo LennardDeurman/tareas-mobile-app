@@ -7,7 +7,7 @@ class StartupManager {
   final LoadingDelegate loadingDelegate = LoadingDelegate();
 
   void initializeAuth({ Function onSuccess, Function onError }) {
-    Future initializationFuture = AuthService().initialize().then((value) {
+    Future initializationFuture = AuthService().initialize(forceReLogin: true).then((value) {
       if (onSuccess != null)
         onSuccess();
     }).catchError((e) {
