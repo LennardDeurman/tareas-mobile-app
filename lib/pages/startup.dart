@@ -88,12 +88,16 @@ class _RetryDialog extends StatelessWidget {
     );
   }
 
-  static void show(BuildContext context) {
+  static void show(BuildContext context, StartupManager startupManager, { @required Function onCloseAndReLoginPressed, @required Function onRetryPressed }) {
     showDialog(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          return
+          return _RetryDialog(
+            startupManager,
+            onCloseAndReLoginPressed: onCloseAndReLoginPressed,
+            onRetryPressed: onRetryPressed,
+          );
         }
     );
   }
@@ -127,18 +131,25 @@ class _StartupPageState extends State<StartupPage> {
       onError: _handleAuthError
     );
 
-    this.manager.tryAutoInitialize(
-        onSuccess: () {
-          Navigator.pop(context);
-          _presentHome();
-        }
-    );
-
     super.initState();
   }
 
   void _presentRetryDialog() {
-
+    _RetryDialog.show(
+      context,
+      manager,
+      onCloseAndReLoginPressed: ()  {
+        AuthService().logout();
+      },
+      onRetryPressed: () {
+        this.manager.tryAutoInitialize(
+            onSuccess: () {
+              Navigator.pop(context);
+              _presentHome();
+            }
+        );
+      }
+    );
   }
 
   void _showSnackbar(String message) {
@@ -151,7 +162,7 @@ class _StartupPageState extends State<StartupPage> {
     );
   }
 
-  void _onContinueClicked() {
+  void _startLoginProcess() {
     manager.initializeAuth(
       onSuccess: _presentHome,
       onError: _handleAuthError
@@ -220,9 +231,7 @@ class _StartupPageState extends State<StartupPage> {
                   ),
                   Align(
                     alignment: Alignment.center,
-                    child: LoginForm(onSignInPressed: (BuildContext context) {
-                      _onContinueClicked();
-                    }),
+                    child: LoginForm(onSignInPressed: (BuildContext context) => _startLoginProcess()),
                   )
                 ],
               ),
