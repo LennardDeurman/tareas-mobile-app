@@ -2,7 +2,7 @@ import 'package:tareas/models/abstract.dart';
 import 'package:tareas/network/auth/header.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
+import 'package:flutter/foundation.dart' as Foundation;
 import 'package:tareas/network/auth/service.dart';
 
 
@@ -92,7 +92,7 @@ class Host {
   static const String debugEnvironment = "https://tareas-acc-api.azurewebsites.net";
   static const String liveEnvironment = "https://tareas-prod-api.azurewebsites.net";
 
-  static bool isDebug = false;
+  static bool isDebug = Foundation.kDebugMode;
 
   static String get() {
     if (isDebug) {
