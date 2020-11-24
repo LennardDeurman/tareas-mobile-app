@@ -19,6 +19,90 @@ class StartupPage extends StatefulWidget {
 
 }
 
+class _RetryDialog extends StatelessWidget {
+
+  final StartupManager manager;
+  final Function onRetryPressed;
+  final Function onCloseAndReLoginPressed;
+
+  _RetryDialog (this.manager, { @required this.onRetryPressed, @required this.onCloseAndReLoginPressed });
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+        contentPadding: EdgeInsets.only(
+            left: 24,
+            top: 24,
+            right: 24,
+            bottom: 12
+        ),
+        title: Text(
+          FlutterI18n.translate(context, TranslationKeys.connectionError),
+          style: TextStyle(
+              fontWeight: FontWeight.w600
+          ),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+                child: Text(
+                    FlutterI18n.translate(context, TranslationKeys.connectionErrorMessage)
+                ),
+                margin: EdgeInsets.only(
+                    top: 10,
+                    bottom: 35
+                )
+            ),
+            ValueListenableBuilder(
+              valueListenable: this.manager.loadingDelegate.notifier,
+              builder: (BuildContext context, bool isLoading, Widget widget) {
+                return PrimaryButton(
+                  text: FlutterI18n.translate(context, TranslationKeys.reconnect),
+                  color: BrandColors.primaryColor,
+                  isLoading: this.manager.loadingDelegate.isLoading,
+                  iconData: IconAssetPaths.globe,
+                  onPressed: this.onRetryPressed,
+                );
+              },
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Center(
+              child: FlatButton(
+                child: Text(
+                  FlutterI18n.translate(context, TranslationKeys.closeAndReconnect),
+                  style: TextStyle(
+                      fontSize: 13,
+                      color: Colors.red
+                  ),
+                ),
+                onPressed: this.onCloseAndReLoginPressed,
+              ),
+            )
+          ],
+        )
+    );
+  }
+
+  static void show(BuildContext context, StartupManager startupManager, { @required Function onCloseAndReLoginPressed, @required Function onRetryPressed }) {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return _RetryDialog(
+            startupManager,
+            onCloseAndReLoginPressed: onCloseAndReLoginPressed,
+            onRetryPressed: onRetryPressed,
+          );
+        }
+    );
+  }
+
+}
 
 
 class _StartupPageState extends State<StartupPage> {
@@ -27,119 +111,49 @@ class _StartupPageState extends State<StartupPage> {
   final StartupManager manager = StartupManager();
 
 
-  @override
-  void initState() {
-
-    manager.tryAutoInitialize(
-      onSuccess: _presentHome,
-      onError: (e) {
-        if (e is MissingIdentityError) {
-          _presentRetryDialog();
-        } else {
-          _showSnackbar(FlutterI18n.translate(context, TranslationKeys.connectionErrorMessage));
-        }
-      }
-    );
-
-    super.initState();
-  }
-
-  void _presentRetryDialog() {
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return AlertDialog(
-              contentPadding: EdgeInsets.only(
-                left: 24,
-                top: 24,
-                right: 24,
-                bottom: 12
-              ),
-              title: Text(
-                FlutterI18n.translate(context, TranslationKeys.connectionError),
-                style: TextStyle(
-                    fontWeight: FontWeight.w600
-                ),
-              ),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Container(
-                      child: Text(
-                          FlutterI18n.translate(context, TranslationKeys.connectionErrorMessage)
-                      ),
-                      margin: EdgeInsets.only(
-                          top: 10,
-                          bottom: 35
-                      )
-                  ),
-                  ValueListenableBuilder(
-                    valueListenable: this.manager.loadingDelegate.notifier,
-                    builder: (BuildContext context, bool isLoading, Widget widget) {
-                      return PrimaryButton(
-                        text: FlutterI18n.translate(context, TranslationKeys.reconnect),
-                        color: BrandColors.primaryColor,
-                        isLoading: this.manager.loadingDelegate.isLoading,
-                        iconData: IconAssetPaths.globe,
-                        onPressed: () {
-                          this.manager.tryAutoInitialize(
-                              onSuccess: () {
-                                Navigator.pop(context);
-                                _presentHome();
-                              }
-                          );
-                        },
-                      );
-                    },
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Center(
-                    child: FlatButton(
-                      child: Text(
-                        FlutterI18n.translate(context, TranslationKeys.closeAndReconnect),
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: Colors.red
-                        ),
-                      ),
-                      onPressed: () {
-                        this.manager.loadingDelegate.isLoading = false;
-                        Navigator.pop(context);
-                      },
-                    ),
-                  )
-                ],
-              )
-          );
-        }
-    );
+  void _handleAuthError(e) {
+    _presentRetryDialog();
   }
 
   void _presentHome() {
     AuthService().presentHome(context);
   }
 
-  void _showSnackbar(String message) {
-    _scaffoldKey.currentState.showSnackBar(
-        SnackBar(
-            content: Text(
-                message
-            )
-        )
+  @override
+  void initState() {
+
+    manager.tryAutoInitialize(
+      onSuccess: _presentHome,
+      onError: _handleAuthError
+    );
+
+    super.initState();
+  }
+
+  void _presentRetryDialog() {
+    _RetryDialog.show(
+      context,
+      manager,
+      onCloseAndReLoginPressed: ()  {
+        AuthService().logout();
+        Navigator.pop(context);
+      },
+      onRetryPressed: () {
+        this.manager.tryAutoInitialize(
+            onSuccess: () {
+              Navigator.pop(context);
+              _presentHome();
+            }
+        );
+      }
     );
   }
 
-  void _onContinueClicked() {
+
+  void _startLoginProcess() {
     manager.initializeAuth(
       onSuccess: _presentHome,
-      onError: (e) {
-        _showSnackbar(FlutterI18n.translate(context, TranslationKeys.errorLogin));
-      }
+      onError: _handleAuthError
     );
   }
 
@@ -205,9 +219,7 @@ class _StartupPageState extends State<StartupPage> {
                   ),
                   Align(
                     alignment: Alignment.center,
-                    child: LoginForm(onSignInPressed: (BuildContext context) {
-                      _onContinueClicked();
-                    }),
+                    child: LoginForm(onSignInPressed: (BuildContext context) => _startLoginProcess()),
                   )
                 ],
               ),

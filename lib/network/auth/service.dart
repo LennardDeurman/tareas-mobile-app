@@ -193,16 +193,22 @@ class AuthService with AuthServicePresentation {
     return future;
   }
 
-  Future<AuthResult> showUniversalLogin() async {
+  Future<AuthResult> showUniversalLogin({ bool forceReLogin = false }) async {
 
-    var obj = await
-    auth0.
-    webAuth.authorize({
+    var body = {
       'audience': 'https://localhost:44339/',
       'domain': domain,
       'scope': 'openid email offline_access member app_metadata user_metadata',
       'ui_locales': 'nl'
-    });
+    };
+
+    if (forceReLogin) {
+      body["prompt"] = "login";
+    }
+
+    var obj = await
+    auth0.
+    webAuth.authorize(body);
 
 
     return AuthResult(obj);
@@ -242,15 +248,15 @@ class AuthService with AuthServicePresentation {
   }
 
 
-  Future initialize({ bool forceLoadCache = false }) async {
+  Future initialize({ bool forceLoadCache = false, bool forceReLogin = false }) async {
 
-    if (_cachedAuthResult == null || forceLoadCache) {
+    if (!forceReLogin && (_cachedAuthResult == null || forceLoadCache)) {
       await loadCachedAuthResult();
     }
 
     authResult = _cachedAuthResult;
     if (authResult == null) {
-      authResult = await showUniversalLogin();
+      authResult = await showUniversalLogin(forceReLogin: forceReLogin);
       authResult.save();
     } else {
       await performRefresh();
