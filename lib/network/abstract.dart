@@ -87,10 +87,25 @@ class RequestHelper<T> {
 
 }
 
+class Host {
+
+  static const String debugEnvironment = "https://tareas-acc-api.azurewebsites.net";
+  static const String liveEnvironment = "https://tareas-prod-api.azurewebsites.net";
+
+  static bool isDebug = false;
+
+  static String get() {
+    if (isDebug) {
+      return debugEnvironment;
+    } else {
+      return liveEnvironment;
+    }
+  }
+
+}
+
 
 abstract class Fetcher<T extends ParsableObject> {
-
-  static const String host = "https://tareas-acc-api.azurewebsites.net";
 
   RequestHelper<T> requestHelper;
 
@@ -112,6 +127,7 @@ abstract class Fetcher<T extends ParsableObject> {
 
   //Returns the current url
   String url (String path, { Map<String, String>  queryParams }) {
+    String host = Host.get();
     String url = "$host/$path";
     if (queryParams != null) {
       url = urlWithQueryParams(url, queryParams);
