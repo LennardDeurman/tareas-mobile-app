@@ -17,6 +17,15 @@ class StartupManager {
     loadingDelegate.attachFuture(initializationFuture);
   }
 
+  void clearSessionAndTryAgain({ Function onSuccess, Function onError }) {
+    AuthService().logout().whenComplete(() {
+      initializeAuth(
+        onSuccess: onSuccess,
+        onError: onError
+      );
+    });
+  }
+
   void tryAutoInitialize({ Function onSuccess, Function onError }) {
     AuthService().loadCachedAuthResult().then((value) {
       if (value != null) {
