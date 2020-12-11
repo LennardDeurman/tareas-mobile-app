@@ -48,4 +48,13 @@ class Categories {
     )
   };
 
+  static String findIconPath(String key) {
+    if (map.containsKey(key)) {
+      return map[key].iconAssetPath;
+    }
+    return "";
+  }
+
+
+
 }

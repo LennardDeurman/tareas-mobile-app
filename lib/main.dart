@@ -33,6 +33,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: "Tareas", //We can't use the translation here already
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
             primarySwatch: BrandColors.primarySwatch,
             fontFamily: CustomFonts.openSans

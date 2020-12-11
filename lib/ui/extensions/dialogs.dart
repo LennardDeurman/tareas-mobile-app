@@ -51,12 +51,14 @@ class PreferencesDialog extends StatelessWidget {
                         vertical: 6
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.symmetric(
-                        vertical: 15
-                    ),
-                    child: CategoriesList(
-                      selectionDelegate: selectionDelegate,
+                  Expanded(
+                    child: Container(
+                      margin: EdgeInsets.symmetric(
+                          vertical: 15
+                      ),
+                      child: CategoriesList(
+                        selectionDelegate: selectionDelegate,
+                      ),
                     ),
                   ),
                   Container(

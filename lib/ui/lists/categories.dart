@@ -28,9 +28,7 @@ class CategoriesList extends StatelessWidget {
                 return AuthService().categoriesProvider.categories.map((category) {
                   return PrimaryButton(
                     color: selectionDelegate.isSelected(category) ? BrandColors.selectedColor : BrandColors.notSelectedColor,
-                    iconData: Categories.map[
-                    category.name
-                    ].iconAssetPath,
+                    iconData: Categories.findIconPath(category.name),
                     text: category.name,
                     onPressed: () {
                       selectionDelegate.toggle(category);

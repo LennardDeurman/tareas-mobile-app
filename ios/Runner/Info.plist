@@ -18,10 +18,27 @@
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>None</string>
+			<key>CFBundleURLName</key>
+			<string>auth0</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Toestemming voor het gebruik van de agenda is nodig om afspraken toe te voegen</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Toestemming voor het gebruik van de agenda is nodig om afspraken toe te voegen</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -41,22 +58,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>CFBundleURLTypes</key>
-    <array>
-       <dict>
-           <key>CFBundleTypeRole</key>
-           <string>None</string>
-           <key>CFBundleURLName</key>
-           <string>auth0</string>
-           <key>CFBundleURLSchemes</key>
-           <array>
-               <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-           </array>
-       </dict>
-    </array>
-    <key>NSCalendarsUsageDescription</key>
-    <string>Toestemming voor het gebruik van de agenda is nodig om afspraken toe te voegen</string>
-    <key>NSContactsUsageDescription</key>
-    <string>Toestemming voor het gebruik van de agenda is nodig om afspraken toe te voegen</string>
 </dict>
 </plist>

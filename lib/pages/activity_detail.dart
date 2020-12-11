@@ -319,7 +319,7 @@ class _ActivityDetailPageState extends State<ActivityDetailPage> {
                                               vertical: 12
                                           ),
                                           child: Text(
-                                            widget.activity.shortDescription,
+                                            widget.activity.shortDescription ?? "",
                                             style: TextStyle(
                                                 fontSize: 16
                                             ),
