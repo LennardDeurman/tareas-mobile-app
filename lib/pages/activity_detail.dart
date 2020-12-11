@@ -263,13 +263,13 @@ class _ActivityDetailPageState extends State<ActivityDetailPage> {
                                               SizedBox(
                                                 width: 15,
                                               ),
-                                              Text(
+                                              Expanded(child: Text(
                                                 this.widget.activity.name,
                                                 style: TextStyle(
                                                   fontSize: 21,
                                                   fontWeight: FontWeight.w600,
                                                 ),
-                                              ),
+                                              )),
                                             ],
                                           ),
                                         ),

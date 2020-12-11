@@ -14,30 +14,35 @@ class CategoriesList extends StatelessWidget {
 
   CategoriesList ({ this.selectionDelegate });
 
+
+
+
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
       valueListenable: selectionDelegate.notifier,
       builder: (BuildContext context, List<Category> results, Widget widget){
-        return LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints parentConstraints) {
-            return Wrap(
-              runSpacing: 12,
-              spacing: 8,
-              children: () {
-                return AuthService().categoriesProvider.categories.map((category) {
-                  return PrimaryButton(
-                    color: selectionDelegate.isSelected(category) ? BrandColors.selectedColor : BrandColors.notSelectedColor,
-                    iconData: Categories.findIconPath(category.name),
-                    text: category.name,
-                    onPressed: () {
-                      selectionDelegate.toggle(category);
-                    },
-                  );
-                }).toList();
-              }(),
-            );
-          },
+        return SingleChildScrollView(
+          child: LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints parentConstraints) {
+              return Wrap(
+                runSpacing: 12,
+                spacing: 8,
+                children: () {
+                  return AuthService().categoriesProvider.categories.map((category) {
+                    return PrimaryButton(
+                      color: selectionDelegate.isSelected(category) ? BrandColors.selectedColor : BrandColors.notSelectedColor,
+                      iconData: Categories.findIconPath(category.name),
+                      text: category.name,
+                      onPressed: () {
+                        selectionDelegate.toggle(category);
+                      },
+                    );
+                  }).toList();
+                }(),
+              );
+            },
+          )
         );
       },
     );
