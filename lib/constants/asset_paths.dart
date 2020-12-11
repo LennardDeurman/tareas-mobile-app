@@ -40,6 +40,11 @@ class IconAssetPaths {
   static String signOutAlt = AssetPaths.svg("sign_out_alt");
   static String calendarPlus = AssetPaths.svg("calendar_plus");
   static String globe = AssetPaths.svg("globe");
+  static String book = AssetPaths.svg("book");
+  static String kite = AssetPaths.svg("kite");
+  static String imagePolaroid = AssetPaths.svg("image_polaroid");
+  static String shieldCheck = AssetPaths.svg("shield_check");
+  static String sitemap = AssetPaths.svg("sitemap");
 
 }
 

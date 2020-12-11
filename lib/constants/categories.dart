@@ -13,6 +13,8 @@ class CategoryData {
 
 class Categories {
 
+  //TODO: Dedicated image assets per category
+
   static Map<String, CategoryData> map = {
     "Kantine": CategoryData(
       iconAssetPath: IconAssetPaths.mugHot,
@@ -45,6 +47,30 @@ class Categories {
     "Evenement": CategoryData(
       iconAssetPath: IconAssetPaths.megaphone,
       imageAssetPath: ImageAssetPaths.categoryEvents
+    ),
+    "Beleid": CategoryData(
+      iconAssetPath: IconAssetPaths.book,
+      imageAssetPath: ImageAssetPaths.categoryAdministration
+    ),
+    "Fun": CategoryData(
+      iconAssetPath: IconAssetPaths.kite,
+      imageAssetPath: ImageAssetPaths.categoryEvents
+    ),
+    "Grafisch/Communicatie": CategoryData(
+      iconAssetPath: IconAssetPaths.imagePolaroid,
+      imageAssetPath: ImageAssetPaths.categoryOther
+    ),
+    "Organisatorisch": CategoryData(
+      iconAssetPath: IconAssetPaths.sitemap,
+      imageAssetPath: ImageAssetPaths.categoryActivities
+    ),
+    "Ondersteunend": CategoryData(
+      iconAssetPath: IconAssetPaths.handsHelping,
+      imageAssetPath: ImageAssetPaths.categorySocial
+    ),
+    "Veiligheid": CategoryData(
+      iconAssetPath: IconAssetPaths.shieldCheck,
+      imageAssetPath: ImageAssetPaths.categorySocial
     )
   };
 
